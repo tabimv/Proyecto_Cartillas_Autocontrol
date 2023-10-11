@@ -1,0 +1,79 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.USUARIO
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "administrador")
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/style.css">
+
+    using (Html.BeginForm())
+    {
+
+
+        <div class="container-formularios">
+            <div class="form-container">
+                <h2>Crear Nuevo Usuario</h2>
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(model => model.correo, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.contraseña, htmlAttributes: new { @class = "control-label" })
+                    @Html.PasswordFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERFIL_perfil_id, "Perfil", htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PERFIL_perfil_id, ViewBag.PERFIL_perfil_id as IEnumerable<SelectListItem>, "-- Seleccione un rol --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PERFIL_perfil_id, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra", htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.OBRA_obra_id, ViewBag.OBRA_obra_id as IEnumerable<SelectListItem>, "-- Seleccione una obra --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERSONA_rut, "Nombre Usuario", htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PERSONA_rut, ViewBag.PERSONA_rut as IEnumerable<SelectListItem>, "-- Seleccione un nombre --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="submit" value="Crear" class="btn btn-primary-custom" />
+                </div>
+                <div>
+                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

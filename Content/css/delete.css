@@ -1,0 +1,90 @@
+﻿.container-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    margin-top: 5%;
+    margin-bottom: 5%;
+   
+}
+
+
+.form-container-delete {
+    background-color: #ffffff;
+    padding: 20px;
+    max-width: 600px;
+    width: 150%;
+    border: 2px solid #000;
+}
+
+   .form-container-delete h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        background-color: #585858;
+        color: #ffffff;
+        padding: 10px;
+    }
+
+    .form-container-delete h3 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #000;
+        font-size: 20px;
+    }
+
+/* Centrar el contenido generado por @Html.DisplayFor */
+dl dd {
+    text-align: center; /* Centrar el contenido horizontalmente */
+}
+
+dl dt {
+    text-align: center; /* Centrar el contenido horizontalmente */
+}
+
+/* Centrar el contenido dentro de @using (Html.BeginForm()) */
+.form-actions.no-color {
+    text-align: center; /* Centrar el contenido horizontalmente */
+}
+
+
+/* Estilo personalizado para el botón de fondo gris y texto blanco */
+.btn-primary-custom {
+    background-color: #ff0000; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    border: none; /* Elimina el borde */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño de fuente */
+}
+
+    /* Cambio de estilo al pasar el mouse sobre el botón */
+    .btn-primary-custom:hover {
+        background-color: #ff2b2b; /* Cambia el color de fondo al pasar el mouse */
+        color: #fff; /* Mantiene el color del texto en blanco al pasar el mouse */
+    }
+
+/* Estilo personalizado para el enlace con fondo azul y texto blanco */
+.btn-custom-link {
+    background-color: #585858; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    border: none; /* Elimina el borde */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño de fuente */
+}
+
+    /* Cambio de estilo al pasar el mouse sobre el enlace */
+    .btn-custom-link:hover {
+        background-color: #808080; /* Cambia el color de fondo al pasar el mouse */
+        color: #fff; /* Mantiene el color del texto en blanco al pasar el mouse */
+    }
+
+
+
+@media (max-width: 768px) {
+    .container-formularios {
+        height: 80vh;
+        margin-top: 30%;
+        margin-bottom: 30%;
+    }
+
+  
+}

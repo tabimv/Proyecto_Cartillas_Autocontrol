@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b6ab35490d76483eae56a41fc0157a17" Name="Diagram1">
+        <EntityTypeShape EntityType="CartillasTESTModel.ACTIVIDAD" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.CARTILLA" Width="1.5" PointX="9.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.COMUNA" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.DETALLE_CARTILLA" Width="1.5" PointX="12" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.ESTADO_FINAL" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.INMUEBLE" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.ITEM_VERIF" Width="1.5" PointX="9.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.OBRA" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.PERFIL" Width="1.5" PointX="9.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.PERSONA" Width="1.5" PointX="9.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.REGION" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.RESPONSABLE" Width="1.5" PointX="7.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CartillasTESTModel.USUARIO" Width="1.5" PointX="12" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="CartillasTESTModel.ACTIVIDAD_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.CARTILLA_ACTIVIDAD_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.DETALLE_CARTILLA_ACTIVIDAD_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.ITEM_VERIF_ACTIVIDAD_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.CARTILLA_ESTADO_FINAL_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.CARTILLA_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.DETALLE_CARTILLA_CARTILLA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.COMUNA_REGION_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.OBRA_COMUNA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.DETALLE_CARTILLA_INMUEBLE_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.DETALLE_CARTILLA_ITEM_VERIF_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.INMUEBLE_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.RESPONSABLE_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.USUARIO_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.USUARIO_PERFIL_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.PERSONA_RESPONSABLE_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="CartillasTESTModel.USUARIO_PERSONA_FK" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

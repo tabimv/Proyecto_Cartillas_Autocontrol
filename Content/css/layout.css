@@ -1,0 +1,199 @@
+/* Fondo de la página */
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    width: 100%;
+}
+
+/* Estilos para el menú de usuario */
+#menu-usuario {
+    background-color: #585858;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* Estilos para el logo del menú */
+.logo-menu {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logo-menu:hover {
+    color: #f36f21;
+}
+
+/* Estilos para la información del usuario */
+.usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    max-width: 100%;
+}
+
+/* Estilos para el mini menú desplegable */
+.mini-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #585858;
+    opacity: 0;
+    pointer-events: none;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: opacity 0.3s;
+}
+
+.mini-menu li {
+    padding: 10px 20px;
+}
+
+/* Estilos para los enlaces del mini menú */
+.mini-menu a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Estilos para el icono de flecha hacia abajo */
+.usuario-info .fa-chevron-down {
+    font-size: 12px;
+}
+
+.usuario-info:hover .mini-menu {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Estilos para el contenido principal */
+.contenido {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    flex: 1;
+}
+
+
+
+
+.contenido-footer {
+    padding: 20px;
+    padding-left: 10%;
+    display: flex;
+    flex-direction: column; /* Cambiar la dirección de la flexbox a columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    max-width: 100%;
+}
+
+.cuerpo {
+    max-width: 100%;
+    text-align: center;
+}
+
+/* Estilos para el logo */
+.logo {
+    max-width: 100%;
+}
+
+/* Estilos para el botón "Añadir cartilla" */
+.add-button {
+    background-color: #f36f21;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 1%;
+}
+
+.add-button:hover {
+    background-color: #ff8c46;
+}
+
+/* Estilos para la Tabla */
+.tabla-container {
+    max-width: 100%;
+    overflow-x: auto;
+    text-align: center;
+}
+
+#tabla-actividades {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Estilo para mover el buscador y el contador de registros hacia abajo */
+.dataTables_length,
+.dataTables_filter {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.dataTables_info {
+    font-size: 12px;
+}
+
+/* Estilos para las celdas de la tabla */
+#tabla-actividades td,
+#tabla-actividades th {
+    border: 1px solid #585858;
+    padding: 8px;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Estilos para el footer */
+#Footer {
+    background-color: #585858;
+    color: #ffffff;
+    padding: 2% 0 3% 0;
+    margin-top: 5%;
+    width: 100%;
+    text-align: left;
+    bottom: 0; /* Alinear el footer en la parte inferior */
+}
+
+.footer_logo {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.social-icons a {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 5%;
+}
+
+.widget p {
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Estilos específicos para los widgets del footer */
+.widget strong {
+    color: #ffffff;
+    text-align: left;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    .linea {
+        width: 60%;
+    }
+
+    .search-bar {
+        text-align: center;
+    }
+
+    .tabla-container {
+        overflow-x: auto;
+    }
+}

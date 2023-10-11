@@ -1,0 +1,208 @@
+﻿/* CSS Página Inicio */
+
+/* Fondo de la página */
+body {
+    background: linear-gradient(90deg, #a6a6a6, #ffffff);
+}
+
+/* Estilo del logotipo */
+.logo {
+    margin: 0 0 0 -5%; /* Ajuste del margen solo a la izquierda */
+    display: block;
+}
+
+/* Estilos para el título principal */
+.custom-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 790;
+    line-height: 120%;
+    margin-top: 5%;
+    text-shadow: 3px 1px 0px rgba(84, 84, 84, 0.5); /* Efecto de sombra en 3D */
+    color: #545454; /* Cambia el color del título */
+    letter-spacing: 2px;
+}
+
+/* Estilos para el subtítulo */
+.custom-subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 150%;
+    letter-spacing: -0.261px;
+    color: #545454; /* Cambia el color del subtítulo */
+}
+
+/* Estilos para el contenedor de inicio de sesión */
+.login-container {
+    width: 30%;
+    height: auto;
+    top: 40%;
+    left: 70%;
+    transform: translate(-50%, -30%);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10%;
+    padding: 50px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Efecto de sombra */
+}
+
+/* Estilos para el título del formulario de inicio de sesión */
+.login-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 45px;
+    line-height: 77px;
+    letter-spacing: -1.1%;
+    color: white;
+    text-align: center;
+    margin-bottom: 7%;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); /* Efecto de sombra en 3D */
+}
+
+/* Estilos para los botones */
+.btn {
+    color: #ffffff;
+    background-color: #EF6B48;
+    border-color: #EF6B48;
+    border-radius: 5%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 7%;
+    font-size: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra */
+}
+
+    /* Estilos para el botón al enfocarlo */
+    .btn:focus {
+        background-color: #EF6B48;
+        color: #ffffff;
+    }
+
+    /* Estilos para el botón al pasar el mouse sobre él */
+    .btn:hover {
+        background-color: #545454;
+        color: #EF6B48;
+    }
+
+/* Estilos para los campos de entrada del formulario */
+.form-control {
+    padding: 7%;
+}
+
+/* Estilos para el enlace de "¿Olvidaste tu contraseña?" */
+.forgot-password {
+    color: white;
+}
+
+    /* Estilos para el enlace de "¿Olvidaste tu contraseña?" al pasar el mouse */
+    .forgot-password:hover {
+        color: #545454;
+    }
+
+    /* Estilos para el enlace de "¿Olvidaste tu contraseña?" al enfocarlo */
+    .forgot-password:focus {
+        color: #ffffff;
+    }
+
+/* Estilos para las líneas horizontales personalizadas */
+.custom-hr {
+    width: 7%;
+    height: 3px;
+    background-color: #000000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el pie de página */
+#Footer {
+    background-color: #585858;
+    color: #ffffff;
+    padding: 25px 0;
+    margin-top: 5%;
+}
+
+/* Estilos para el logotipo del pie de página */
+.footer_logo {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para los íconos de redes sociales en el pie de página */
+.social-icons a {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 5%;
+}
+
+/* Estilos para los íconos de redes sociales en el pie de página alineados horizontalmente */
+.social-icons a {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* Estilos específicos para los widgets en el pie de página */
+.widget {
+    margin-bottom: 20px;
+}
+
+    /* Estilos para los párrafos dentro de los widgets en el pie de página */
+    .widget p {
+        margin: 1%;
+    }
+
+    /* Estilos para texto en negrita dentro de los widgets en el pie de página */
+    .widget strong {
+        color: #ffffff;
+    }
+
+
+/* Estilo específico para WebKit (Safari) */
+body::-webkit-scrollbar {
+    width: 10px; /* Ancho del scrollbar */
+}
+
+/* Estilo específico para WebKit (Safari) */
+body::-webkit-scrollbar-thumb {
+    background-color: #585858; /* Color del thumb (barra móvil) */
+}
+
+/* Estilo específico para WebKit (Safari) */
+body::-webkit-scrollbar-track {
+    background-color: #ffffff; /* Color del track (barra de fondo) */
+}
+
+/* Media Query para Pantallas Pequeñas */
+@media (max-width: 768px) {
+    /* Establece una altura mínima para el cuerpo (body) */
+    body {
+        min-height: 100vh; /* Al menos el 100% de la altura de la ventana */
+    }
+
+    /* Ajusta el estilo del pie de página para que no se superponga al contenido */
+    #Footer {
+        position: relative; /* Cambia a posición relativa */
+        margin-top: 20px; /* Añade un margen superior para separarlo del contenido */
+    }
+
+    /* Ajusta el estilo del contenedor del login */
+    .login-container {
+        width: 80%;
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 10%; /* Reduce el margen superior para mostrar más contenido */
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        background-color: rgba(0, 0, 0, 0.2); /* Añade un fondo para el contenedor */
+        padding: 20px; /* Añade un relleno al contenedor para separar el contenido del borde */
+        border-radius: 10px; /* Añade bordes redondeados al contenedor */
+    }
+
+    .custom-title {
+        font-size: 35px;
+    }
+}

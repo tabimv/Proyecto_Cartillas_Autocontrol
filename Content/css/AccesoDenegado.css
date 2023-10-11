@@ -1,0 +1,43 @@
+﻿#header {
+    background-color: #fff;
+    width: 90%;
+    max-width: 1200px;
+    margin: 5% auto auto auto;
+    padding: 20px;
+    height: auto;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+
+.btn-acceso {
+    background: #F36E2F;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    position: relative;
+    transform: scale(1.1);
+    text-align: center;
+    margin-left: 45%;
+    margin-top: 2%;
+}
+
+    .btn-acceso:hover {
+        color: #ffffff;
+        background:#808080;
+    }
+
+    .btn-acceso i {
+        margin-left: 5px;
+        font-size: 10px;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+    }

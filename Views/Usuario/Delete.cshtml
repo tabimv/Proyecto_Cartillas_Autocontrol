@@ -1,0 +1,98 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.USUARIO
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
+
+
+    <div class="container-delete">
+        <div class="form-container-delete">
+            <h2> Eliminar Usuario </h2>
+            <h3>¿Estás seguro que quieres eliminar a este Usuario?</h3>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.correo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.correo)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.contraseña)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.contraseña)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.OBRA.nombre_obra)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PERFIL.rol)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PERFIL.rol)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PERSONA.nombre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PERSONA.nombre)
+                    </dd>
+
+                </dl>
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/CRUD.css">
+
+
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Gestión de <b>Obras</b></h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="@Url.Action("Create")" class="btn btn-success">
+                                <i class="material-icons">&#xE147;</i>
+                                Crear Nueva Obra
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th> @Html.DisplayNameFor(model => model.cargo) </th>
+                            <th> @Html.DisplayNameFor(model => model.OBRA.nombre_obra) </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>  @Html.DisplayFor(modelItem => item.cargo) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                                <td>
+                                    <!-- Enlace "Edit" dentro de un botón -->
+
+
+                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.responsable_id })">
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                        <span style="display: none;">Edit</span>
+                                    </a>
+
+
+                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.responsable_id })">
+                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".edit").click(function (e) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+                var url = $(this).data("url"); // Obtener la URL de data-url
+
+                // Redirigir a la vista "Edit"
+                window.location.href = url;
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".delete").click(function (e) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+                var url = $(this).data("url"); // Obtener la URL de data-url
+
+                // Redirigir a la vista "Edit"
+                window.location.href = url;
+            });
+        });
+    </script>
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}
