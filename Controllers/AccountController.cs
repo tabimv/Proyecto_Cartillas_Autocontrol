@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI;
+using System.Threading.Tasks;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -59,7 +60,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     // Almacenar el tipo de perfil en una variable de sesión
                     Session["Perfil"] = user.PERFIL.rol;
 
-                    if (Session["Perfil"].Equals("administrador"))
+                    if (Session["Perfil"].Equals("Administrador"))
                     {
                         return RedirectToAction("Index", "Usuario");
                     }
@@ -101,4 +102,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
 
     }
+
+
 }

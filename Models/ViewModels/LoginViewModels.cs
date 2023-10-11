@@ -15,5 +15,11 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
         [Required(ErrorMessage = "El campo Contraseña es obligatorio.")]
         [DataType(DataType.Password)]
         public String contraseña { get; set; }
+
+        [Display(Name = "Token de Restablecimiento")]
+        public string ResetPasswordToken { get; set; }
+
+        [Display(Name = "Fecha de Vencimiento del Token")]
+        public DateTime? ResetPasswordTokenExpiration { get; set; }
     }
 }
