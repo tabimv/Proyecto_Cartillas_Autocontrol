@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
 
+
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ResponsableController : Controller

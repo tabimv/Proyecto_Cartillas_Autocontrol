@@ -11,11 +11,16 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class USUARIO
     {
         public int usuario_id { get; set; }
+
+        [Required(ErrorMessage = "El campo Correo es obligatorio.")]
         public string correo { get; set; }
+
+        [Required(ErrorMessage = "El campo Contraseña es obligatorio.")]
         public string contraseña { get; set; }
         public int PERFIL_perfil_id { get; set; }
         public int OBRA_obra_id { get; set; }

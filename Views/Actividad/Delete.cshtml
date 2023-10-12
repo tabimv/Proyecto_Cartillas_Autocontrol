@@ -1,4 +1,4 @@
-﻿@model Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ACTIVIDAD
 
 @{
     ViewBag.Title = "Delete";
@@ -19,21 +19,37 @@ else
 
     <div class="container-delete">
         <div class="form-container-delete">
-            <h2> Eliminar Responsable de Obra </h2>
-            <h3>¿Estás seguro que quieres eliminar este Responsable de Obra?</h3>
+            <h2> Eliminar Actividad </h2>
+            <h3>¿Estás seguro que quieres eliminar esta Actividad?</h3>
             <div>
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
-                        Cargo:
+                        Código Actividad:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.cargo)
+                        @Html.DisplayFor(model => model.codigo_actividad)
                     </dd>
 
                     <dt>
-                       Obra: 
+                        nombre Actividad:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.nombre_actividad)
+                    </dd>
+
+                    <dt>
+                        Estado:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.estado)
+                    </dd>
+
+                    <dt>
+                        Nombre Obra:
                     </dt>
 
                     <dd>
@@ -60,7 +76,6 @@ else
             </div>
         </div>
     </div>
-
 
 }
 

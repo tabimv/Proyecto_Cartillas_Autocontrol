@@ -1,7 +1,7 @@
-﻿@model Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ACTIVIDAD
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -20,17 +20,28 @@ else
 
     using (Html.BeginForm())
     {
+
         @Html.AntiForgeryToken()
         <div class="container-formularios">
             <div class="form-container">
-                <h2>Editar Responsable de Obra</h2>
+                <h2>Editar Actividad</h2>
                 <form>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.responsable_id)
+                    @Html.HiddenFor(model => model.actividad_id)
                     <div class="form-group">
-                        @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.cargo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.codigo_actividad, "Codigo Actividad: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.codigo_actividad, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.codigo_actividad, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.nombre_actividad, "Nombre Actividad: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.nombre_actividad, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.nombre_actividad, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.estado, "Estado: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.estado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -38,6 +49,7 @@ else
                         @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
                     </div>
                     <div>
@@ -52,13 +64,9 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-
 
 }
+
 
 else
 {
@@ -69,3 +77,5 @@ else
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
 }
+
+

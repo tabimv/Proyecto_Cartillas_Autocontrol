@@ -11,127 +11,129 @@ using Proyecto_Cartilla_Autocontrol.Models;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
-    public class ObraController : Controller
+    public class ActividadController : Controller
     {
         private TestConexion db = new TestConexion();
 
-        // GET: OBRA
+        // GET: Actividad
         public async Task<ActionResult> Index()
         {
-            var oBRA = db.OBRA.Include(o => o.COMUNA);
-            return View(await oBRA.ToListAsync());
+            var aCTIVIDAD = db.ACTIVIDAD.Include(a => a.OBRA);
+            return View(await aCTIVIDAD.ToListAsync());
         }
 
-        // GET: OBRA/Details/5
+        // GET: Actividad/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OBRA oBRA = await db.OBRA.FindAsync(id);
-            if (oBRA == null)
+            ACTIVIDAD aCTIVIDAD = await db.ACTIVIDAD.FindAsync(id);
+            if (aCTIVIDAD == null)
             {
                 return HttpNotFound();
             }
-            return View(oBRA);
+            return View(aCTIVIDAD);
         }
 
-        // GET: OBRA/Create
+        // GET: Actividad/Create
         public ActionResult Create()
         {
-            ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna");
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
             return View();
         }
 
-        // POST: OBRA/Create
+        // POST: Actividad/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "obra_id,nombre_obra,direccion,COMUNA_comuna_id")] OBRA oBRA)
+        public async Task<ActionResult> Create([Bind(Include = "actividad_id,codigo_actividad,nombre_actividad,estado,OBRA_obra_id")] ACTIVIDAD aCTIVIDAD)
         {
             if (ModelState.IsValid)
             {
-                db.OBRA.Add(oBRA);
+                db.ACTIVIDAD.Add(aCTIVIDAD);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna", oBRA.COMUNA_comuna_id);
-            return View(oBRA);
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", aCTIVIDAD.OBRA_obra_id);
+            return View(aCTIVIDAD);
         }
 
-        // GET: OBRA/Edit/5
+        // GET: Actividad/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OBRA oBRA = await db.OBRA.FindAsync(id);
-            if (oBRA == null)
+            ACTIVIDAD aCTIVIDAD = await db.ACTIVIDAD.FindAsync(id);
+            if (aCTIVIDAD == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna", oBRA.COMUNA_comuna_id);
-            return View(oBRA);
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", aCTIVIDAD.OBRA_obra_id);
+            return View(aCTIVIDAD);
         }
 
-        // POST: OBRA/Edit/5
+        // POST: Actividad/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "obra_id,nombre_obra,direccion,COMUNA_comuna_id")] OBRA oBRA)
+        public async Task<ActionResult> Edit([Bind(Include = "actividad_id,codigo_actividad,nombre_actividad,estado,OBRA_obra_id")] ACTIVIDAD aCTIVIDAD)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(oBRA).State = EntityState.Modified;
+                db.Entry(aCTIVIDAD).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna", oBRA.COMUNA_comuna_id);
-            return View(oBRA);
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", aCTIVIDAD.OBRA_obra_id);
+            return View(aCTIVIDAD);
         }
 
-        // GET: OBRA/Delete/5
+        // GET: Actividad/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OBRA oBRA = await db.OBRA.FindAsync(id);
-            if (oBRA == null)
+            ACTIVIDAD aCTIVIDAD = await db.ACTIVIDAD.FindAsync(id);
+            if (aCTIVIDAD == null)
             {
                 return HttpNotFound();
             }
-            return View(oBRA);
+            return View(aCTIVIDAD);
         }
 
-        // POST: OBRA/Delete/5
+        // POST: Actividad/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            OBRA oBRA = await db.OBRA.FindAsync(id);
+            ACTIVIDAD aCTIVIDAD = await db.ACTIVIDAD.FindAsync(id);
 
-            if (oBRA == null)
+            if (aCTIVIDAD == null)
             {
                 return HttpNotFound();
             }
 
             // Verificar si existen relaciones con claves foráneas
-            if (db.OBRA.Any(t => t.obra_id == id))
+            if (db.ACTIVIDAD.Any(t => t.actividad_id == id))
             {
-                ViewBag.ErrorMessage = "No se puede eliminar esta Obra debido a  que esta relacionada a otras Entidades.";
-                return View("Delete", oBRA); // Mostrar vista de eliminación con el mensaje de error
+                ViewBag.ErrorMessage = "No se puede eliminar esta Actividad debido a  que esta relacionado a otras Entidades.";
+                return View("Delete", aCTIVIDAD); // Mostrar vista de eliminación con el mensaje de error
             }
 
-            db.OBRA.Remove(oBRA);
+            db.ACTIVIDAD.Remove(aCTIVIDAD);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+
+
         }
 
         protected override void Dispose(bool disposing)

@@ -22,4 +22,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
         [Display(Name = "Fecha de Vencimiento del Token")]
         public DateTime? ResetPasswordTokenExpiration { get; set; }
     }
+
+
+
 }

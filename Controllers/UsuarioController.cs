@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
 using Microsoft.AspNet.Identity;
-
+using System.Text.RegularExpressions;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -43,9 +43,11 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(uSUARIO);
         }
 
+
+       
         // GET: USUARIOs/Create
 
-        
+
         public ActionResult Create()
         {
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
@@ -63,25 +65,36 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Verificar si ya existe un usuario con la misma combinación de OBRA_obra_id y PERSONA_rut
-                bool obraRutDuplicate = db.USUARIO.Any(u => u.OBRA_obra_id == uSUARIO.OBRA_obra_id && u.PERSONA_rut == uSUARIO.PERSONA_rut);
+                // Validación de dominio de correo permitido
+                string[] dominiosPermitidos = { "gmail.com", "hotmail.com", "paumar.cl" };
+                string[] partesCorreo = uSUARIO.correo.Split('@');
 
-                // Verificar si ya existe un usuario con el mismo PERSONA_rut independientemente de OBRA_obra_id
-                bool rutDuplicate = db.USUARIO.Any(u => u.PERSONA_rut == uSUARIO.PERSONA_rut);
-
-                if (obraRutDuplicate)
+                if (partesCorreo.Length != 2 || !dominiosPermitidos.Contains(partesCorreo[1]))
                 {
-                    ModelState.AddModelError("", "Ya existe un usuario con la misma combinación de Obra y Nombre de Usuario.");
-                }
-                else if (rutDuplicate)
-                {
-                    ModelState.AddModelError("", "Ya existe un usuario con el mismo rut.");
+                    ModelState.AddModelError("correo", "El dominio del correo no está permitido.");
                 }
                 else
                 {
-                    db.USUARIO.Add(uSUARIO);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    // Verificar si ya existe un usuario con la misma combinación de OBRA_obra_id y PERSONA_rut
+                    bool obraRutDuplicate = db.USUARIO.Any(u => u.OBRA_obra_id == uSUARIO.OBRA_obra_id && u.PERSONA_rut == uSUARIO.PERSONA_rut);
+
+                    // Verificar si ya existe un usuario con el mismo PERSONA_rut independientemente de OBRA_obra_id
+                    bool rutDuplicate = db.USUARIO.Any(u => u.PERSONA_rut == uSUARIO.PERSONA_rut);
+
+                    if (obraRutDuplicate)
+                    {
+                        ModelState.AddModelError("", "Ya existe un usuario con la misma combinación de Obra y Nombre de Usuario.");
+                    }
+                    else if (rutDuplicate)
+                    {
+                        ModelState.AddModelError("", "Ya existe un usuario con el mismo rut.");
+                    }
+                    else
+                    {
+                        db.USUARIO.Add(uSUARIO);
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
                 }
             }
 
