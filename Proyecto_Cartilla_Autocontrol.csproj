@@ -156,6 +156,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CartillaController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
     <Compile Include="Controllers\ResponsableController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -253,6 +254,10 @@
     <Content Include="Views\Actividad\Delete.cshtml" />
     <Content Include="Views\Actividad\Edit.cshtml" />
     <Content Include="Views\Actividad\Index.cshtml" />
+    <Content Include="Views\Cartilla\Create.cshtml" />
+    <Content Include="Views\Cartilla\Delete.cshtml" />
+    <Content Include="Views\Cartilla\Edit.cshtml" />
+    <Content Include="Views\Cartilla\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
