@@ -1,4 +1,4 @@
-﻿@model Proyecto_Cartilla_Autocontrol.Models.USUARIO
+﻿@model Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA
 
 @{
     ViewBag.Title = "Delete";
@@ -19,42 +19,55 @@ else
 
     <div class="container-delete">
         <div class="form-container-delete">
-            <h2> Eliminar  Usuario </h2>
-            <h3>¿Estás seguro que quieres eliminar este Usuario?</h3>
+            <h2> Eliminar Detalle Cartilla </h2>
+            <h3>¿Estás seguro que quieres eliminar este Detalle de Cartilla?</h3>
             <div>
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
-                        Nombre
+                        Estado OTEC:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.PERSONA.nombre)
+                        @Html.DisplayFor(model => model.estado_otec)
                     </dd>
 
                     <dt>
-                        Apellidos
+                        Estado ITO:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.PERSONA.apeliido_paterno)   @Html.DisplayFor(model => model.PERSONA.apeliido_paterno)
+                        @Html.DisplayFor(model => model.estado_ito)
                     </dd>
 
                     <dt>
-                        Obra:
+                        Código Actividad:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
+                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad)
                     </dd>
                     <dt>
-                        Tipo Perfil:
+                        URL Documento:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.PERFIL.rol)
+                        @Html.DisplayFor(model => model.CARTILLA.ruta_documento_pdf)
                     </dd>
-                
+                    <dt>
+                        Tipo Inmueble
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.INMUEBLE.tipo_inmueble)
+                    </dd>
+                    <dt>
+                        Elemento Verificación:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ITEM_VERIF.elemento_verificacion)
+                    </dd>
 
                 </dl>
 

@@ -157,6 +157,7 @@
     <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CartillaController.cs" />
+    <Compile Include="Controllers\DetalleCartillaController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
     <Compile Include="Controllers\ResponsableController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -236,18 +237,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Shared\_PartialMessage.cshtml" />
-    <Content Include="Views\Usuario\Create.cshtml" />
-    <Content Include="Views\Usuario\Edit.cshtml" />
-    <Content Include="Views\Usuario\Index.cshtml" />
-    <Content Include="Views\Usuario\Delete.cshtml" />
     <Content Include="Views\Obra\Create.cshtml" />
     <Content Include="Views\Obra\Delete.cshtml" />
     <Content Include="Views\Obra\Edit.cshtml" />
     <Content Include="Views\Obra\Index.cshtml" />
-    <Content Include="Views\Responsable\Create.cshtml" />
-    <Content Include="Views\Responsable\Delete.cshtml" />
-    <Content Include="Views\Responsable\Edit.cshtml" />
-    <Content Include="Views\Responsable\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutGeneral.cshtml" />
     <Content Include="Views\Actividad\Create.cshtml" />
@@ -258,6 +251,18 @@
     <Content Include="Views\Cartilla\Delete.cshtml" />
     <Content Include="Views\Cartilla\Edit.cshtml" />
     <Content Include="Views\Cartilla\Index.cshtml" />
+    <Content Include="Views\DetalleCartilla\Create.cshtml" />
+    <Content Include="Views\DetalleCartilla\Delete.cshtml" />
+    <Content Include="Views\DetalleCartilla\Edit.cshtml" />
+    <Content Include="Views\DetalleCartilla\Index.cshtml" />
+    <Content Include="Views\Usuario\Create.cshtml" />
+    <Content Include="Views\Usuario\Delete.cshtml" />
+    <Content Include="Views\Usuario\Edit.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Responsable\Create.cshtml" />
+    <Content Include="Views\Responsable\Delete.cshtml" />
+    <Content Include="Views\Responsable\Edit.cshtml" />
+    <Content Include="Views\Responsable\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -13,10 +13,10 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class TestConexion : DbContext
+    public partial class ObraManzanoConexion : DbContext
     {
-        public TestConexion()
-            : base("name=TestConexion")
+        public ObraManzanoConexion()
+            : base("name=ObraManzanoConexion")
         {
         }
     

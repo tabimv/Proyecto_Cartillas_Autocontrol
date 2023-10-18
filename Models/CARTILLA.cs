@@ -11,7 +11,8 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CARTILLA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,13 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         }
     
         public int cartilla_id { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio.")]
         public System.DateTime fecha { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio.")]
         public string ruta_documento_pdf { get; set; }
+
         public string observaciones { get; set; }
         public int OBRA_obra_id { get; set; }
         public int ACTIVIDAD_actividad_id { get; set; }

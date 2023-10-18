@@ -1,7 +1,7 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -24,26 +24,29 @@ else
         <div class="container-formularios">
             <div class="form-container">
                 <h2>Editar Responsable de Obra</h2>
-                <form>
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.responsable_id)
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.cargo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
-                    </div>
-                    <div>
-                        <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
-                    </div>
-                </form>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.responsable_id)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.cargo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
+                </div>
+                <div>
+                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                </div>
             </div>
         </div>
     }
@@ -52,12 +55,6 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-
-
 }
 
 else

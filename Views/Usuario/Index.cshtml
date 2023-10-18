@@ -13,10 +13,9 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-
-   
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
 {
+
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
 
 
@@ -31,10 +30,8 @@ else
                         <div class="col-sm-6">
                             <a href="@Url.Action("Create")" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i>
-                                Crear Nuevo Usuario
+                                Crear Nuevo Usuario 
                             </a>
-
-
                         </div>
                     </div>
                 </div>
@@ -42,11 +39,12 @@ else
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Correo </th>
-                            <th>Contraseña </th>
-                            <th>Obra </th>
-                            <th>Tipo Perfil </th>
-                            <th>Usuario </th>
+                            <th> Nombre </th>
+                            <th> Apellidos </th>
+                            <th> Correo </th>
+                            <th> Contraseña </th>
+                            <th> Obra </th>
+                            <th> Tipo Perfil </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -55,11 +53,12 @@ else
                         {
                             <tr>
                                 <td></td>
-                                <td>@Html.DisplayFor(modelItem => item.correo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.contraseña)</td>
-                                <td>@Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
-                                <td>@Html.DisplayFor(modelItem => item.PERFIL.rol)</td>
-                                <td>@Html.DisplayFor(modelItem => item.PERSONA.nombre)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.PERSONA.nombre)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.PERSONA.apeliido_paterno)  @Html.DisplayFor(modelItem => item.PERSONA.apellido_materno)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.PERSONA.correo) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.contraseña) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.PERFIL.rol) </td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
@@ -83,7 +82,6 @@ else
         </div>
     </div>
 
-    <div class="modal fade" id="modalDelete"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -125,5 +123,3 @@ else
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
 }
-
-

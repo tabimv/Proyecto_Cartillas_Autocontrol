@@ -11,21 +11,18 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class RESPONSABLE
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public RESPONSABLE()
-        {
-            this.PERSONA = new HashSet<PERSONA>();
-        }
-    
         public int responsable_id { get; set; }
+
+        [Required(ErrorMessage = "El campo Cargo es obligatorio.")]
         public string cargo { get; set; }
         public int OBRA_obra_id { get; set; }
+        public string PERSONA_rut { get; set; }
     
         public virtual OBRA OBRA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PERSONA> PERSONA { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
     }
 }

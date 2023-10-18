@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE>
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA>
 
 @{
     ViewBag.Title = "Index";
@@ -25,12 +25,12 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Gestión de <b>Responsables de Obra</b></h2>
+                            <h2>Gestión de <b>Detalle Cartilla</b></h2>
                         </div>
                         <div class="col-sm-6">
                             <a href="@Url.Action("Create")" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i>
-                                Crear Nuevo Responsable de Obra
+                                Crear Nuevo Detalle Cartilla
                             </a>
                         </div>
                     </div>
@@ -39,10 +39,12 @@ else
                     <thead>
                         <tr>
                             <th></th>
-                            <th> Cargo </th>
-                            <th> Obra </th>
-                            <th> Nombre </th>
-                            <th> Apellidos </th>
+                            <th> Estado OTEC </th>
+                            <th> Estado ITO </th>
+                            <th> Código Actividad </th>
+                            <th> URL documento </th>
+                            <th> Tipo Inmueble </th>
+                            <th> Elemento Verificación </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -51,21 +53,23 @@ else
                         {
                             <tr>
                                 <td></td>
-                                <td>  @Html.DisplayFor(modelItem => item.cargo)</td>
-                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.PERSONA.nombre) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.PERSONA.apeliido_paterno)  @Html.DisplayFor(modelItem => item.PERSONA.apellido_materno)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.estado_otec) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.estado_ito) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.CARTILLA.ruta_documento_pdf)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.INMUEBLE.tipo_inmueble)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.ITEM_VERIF.elemento_verificacion)</td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
 
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.responsable_id })">
+                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.detalle_cartilla_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
 
 
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.responsable_id })">
+                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.detalle_cartilla_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                     </a>
 

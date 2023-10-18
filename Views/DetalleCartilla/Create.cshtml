@@ -1,0 +1,84 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit.css">
+
+    using (Html.BeginForm())
+    {
+
+
+        <div class="container-formularios">
+            <div class="form-container">
+                <h2>Crear Detalle de Cartilla Cartilla</h2>
+                @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.estado_otec, "Estado OTEC: ",htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.estado_otec)
+                @Html.ValidationMessageFor(model => model.estado_otec, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.estado_ito, "Estado ITO: ",htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.estado_ito)
+                @Html.ValidationMessageFor(model => model.estado_ito, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ITEM_VERIF_item_verif_id, "Item Verificación: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("ITEM_VERIF_item_verif_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ACTIVIDAD_actividad_id, "Actividad: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("ACTIVIDAD_actividad_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CARTILLA_cartilla_id, "Cartilla: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("CARTILLA_cartilla_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CARTILLA_cartilla_id, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.INMUEBLE_inmueble_id, "Tipo de Inmueble: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("INMUEBLE_inmueble_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.INMUEBLE_inmueble_id, "", new { @class = "text-danger" })
+            </div>
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="submit" value="Crear" class="btn btn-primary-custom" />
+                </div>
+                <div>
+                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

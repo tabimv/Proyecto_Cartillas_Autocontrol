@@ -15,7 +15,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     public class AccountController : Controller
     {
         // GET: Account
-        private TestConexion db = new TestConexion(); // Tu contexto de base de datos
+        private ObraManzanoConexion db = new ObraManzanoConexion(); // Tu contexto de base de datos
 
         [HttpGet]
         [AllowAnonymous]
@@ -33,7 +33,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
-            var user = db.USUARIO.FirstOrDefault(u => u.correo == model.correo);
+            var user = db.USUARIO.FirstOrDefault(u => u.PERSONA.correo == model.correo);
 
             if (user == null)
             {

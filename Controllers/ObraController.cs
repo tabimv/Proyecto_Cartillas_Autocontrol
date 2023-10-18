@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ObraController : Controller
     {
-        private TestConexion db = new TestConexion();
+        private ObraManzanoConexion db = new ObraManzanoConexion();
 
         // GET: OBRA
         public async Task<ActionResult> Index()

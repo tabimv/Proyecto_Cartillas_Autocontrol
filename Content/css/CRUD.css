@@ -24,10 +24,11 @@ body {
 	margin: -20px -25px 10px;
 	border-radius: 3px 3px 0 0;
 }
-.table-title h2 {
-	margin: 1px 0 -10px 0;
-	font-size: 24px;
-}
+	.table-title h2 {
+		margin: 1px 0 -10px 0;
+		font-size: 24px;
+	}
+
 .table-title .btn-group {
 	float: right;
 }

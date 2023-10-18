@@ -20,31 +20,32 @@ else
 
     using (Html.BeginForm())
     {
-
-
         <div class="container-formularios">
             <div class="form-container">
-                <h2>Crear Nuevo Responsable de Obra</h2>
-                <form>
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.cargo, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <input type="submit" value="Crear" class="btn btn-primary-custom" />
-                    </div>
-                    <div>
-                        <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
-                    </div>
-                </form>
+                <h2>Crear Responsable de Obra</h2>
+                @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.cargo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+            </div>
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="submit" value="Crear" class="btn btn-primary-custom" />
+                </div>
+                <div>
+                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                </div>
             </div>
         </div>
     }

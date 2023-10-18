@@ -9,17 +9,16 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
 
-
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ResponsableController : Controller
     {
-        private TestConexion db = new TestConexion();
+        private ObraManzanoConexion db = new ObraManzanoConexion();
 
         // GET: Responsable
         public async Task<ActionResult> Index()
         {
-            var rESPONSABLE = db.RESPONSABLE.Include(r => r.OBRA);
+            var rESPONSABLE = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.PERSONA);
             return View(await rESPONSABLE.ToListAsync());
         }
 
@@ -42,6 +41,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         public ActionResult Create()
         {
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre");
             return View();
         }
 
@@ -50,7 +50,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "responsable_id,cargo,OBRA_obra_id")] RESPONSABLE rESPONSABLE)
+        public async Task<ActionResult> Create([Bind(Include = "responsable_id,cargo,OBRA_obra_id,PERSONA_rut")] RESPONSABLE rESPONSABLE)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +60,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", rESPONSABLE.PERSONA_rut);
             return View(rESPONSABLE);
         }
 
@@ -76,6 +77,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", rESPONSABLE.PERSONA_rut);
             return View(rESPONSABLE);
         }
 
@@ -84,7 +86,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "responsable_id,cargo,OBRA_obra_id")] RESPONSABLE rESPONSABLE)
+        public async Task<ActionResult> Edit([Bind(Include = "responsable_id,cargo,OBRA_obra_id,PERSONA_rut")] RESPONSABLE rESPONSABLE)
         {
             if (ModelState.IsValid)
             {
@@ -93,6 +95,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", rESPONSABLE.PERSONA_rut);
             return View(rESPONSABLE);
         }
 
@@ -116,26 +119,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-          
             RESPONSABLE rESPONSABLE = await db.RESPONSABLE.FindAsync(id);
-
-            if (rESPONSABLE == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Verificar si existen relaciones con claves foráneas
-            if (db.RESPONSABLE.Any(t => t.responsable_id == id))
-            {
-                ViewBag.ErrorMessage = "No se puede eliminar este Responsable de Obras debido a  que esta relacionado a otras Entidades.";
-                return View("Delete", rESPONSABLE); // Mostrar vista de eliminación con el mensaje de error
-            }
-
             db.RESPONSABLE.Remove(rESPONSABLE);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
-
-
         }
 
         protected override void Dispose(bool disposing)

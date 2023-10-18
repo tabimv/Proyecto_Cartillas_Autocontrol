@@ -17,6 +17,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PERSONA()
         {
+            this.RESPONSABLE = new HashSet<RESPONSABLE>();
             this.USUARIO = new HashSet<USUARIO>();
         }
     
@@ -25,9 +26,9 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public string apeliido_paterno { get; set; }
         public string apellido_materno { get; set; }
         public string correo { get; set; }
-        public int RESPONSABLE_responsable_id { get; set; }
     
-        public virtual RESPONSABLE RESPONSABLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RESPONSABLE> RESPONSABLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USUARIO> USUARIO { get; set; }
     }
