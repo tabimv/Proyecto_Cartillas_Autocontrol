@@ -1,0 +1,182 @@
+﻿
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+}
+
+#contenido-pdf{
+    margin-top: 5%;
+}
+
+.encabezado-imagen {
+    max-height: 100px;
+    margin-bottom: 20px;
+}
+
+.encabezado-titulo {
+    font-size: 15px;
+    margin-right: -1%;
+    font-weight: bold;
+}
+
+.encabezado p {
+    font-size: 10px;
+}
+
+section p {
+    line-height: 0.5;
+    font-size: 15px;
+}
+
+    section p strong {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+/* Elementos de verificación y checklist */
+.checklist {
+    margin: 20px 0;
+}
+
+.elemento {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin-right: 10px;
+}
+
+.texto-elemento {
+    font-size: 18px;
+}
+
+/* Espacio para observaciones */
+.observaciones {
+    margin: 20px 0;
+}
+
+    .observaciones textarea {
+        width: 100%;
+        height: 100px;
+    }
+
+.rectangulo {
+    width: 550px;
+    height: 130px;
+    border: 2px solid black;
+    padding: 10px;
+    position: absolute;
+    font-family: Arial, sans-serif;
+    margin-top: -2%; /* Ajusta la distancia desde la parte superior según tus necesidades */
+    right: 10%; /* Ajusta la distancia desde la derecha según tus necesidades */
+    line-height: 1.5;
+}
+
+/* Estilos para la línea vertical */
+.linea-vertical {
+    border-left: 2px solid black;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 70%;
+}
+
+/* Estilos para "Fecha:" y "Firma:" */
+.fecha-firma {
+    position: absolute;
+    top: 5%;
+    width: 50%; /* Ajusta el ancho para la parte derecha del rectángulo */
+    left: 72%;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 10%;
+}
+
+th, td {
+    border: 2px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para el contenedor de observaciones */
+/* Estilos para el contenedor de observaciones */
+.observaciones {
+    text-align: center;
+}
+
+/* Estilos para el cuadro de observaciones */
+.cuadro-observaciones {
+    max-width: 600px; /* Establece el ancho máximo que desees */
+    margin: 10% auto; /* Centra el cuadro en la página */
+    border: 2px solid black; /* Borde del cuadro */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: -5%;
+}
+
+/* Estilos para el label de observaciones */
+label {
+    font-size: 18px;
+    height: 20px; /* Altura fija */
+    width: 200px; /* Ancho fijo */
+}
+
+/* Estilos para el área de texto de observaciones */
+textarea {
+    width: 100%;
+    height: auto; /* Altura automática */
+    font-size: 16px;
+}
+
+/* Estilos para el contenedor de firmas */
+.firmas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Crea 4 columnas de igual ancho */
+    gap: 10px; /* Espacio entre columnas */
+}
+
+/* Estilos para cada firma */
+.firma {
+    text-align: center;
+}
+
+    /* Estilos para la línea de firma */
+    .firma .linea {
+        border-top: 2px solid #000; /* Grosor de 1 píxel */
+        width: 50%; /* Ancho de la línea */
+        margin: 10px auto; /* Centra la línea horizontalmente */
+    }
+
+    /* Estilos para el texto de firma */
+    .firma p {
+        font-size: 16px;
+        margin: 0; /* Quitamos cualquier margen en los párrafos */
+    }
+
+
+/* Estilo para pantallas pequeñas (menos de 768px de ancho) */
+@media (max-width: 768px) {
+    table {
+        margin-top: 60%; /* Ajusta la cantidad de espacio adicional deseado */
+        margin-bottom: 10%;
+    }
+
+    .rectangulo {
+        margin-top: 30%;
+    }
+}

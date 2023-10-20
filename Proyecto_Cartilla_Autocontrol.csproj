@@ -132,7 +132,9 @@
     <Content Include="Content\css\layoutGeneral.css" />
     <Content Include="Content\css\login.css" />
     <Content Include="Content\css\menu.css" />
+    <Content Include="Content\css\cartilla.css" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logo2.png" />
     <Content Include="Content\js\alert.js" />
     <Content Include="Content\js\CRUD.js" />
     <Content Include="Content\js\menu.js" />
@@ -157,7 +159,9 @@
     <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CartillaController.cs" />
+    <Compile Include="Controllers\CartillasAutocontrolController.cs" />
     <Compile Include="Controllers\DetalleCartillaController.cs" />
+    <Compile Include="Controllers\ItemVerifController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
     <Compile Include="Controllers\ResponsableController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -263,6 +267,13 @@
     <Content Include="Views\Responsable\Delete.cshtml" />
     <Content Include="Views\Responsable\Edit.cshtml" />
     <Content Include="Views\Responsable\Index.cshtml" />
+    <Content Include="Views\ItemVerif\Create.cshtml" />
+    <Content Include="Views\ItemVerif\Delete.cshtml" />
+    <Content Include="Views\ItemVerif\Details.cshtml" />
+    <Content Include="Views\ItemVerif\Edit.cshtml" />
+    <Content Include="Views\ItemVerif\Index.cshtml" />
+    <Content Include="Views\CartillasAutocontrol\ListaCartillasPorActividad.cshtml" />
+    <Content Include="Views\CartillasAutocontrol\VerCartilla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

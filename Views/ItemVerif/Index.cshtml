@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.ITEM_VERIF>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.elemento_verificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.label)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ACTIVIDAD.codigo_actividad)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.elemento_verificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.label)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.item_verif_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.item_verif_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.item_verif_id })
+        </td>
+    </tr>
+}
+
+</table>
