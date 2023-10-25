@@ -34,22 +34,10 @@ section p {
         font-size: 15px;
     }
 
-/* Elementos de verificación y checklist */
-.checklist {
-    margin: 20px 0;
-}
-
 .elemento {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-}
-
-.checkbox {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #000;
-    margin-right: 10px;
 }
 
 .texto-elemento {
@@ -133,7 +121,8 @@ tr:nth-child(even) {
 label {
     font-size: 18px;
     height: 20px; /* Altura fija */
-    width: 200px; /* Ancho fijo */
+    width: 100%; /* Ancho fijo */
+    white-space: nowrap;
 }
 
 /* Estilos para el área de texto de observaciones */

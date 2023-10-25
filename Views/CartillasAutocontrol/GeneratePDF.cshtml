@@ -1,0 +1,180 @@
+﻿@model List<Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/cartilla.css">
+
+    <div id="contenido-pdf">
+        <div class="encabezado">
+            <img src="~/Content/img/logo2.png" alt="Logo" class="encabezado-imagen">
+            <h1 class="encabezado-titulo">CARTILLA DE CONTROL VIVIENDA</h1>
+        </div>
+
+        <div class="rectangulo">
+            <p><strong>Actividad: </strong> @Model[0].ACTIVIDAD.nombre_actividad </p>
+            <p><strong>Responsable de Revisión:</strong></p>
+            <div class="linea-vertical"></div>
+            <div class="fecha-firma">
+
+                <p><strong>Fecha:</strong>  @Model[0].CARTILLA.fecha.ToString("dd-MM-yyyy")</p>
+                <p><strong>Estado: </strong>@Model[0].CARTILLA.ESTADO_FINAL.descripcion </p>
+            </div>
+        </div>
+
+        <section>
+
+            <!-- Información general -->
+            <p><strong>OBRA:</strong> @Model[0].CARTILLA.OBRA.nombre_obra</p>
+            <p><strong>COMUNA:</strong> @Model[0].CARTILLA.OBRA.COMUNA.nombre_comuna</p>
+            <p><strong>DIRECCIÓN:</strong> @Model[0].CARTILLA.OBRA.direccion</p>
+            @foreach (var item in ViewBag.Responsables)
+            {
+                if (item.cargo == "Contratista")
+                {
+                    <p><strong>CONTRATISTA: </strong> @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "EGIS")
+                {
+                    <p><strong>EGIS: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "Director")
+                {
+                    <p><strong>DIRECTOR DE OBRA: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "Autocontrol")
+                {
+                    <p><strong>AUTOCONTROL: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "Supervisor")
+                {
+                    <p><strong>SUPERVISOR: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "F.T.O")
+                {
+                    <p><strong>F.T.O: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
+                }
+
+            }
+        </section>
+
+        <table>
+            <tr>
+
+                <th></th>
+                <th></th>
+                @foreach (var item in Model)
+                {
+                    <th><strong>VIV. N°: </strong> </th>
+                }
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                @foreach (var item in Model)
+                {
+                    <td>@item.INMUEBLE_inmueble_id </td>
+                }
+            </tr>
+
+            <tr>
+                <th>N°</th>
+                <th>Elementos de verificación</th>
+                <td>ITO</td>
+                <td>OTEC</td>
+
+            </tr>
+
+
+
+            @foreach (var item in Model)
+            {
+
+
+                <tr>
+                    <td rowspan="2"> @item.ITEM_VERIF.label</td>
+                    <td rowspan="2"> @item.ITEM_VERIF.elemento_verificacion </td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DisplayFor(modelItem => item.estado_ito) </td>
+                    <td>@Html.DisplayFor(modelItem => item.estado_otec)</td>
+                </tr>
+            }
+        </table>
+
+        <div class="observaciones">
+            <div class="cuadro-observaciones">
+                @if (@Model[0].CARTILLA.observaciones != null)
+                {
+                    <label for="observaciones"> <strong>Observaciones: </strong>  @Model[0].CARTILLA.observaciones </label>
+                }
+                else
+                {
+                    <label for="observaciones"> <strong>Observaciones: </strong>  No hay Observaciones en esta Cartilla de Autocontrol </label>
+                }
+            </div>
+        </div>
+
+
+        <div class="firmas">
+            <div class="firma">
+                <div class="linea"></div>
+                <p><strong> Carlos Cardenas Mancilla </strong></p>
+                <p>Administrador de Obra</p>
+                <p>Constructora Manzano y Asoc.Ltda</p>
+            </div>
+            <div class="firma">
+                <div class="linea"></div>
+                <p><strong> Marlene Delgado Caro </strong></p>
+                <p>Autocontrol de Obra</p>
+                <p>Constructora Manzano y Asoc.Ltda</p>
+            </div>
+            <div class="firma">
+                <div class="linea"></div>
+                <p><strong> Boris Zambrano Orrego </strong></p>
+                <p>ITO Serviu</p>
+                <p>Serviu Región del Biobío</p>
+            </div>
+            <div class="firma">
+                <div class="linea"></div>
+                <p><strong> Osvaldo Araneda Caceres </strong></p>
+                <p>Supervisor Serviu</p>
+                <p>Serviu Región del Biobío</p>
+            </div>
+        </div>
+    </div>
+
+
+
+   
+}
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}
+

@@ -18,6 +18,14 @@ namespace Proyecto_Cartilla_Autocontrol
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Usuario", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+            name: "DescargarPDF",
+            url: "CartillasAutocontrol/DescargarPDF/{id}",
+            defaults: new { controller = "CartillasAutocontrol", action = "DescargarPDF" }
+           );
+
         }
+
     }
 }

@@ -26,50 +26,113 @@ else
         </div>
 
         <div class="rectangulo">
-            <p><strong>Actividad: </strong></p>
+            <p><strong>Actividad: </strong> @Model[0].ACTIVIDAD.nombre_actividad </p>
             <p><strong>Responsable de Revisión:</strong></p>
             <div class="linea-vertical"></div>
             <div class="fecha-firma">
 
-                <p><strong>Fecha:</strong></p>
-                <p><strong>Firma:</strong></p>
+                <p><strong>Fecha:</strong>  @Model[0].CARTILLA.fecha.ToString("dd-MM-yyyy")</p>
+                <p><strong>Estado: </strong>@Model[0].CARTILLA.ESTADO_FINAL.descripcion </p>
             </div>
         </div>
 
         <section>
+
             <!-- Información general -->
-            <p><strong>OBRA:</strong> Proyecto Habitacional El Peumo</p>
-            <p><strong>COMUNA:</strong> Concepción</p>
-            <p><strong>DIRECCIÓN:</strong> Camino a Nonguén N°2230 Lote A Valle Nonguén</p>
-            <!-- Otras informaciones generales -->
+            <p><strong>OBRA:</strong> @Model[0].CARTILLA.OBRA.nombre_obra</p>
+            <p><strong>COMUNA:</strong> @Model[0].CARTILLA.OBRA.COMUNA.nombre_comuna</p>
+            <p><strong>DIRECCIÓN:</strong> @Model[0].CARTILLA.OBRA.direccion</p>
+            @foreach (var item in ViewBag.Responsables)
+            {
+                if (item.cargo == "Contratista")
+                {
+                    <p><strong>CONTRATISTA: </strong> @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "EGIS")
+                {
+                    <p><strong>EGIS: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "Director")
+                {
+                    <p><strong>DIRECTOR DE OBRA: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "Autocontrol")
+                {
+                    <p><strong>AUTOCONTROL: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "Supervisor")
+                {
+                    <p><strong>SUPERVISOR: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                }
+
+                if (item.cargo == "F.T.O")
+                {
+                    <p><strong>F.T.O: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
+                }
+
+            }
         </section>
 
         <table>
+            <tr>
+
+                <th></th>
+                <th></th>
+                @foreach (var item in Model)
+                {
+                    <th><strong>VIV. N°: </strong> </th>
+                }
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                @foreach (var item in Model)
+                {
+                    <td>@item.INMUEBLE_inmueble_id </td>
+                }
+            </tr>
+
             <tr>
                 <th>N°</th>
                 <th>Elementos de verificación</th>
                 <td>ITO</td>
                 <td>OTEC</td>
+
             </tr>
+
+
 
             @foreach (var item in Model)
             {
+
 
                 <tr>
                     <td rowspan="2"> @item.ITEM_VERIF.label</td>
                     <td rowspan="2"> @item.ITEM_VERIF.elemento_verificacion </td>
                 </tr>
                 <tr>
-                    <td>@item.estado_ito</td>
-                    <td>@item.estado_otec</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.estado_ito) </td>
+                    <td>@Html.DisplayFor(modelItem => item.estado_otec)</td>
                 </tr>
             }
         </table>
 
         <div class="observaciones">
             <div class="cuadro-observaciones">
-                <label for="observaciones">Observaciones:</label>
-
+                @if (@Model[0].CARTILLA.observaciones != null)
+                {
+                    <label for="observaciones"> <strong>Observaciones: </strong>  @Model[0].CARTILLA.observaciones </label>
+                }
+                else
+                {
+                    <label for="observaciones"> <strong>Observaciones: </strong>  No hay Observaciones en esta Cartilla de Autocontrol </label>
+                }
             </div>
         </div>
 
@@ -101,9 +164,7 @@ else
             </div>
         </div>
     </div>
-
 }
-
 else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">

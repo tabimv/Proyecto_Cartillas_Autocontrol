@@ -73,6 +73,11 @@ else
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
 
+                                            <a href="#" class="VerCartilla" data-url="@Url.Action("GeneratePDF", new { id = item.ACTIVIDAD_actividad_id })">
+                                                <i class="material-icons" data-toggle="tooltip" title="Descargar Cartilla">&#xE2C4;</i>
+                                                <span style="display: none;">VerCartilla</span>
+                                            </a>
+
                                         </td>
                                     </tr>
                                     currentActivityId = item.ACTIVIDAD.actividad_id; // Actualizar la actividad actual

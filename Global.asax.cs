@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Rotativa;
 
 namespace Proyecto_Cartilla_Autocontrol
 {
@@ -13,6 +14,7 @@ namespace Proyecto_Cartilla_Autocontrol
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
         }
     }
 }
