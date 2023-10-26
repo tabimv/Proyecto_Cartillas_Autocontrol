@@ -72,12 +72,13 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             // 3. Pasar estos datos a la vista
             ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
 
-           
+
             var pdf = new Rotativa.ViewAsPdf("GeneratePDF", elementosVerificacion)
             {
                 FileName = "CartillaDeControl.pdf", // Nombre del archivo PDF resultante
-                PageSize = Rotativa.Options.Size.A7,
-                PageOrientation = Rotativa.Options.Orientation.Landscape
+                PageSize = Rotativa.Options.Size.B4,
+                PageOrientation = Rotativa.Options.Orientation.Landscape,
+
             };
 
             return pdf;

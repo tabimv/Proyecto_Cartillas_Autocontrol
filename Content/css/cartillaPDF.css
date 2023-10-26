@@ -5,10 +5,6 @@
     justify-content: space-between;
 }
 
-#contenido-pdf{
-    margin-top: 5%;
-}
-
 .encabezado-imagen {
     max-height: 100px;
     margin-bottom: 20px;
@@ -61,7 +57,7 @@ section p {
     padding: 10px;
     position: absolute;
     font-family: Arial, sans-serif;
-    bottom: 30%;
+    bottom: 80%;
     right: 10%; /* Ajusta la distancia desde la derecha según tus necesidades */
     line-height: 1.5;
 }
@@ -84,10 +80,11 @@ section p {
 }
 
 
-table {
+.lista-table {
     border-collapse: collapse;
     width: 80%;
     margin: 10%;
+    font-size: 12pt;
 }
 
 th, td {
@@ -132,40 +129,38 @@ textarea {
     font-size: 16px;
 }
 
-/* Estilos para el contenedor de firmas */
-.firmas {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Crea 4 columnas de igual ancho */
-    gap: 10px; /* Espacio entre columnas */
+
+.firmas-table {
+    width: 100%;
+    border: none !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Estilos para cada firma */
 .firma {
     text-align: center;
+    width: 25%;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    /* Estilos adicionales para cada firma */
 }
 
     /* Estilos para la línea de firma */
     .firma .linea {
         border-top: 2px solid #000; /* Grosor de 1 píxel */
-        width: 50%; /* Ancho de la línea */
+        width: 75%; /* Ancho de la línea */
         margin: 10px auto; /* Centra la línea horizontalmente */
     }
 
-    /* Estilos para el texto de firma */
-    .firma p {
-        font-size: 16px;
-        margin: 0; /* Quitamos cualquier margen en los párrafos */
-    }
 
 
-/* Estilo para pantallas pequeñas (menos de 768px de ancho) */
-@media (max-width: 768px) {
-    table {
-        margin-top: 60%; /* Ajusta la cantidad de espacio adicional deseado */
-        margin-bottom: 10%;
-    }
 
-    .rectangulo {
-        margin-top: 30%;
-    }
-}
+
+
+

@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AccesoDenegado.css" />
+    <Content Include="Content\css\admin.css" />
     <Content Include="Content\css\CRUD.css" />
     <Content Include="Content\css\CRUD_create_edit.css" />
     <Content Include="Content\css\delete.css" />
@@ -136,8 +137,10 @@
     <Content Include="Content\css\login.css" />
     <Content Include="Content\css\menu.css" />
     <Content Include="Content\css\cartilla.css" />
+    <Content Include="Content\css\cartillaPDF.css" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logo2.png" />
+    <Content Include="Content\js\admin.js" />
     <Content Include="Content\js\alert.js" />
     <Content Include="Content\js\CRUD.js" />
     <Content Include="Content\js\menu.js" />
@@ -283,6 +286,8 @@
     <Content Include="Views\CartillasAutocontrol\ListaCartillasPorActividad.cshtml" />
     <Content Include="Views\CartillasAutocontrol\VerCartilla.cshtml" />
     <Content Include="Views\CartillasAutocontrol\GeneratePDF.cshtml" />
+    <Content Include="Views\Shared\_LayoutCartilla.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

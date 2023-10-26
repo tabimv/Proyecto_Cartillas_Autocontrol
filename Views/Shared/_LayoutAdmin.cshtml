@@ -1,0 +1,83 @@
+﻿@using System
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewBag.EmPoderTIC</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="~/Content/assets/favicon.ico" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/Content/css/admin.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+    @RenderSection("js", required: false)
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-light">Panel De Control</div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 text-black" href="@Url.Action("Index", "Obra")">
+                    <span class="bi bi-person-fill" style="font-size: 22px; color: #585858;"></span>
+                    Usuarios
+                </a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 text-black" href="@Url.Action("Index", "Area")">
+                    <span class="bi bi-shield-fill-check" style="font-size: 22px; color: #585858;"></span>
+                    Obras
+                </a>
+
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 text-black" href="@Url.Action("Index", "Evento")">
+                    <span class="bi bi-calendar-event-fill" style="font-size: 22px; color: #585858;"></span>
+                    Actividades
+                </a>
+
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 text-black" href="@Url.Action("Index", "Insignias")">
+                    <span class="bi bi-award" style="font-size: 22px; color: #585858;"></span>
+                    Cartillas
+                </a>
+
+
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <!-- Top navigation-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom menu">
+                <div class="container-fluid" style="background: radial-gradient(circle at 0% 0%, #fff, #585858, #585858, #585858); ">
+                    <button class="btn btn-primary bi bi-caret-left-fill" id="sidebarToggle" style="background-color: #f36f21; border:none"></button>
+                    <img src="~/Content/img/logo.png" alt="">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                   
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0 menu-list">
+                            <li class="nav-item"><a class="nav-link" href="/Actividad/Index">Actividades</a></li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Account")" class="btn-iniciar-sesion" style="color: #fff; background-color: #808080; transition: background-color 0.3s;"
+                                   onmouseover="this.style.backgroundColor='#FF5733'" onmouseout="this.style.backgroundColor='#808080'">
+                                    Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <br />
+            <!-- Page content-->
+            @RenderBody()
+
+
+        </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="~/Content/js/admin.js"></script>
+    @RenderSection("js", required: false)
+</body>
+</html>
