@@ -35,8 +35,10 @@ else
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th style="white-space: nowrap;">ID de Actividad</th>
-                            <th> Nombre Actividad </th>
+                            <th style="white-space: nowrap;"> ID de Cartilla</th>
+                            <th> Fecha</th>
+                            <th style="white-space: nowrap;"> Código Actividad</th>
+                            <th style="white-space: nowrap;"> Obra</th>
                             <th> Estado (Abierto/Cerrado) </th>
                             <th colspan="3">Acciones</th>
                         </tr>
@@ -54,17 +56,13 @@ else
                                 {
                                     // Iniciar una nueva fila para la actividad
                                     <tr>
-                                        <td>@item.ACTIVIDAD.actividad_id</td>
-                                        <td>@item.ACTIVIDAD.nombre_actividad</td>
+                                        <td>@item.CARTILLA.cartilla_id</td>
+                                        <td>@item.CARTILLA.fecha.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.ACTIVIDAD.codigo_actividad</td>
+                                        <td>@item.CARTILLA.OBRA.nombre_obra</td>
                                         <td>@item.ACTIVIDAD.estado</td>
                                         <td>
                                             <!-- Opciones de edición/ver para la actividad -->
-                                            <!-- Enlace "Edit" dentro de un botón -->
-                                            <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.detalle_cartilla_id })">
-                                                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                                <span style="display: none;">Edit</span>
-                                            </a>
-
                                             <a href="#" class="VerCartilla" data-url="@Url.Action("VerCartilla", new { id = item.ACTIVIDAD_actividad_id })">
                                                 <i class="material-icons" data-toggle="tooltip" title="Ver Cartilla">&#xE417;</i>
                                                 <span style="display: none;">VerCartilla</span>
@@ -74,6 +72,9 @@ else
                                                 <i class="material-icons" data-toggle="tooltip" title="Descargar Cartilla">&#xE2C4;</i>
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
+
+                                       
+
 
                                         </td>
                                     </tr>

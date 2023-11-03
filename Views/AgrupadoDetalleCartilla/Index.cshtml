@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.estado_otec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estado_ito)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ACTIVIDAD.codigo_actividad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CARTILLA.observaciones)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.INMUEBLE.tipo_inmueble)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ITEM_VERIF.elemento_verificacion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.estado_otec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estado_ito)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CARTILLA.observaciones)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.INMUEBLE.tipo_inmueble)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ITEM_VERIF.elemento_verificacion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.detalle_cartilla_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.detalle_cartilla_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.detalle_cartilla_id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,4 +1,4 @@
-﻿@model Proyecto_Cartilla_Autocontrol.Models.CARTILLA
+﻿@model Proyecto_Cartilla_Autocontrol.Models.PERSONA
 
 @{
     ViewBag.Title = "Delete";
@@ -19,54 +19,42 @@ else
 
     <div class="container-delete">
         <div class="form-container-delete">
-            <h2> Eliminar Cartilla </h2>
-            <h3>¿Estás seguro que quieres eliminar esta Cartilla?</h3>
+            <h2> Eliminar Persona </h2>
+            <h3>¿Estás seguro que quieres eliminar esta Persona?</h3>
             <div>
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
-                        Cartilla ID:
+                        Rut
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.cartilla_id)
-                    </dd>
-                    <dt>
-                        Fecha:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.fecha)
+                        @Html.DisplayFor(model => model.rut)
                     </dd>
 
                     <dt>
-                        Observaciones:
+                        Nombre
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.observaciones)
+                        @Html.DisplayFor(model => model.nombre)
+                    </dd>
+
+                    <dt>
+                        Apellidos:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.apeliido_paterno)   @Html.DisplayFor(model => model.apeliido_paterno)
                     </dd>
                     <dt>
-                        Código Actividad:
+                        Correo Electrónico:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad)
+                        @Html.DisplayFor(model => model.correo)  
                     </dd>
-                    <dt>
-                        Estado Final:
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.ESTADO_FINAL.estado)
-                    </dd>
-                    <dt>
-                        Obra:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
-                    </dd>
 
                 </dl>
 

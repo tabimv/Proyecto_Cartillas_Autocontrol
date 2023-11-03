@@ -1,0 +1,48 @@
+﻿@model List<Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA>
+
+@{
+    ViewBag.Title = "Edit Details";
+}
+
+<h2>Edit Details</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<table class="table">
+    <tr>
+        <th>Estado OTec</th>
+        <th>Estado Ito</th>
+        <th>Item Verif</th>
+        <th>Actividad</th>
+        <th>Inmueble</th>
+    </tr>
+
+    @if (Model != null)
+    {
+        foreach (var detalle in Model)
+        {
+            <tr>
+                <td>@Html.EditorFor(modelItem => detalle.estado_otec)</td>
+                <td>@Html.EditorFor(modelItem => detalle.estado_ito)</td>
+                <td>@Html.HiddenFor(modelItem => detalle.ITEM_VERIF_item_verif_id)</td>
+                <td>@Html.HiddenFor(modelItem => detalle.CARTILLA_cartilla_id)</td>
+                <td>@Html.HiddenFor(modelItem => detalle.ACTIVIDAD_actividad_id)</td>
+                <td>@Html.HiddenFor(modelItem => detalle.INMUEBLE_inmueble_id)</td>
+            </tr>
+        }
+    }
+
+</table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

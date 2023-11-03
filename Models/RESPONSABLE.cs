@@ -11,13 +11,10 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class RESPONSABLE
     {
         public int responsable_id { get; set; }
-
-        [Required(ErrorMessage = "El campo Cargo es obligatorio.")]
         public string cargo { get; set; }
         public int OBRA_obra_id { get; set; }
         public string PERSONA_rut { get; set; }

@@ -1,0 +1,71 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ViewModels.CartillaDetalleViewModel
+
+@{
+    ViewBag.Title = "Crear o Editar Cartilla";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Cambia la ubicación según tu proyecto.
+}
+
+<h2>Cartilla y Detalle de Cartilla para la Actividad @Model.ActividadId</h2>
+
+@using (Html.BeginForm("GuardarCartilla", "Test", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ActividadId)
+
+    <h3>Cartillas</h3>
+    <table class="table">
+        <tr>
+            <th>Cartilla ID</th>
+            <th>Fecha</th>
+            <th>Observaciones</th>
+        </tr>
+        @foreach (var cartilla in Model.Cartillas)
+        {
+            <tr>
+                <td>@cartilla.cartilla_id</td>
+                <td>@cartilla.fecha</td>
+                <td>
+                    @Html.EditorFor(model => cartilla.observaciones)
+                    @Html.ValidationMessageFor(model => cartilla.observaciones)
+                </td>
+                <td>
+                    @Html.HiddenFor(model => cartilla.cartilla_id)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <h3>Detalles de Cartilla</h3>
+    <table class="table">
+        <tr>
+            <th>Detalle Cartilla ID</th>
+            <th>Estado OTEC</th>
+            <th>Estado ITO</th>
+            <th>Item Verificación</th>
+        </tr>
+        @for (int i = 0; i < Model.DetallesCartilla.Count; i++)
+        {
+            var detalleCartilla = Model.DetallesCartilla[i];
+            <tr>
+                <td>@detalleCartilla.detalle_cartilla_id</td>
+                <td>
+                    @Html.EditorFor(model => model.DetallesCartilla[i].estado_otec)
+                    @Html.ValidationMessageFor(model => model.DetallesCartilla[i].estado_otec)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.DetallesCartilla[i].estado_ito)
+                    @Html.ValidationMessageFor(model => model.DetallesCartilla[i].estado_ito)
+                </td>
+                <td>
+                    @Html.HiddenFor(model => model.ActividadId)
+                </td>
+               
+
+                <td>@detalleCartilla.ITEM_VERIF.elemento_verificacion</td>
+            </tr>
+        }
+    </table>
+
+    <input type="submit" value="Guardar" class="btn btn-primary" />
+}

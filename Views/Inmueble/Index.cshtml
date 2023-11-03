@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.OBRA>
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.INMUEBLE>
 
 @{
     ViewBag.Title = "Index";
@@ -25,12 +25,12 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Gestión de <b>Obras</b></h2>
+                            <h2>Gestión de <b>Inmuebles</b></h2>
                         </div>
                         <div class="col-sm-6">
                             <a href="@Url.Action("Create")" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i>
-                                Crear Nueva Obra
+                                Crear Nuevo Inmueble
                             </a>
                         </div>
                     </div>
@@ -39,9 +39,9 @@ else
                     <thead>
                         <tr>
                             <th></th>
-                            <th> Nombre Obra </th>
-                            <th> Dirección </th>
-                            <th> Nombre Comuna </th>
+                            <th> Tipo Inmueble</th>
+                            <th> Obra Asociada</th>
+
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -50,20 +50,23 @@ else
                         {
                             <tr>
                                 <td></td>
-                                <td> @Html.DisplayFor(modelItem => item.nombre_obra)</td>
-                                <td> @Html.DisplayFor(modelItem => item.direccion) </td>
-                                <td> @Html.DisplayFor(modelItem => item.COMUNA.nombre_comuna) </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tipo_inmueble)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)
+                                </td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
 
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.obra_id })">
+                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.inmueble_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
 
 
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.obra_id })">
+                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.inmueble_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                     </a>
 

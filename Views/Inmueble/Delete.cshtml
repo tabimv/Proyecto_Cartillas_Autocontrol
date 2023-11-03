@@ -1,4 +1,4 @@
-﻿@model Proyecto_Cartilla_Autocontrol.Models.CARTILLA
+﻿@model Proyecto_Cartilla_Autocontrol.Models.INMUEBLE
 
 @{
     ViewBag.Title = "Delete";
@@ -19,53 +19,25 @@ else
 
     <div class="container-delete">
         <div class="form-container-delete">
-            <h2> Eliminar Cartilla </h2>
-            <h3>¿Estás seguro que quieres eliminar esta Cartilla?</h3>
+            <h2> Eliminar Inmueble </h2>
+            <h3>¿Estás seguro que quieres eliminar este Inmueble?</h3>
             <div>
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
-                        Cartilla ID:
+                        Tipo de Inmueble:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.cartilla_id)
-                    </dd>
-                    <dt>
-                        Fecha:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.fecha)
+                        @Html.DisplayFor(model => model.tipo_inmueble)
                     </dd>
 
                     <dt>
-                        Observaciones:
+                        Obra Asociada:
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.observaciones)
-                    </dd>
-                    <dt>
-                        Código Actividad:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad)
-                    </dd>
-                    <dt>
-                        Estado Final:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.ESTADO_FINAL.estado)
-                    </dd>
-                    <dt>
-                        Obra:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
+                        @Html.DisplayNameFor(model => model.OBRA.nombre_obra)
                     </dd>
 
                 </dl>

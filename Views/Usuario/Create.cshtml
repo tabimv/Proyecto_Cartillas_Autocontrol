@@ -26,26 +26,26 @@ else
             <div class="form-container">
                 <h2>Crear Usuario</h2>
                 @Html.AntiForgeryToken()
-            <div class="form-group">
-                @Html.LabelFor(model => model.contraseña, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.PasswordFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PERFIL_perfil_id, "Tipo Perfil: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("PERFIL_perfil_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PERFIL_perfil_id, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
-            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.contraseña, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.PasswordFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERFIL_perfil_id, "Tipo Perfil: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("PERFIL_perfil_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PERFIL_perfil_id, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                </div>
                 <div class="form-group">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <input type="submit" value="Crear" class="btn btn-primary-custom" />

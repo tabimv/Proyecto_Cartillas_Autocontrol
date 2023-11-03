@@ -39,12 +39,12 @@ else
                     <thead>
                         <tr>
                             <th></th>
+                            <th> Cartilla ID </th>
                             <th> Fecha </th>
-                            <th> Ruta documento PDF </th>
                             <th> Observaciones </th>
+                            <th> Obra </th>
                             <th> Código Actividad </th>
                             <th> Estado Final </th>
-                            <th> Obra </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -53,12 +53,21 @@ else
                         {
                             <tr>
                                 <td></td>
-                                <td>  @Html.DisplayFor(modelItem => item.fecha) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.ruta_documento_pdf) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.observaciones) </td>
+                                <td>  @Html.DisplayFor(modelItem => item.cartilla_id) </td>
+                                <td>  @item.fecha.ToString("dd-MM-yyyy") </td>
+                                @if (item.observaciones != null)
+                                {
+                                    <td>  @Html.DisplayFor(modelItem => item.observaciones) </td>
+
+                                }
+                                else
+                                {
+                                    <td> No hay Observaciones </td>
+                                }
+
+                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.estado)</td>
-                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
@@ -123,3 +132,5 @@ else
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
 }
+
+

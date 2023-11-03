@@ -1,0 +1,63 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.DETALLE_CARTILLA
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.detalle_cartilla_id)
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th> Detalle Cartilla ID</th>
+        <th>Estado OTEC</th>
+        <th>Estado ITO</th>
+        <th>ITEM_VERIF_item_verif_id</th>
+        <th>ACTIVIDAD_actividad_id</th>
+        <th>CARTILLA_cartilla_id</th>
+        <th>CARTILLA_cartilla_id</th>
+        <th>INMUEBLE_inmueble_id</th>
+        <th>Fecha</th>
+        <th>Observaciones</th>
+        <th>Obra</th>
+        <th>Actividad</th>
+        <th>Estado Final</th>
+    </tr>
+
+    @foreach (var detalle in ViewBag.DetallesAgrupados)
+    {
+        <tr>
+            <td>@Html.HiddenFor(model => model.ACTIVIDAD_actividad_id)</td>
+            <td>@Html.EditorFor(model => model.detalle_cartilla_id)</td>
+            <td>@Html.EditorFor(model => model.estado_otec)</td>
+            <td>@Html.EditorFor(model => model.estado_ito)</td>
+            <td>@Html.DropDownListFor(model => model.ITEM_VERIF_item_verif_id, (SelectList)ViewBag.ItemVerifList)</td>
+            <td>@Html.EditorFor(model => model.ACTIVIDAD_actividad_id)</td>
+            <td>@Html.EditorFor(model => model.CARTILLA_cartilla_id)</td>
+            <td>@Html.EditorFor(model => model.CARTILLA.cartilla_id)</td>
+            <td>@Html.DropDownListFor(model => model.INMUEBLE_inmueble_id, (SelectList)ViewBag.InmuebleList)</td>
+            <td>@Html.EditorFor(model => model.CARTILLA.fecha, new { htmlAttributes = new { @type = "date" } })</td>
+            <td>@Html.EditorFor(model => model.CARTILLA.observaciones)</td>
+            <td>@Html.HiddenFor(model => model.CARTILLA.OBRA_obra_id)</td>
+            <td>@Html.HiddenFor(model => model.CARTILLA.ACTIVIDAD_actividad_id)</td>
+            <td>@Html.HiddenFor(model => model.CARTILLA.ESTADO_FINAL_estado_final_id)</td>
+        </tr>
+    }
+
+</table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

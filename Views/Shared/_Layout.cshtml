@@ -37,6 +37,7 @@
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/Obra/Index">Gestionar Obras</a></li>
                                 <li><a class="dropdown-item" href="/Responsable/Index">Responsables de Obra</a></li>
+                                <li><a class="dropdown-item" href="/Inmueble/Index">Gestión de Inmuebles</a></li>
                             </ul>
                         </li>
 
@@ -44,9 +45,9 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cartillas</a>
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/Cartilla/Index">Cartillas de Autocontrol</a></li>
                                 <li><a class="dropdown-item" href="/Cartilla/Index">Gestión de Cartillas </a></li>
-                                <li><a class="dropdown-item" href="/DetalleCartilla/Index">Detalle Cartillas</a></li>
+                                <li><a class="dropdown-item" href="/DetalleCartilla/Index">Gestión Detalle Cartillas</a></li>
+                                <li><a class="dropdown-item" href="/CartillasAutocontrol/ListaCartillasPorActividad">Cartillas de Autocontrol</a></li>
                             </ul>
                         </li>
 
@@ -55,10 +56,11 @@
                             <a class="nav-link dropdown-toggle" id="navbarDropdown3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuario</a>
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="/Persona/Index">Gestión de Personas</a></li>
                                 <li><a class="dropdown-item" href="/Usuario/Index">Administración Usuarios</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li> @Html.ActionLink("Cerrar sesión", "Logout", "Account", null, new { @class = "dropdown-item", style = "color: black;" })</li>
-                               
+
                             </ul>
                         </li>
 

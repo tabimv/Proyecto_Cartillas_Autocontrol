@@ -4,81 +4,113 @@
     ViewBag.Title = "Edit";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
-{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-else
-{
-    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
-}
+<h2>Edit</h2>
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+@using (Html.BeginForm())
 {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit.css">
+    @Html.AntiForgeryToken()
 
-    using (Html.BeginForm())
-    {
+<div class="form-horizontal">
+    <h4>DETALLE_CARTILLA</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.detalle_cartilla_id)
 
-        @Html.AntiForgeryToken()
-        <div class="container-formularios">
-            <div class="form-container">
-                <h2>Editar Detalle Cartilla</h2>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.detalle_cartilla_id)
-                <div class="form-group">
-                    @Html.LabelFor(model => model.estado_otec, "Estado OTEC: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.estado_otec)
-                    @Html.ValidationMessageFor(model => model.estado_otec, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.estado_ito, "Estado ITO: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.estado_ito)
-                    @Html.ValidationMessageFor(model => model.estado_ito, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ITEM_VERIF_item_verif_id, "Item Verificación: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("ITEM_VERIF_item_verif_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ACTIVIDAD_actividad_id, "Actividad: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("ACTIVIDAD_actividad_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CARTILLA_cartilla_id, "Cartilla: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("CARTILLA_cartilla_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CARTILLA_cartilla_id, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.INMUEBLE_inmueble_id, "Tipo de Inmueble: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("INMUEBLE_inmueble_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.INMUEBLE_inmueble_id, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
-                </div>
-                <div>
-                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
-                </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.estado_otec, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.estado_otec)
+                @Html.ValidationMessageFor(model => model.estado_otec, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-}
-
-else
-{
-    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
-    <div id="header">
-        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
-        <br />
-        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.estado_ito, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.estado_ito)
+                @Html.ValidationMessageFor(model => model.estado_ito, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ITEM_VERIF_item_verif_id, "ITEM_VERIF_item_verif_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ITEM_VERIF_item_verif_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ACTIVIDAD_actividad_id, "ACTIVIDAD_actividad_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ACTIVIDAD_actividad_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA_cartilla_id, "CARTILLA_cartilla_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CARTILLA_cartilla_id)
+            @Html.ValidationMessageFor(model => model.CARTILLA_cartilla_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA.cartilla_id, "CARTILLA_cartilla_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CARTILLA.cartilla_id)
+            @Html.ValidationMessageFor(model => model.CARTILLA.cartilla_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.INMUEBLE_inmueble_id, "INMUEBLE_inmueble_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("INMUEBLE_inmueble_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.INMUEBLE_inmueble_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA.fecha, "Fecha: ", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.EditorFor(model => model.CARTILLA.fecha, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+        @Html.ValidationMessageFor(model => model.CARTILLA.fecha, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA.observaciones, "Observaciones", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.EditorFor(model => model.CARTILLA.observaciones, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.CARTILLA.observaciones, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA.OBRA_obra_id, "Obra", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.HiddenFor(model => model.CARTILLA.OBRA_obra_id)
+        @Html.ValidationMessageFor(model => model.CARTILLA.OBRA_obra_id, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA.ACTIVIDAD_actividad_id, "Actividad", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.HiddenFor(model => model.CARTILLA.ACTIVIDAD_actividad_id)
+        @Html.ValidationMessageFor(model => model.CARTILLA.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CARTILLA.ESTADO_FINAL_estado_final_id, "Estado Final", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.HiddenFor(model => model.CARTILLA.ESTADO_FINAL_estado_final_id)
+        @Html.ValidationMessageFor(model => model.CARTILLA.ESTADO_FINAL_estado_final_id, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

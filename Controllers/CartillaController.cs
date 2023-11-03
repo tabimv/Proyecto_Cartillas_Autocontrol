@@ -51,7 +51,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "cartilla_id,fecha,ruta_documento_pdf,observaciones,OBRA_obra_id,ACTIVIDAD_actividad_id,ESTADO_FINAL_estado_final_id")] CARTILLA cARTILLA)
+        public async Task<ActionResult> Create([Bind(Include = "cartilla_id,fecha,observaciones,OBRA_obra_id,ACTIVIDAD_actividad_id,ESTADO_FINAL_estado_final_id")] CARTILLA cARTILLA)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "cartilla_id,fecha,ruta_documento_pdf,observaciones,OBRA_obra_id,ACTIVIDAD_actividad_id,ESTADO_FINAL_estado_final_id")] CARTILLA cARTILLA)
+        public async Task<ActionResult> Edit([Bind(Include = "cartilla_id,fecha,observaciones,OBRA_obra_id,ACTIVIDAD_actividad_id,ESTADO_FINAL_estado_final_id")] CARTILLA cARTILLA)
         {
             if (ModelState.IsValid)
             {

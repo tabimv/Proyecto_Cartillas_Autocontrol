@@ -39,12 +39,13 @@ else
                     <thead>
                         <tr>
                             <th></th>
+                            <th> Cartilla ID</th>
+                            <th> Código Actividad </th>
                             <th> Estado OTEC </th>
                             <th> Estado ITO </th>
-                            <th> Código Actividad </th>
-                            <th> URL documento </th>
-                            <th> Tipo Inmueble </th>
-                            <th> Elemento Verificación </th>
+                            <th> Item Verificación</th>
+                            <th> Inmueble</th>
+
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -53,12 +54,24 @@ else
                         {
                             <tr>
                                 <td></td>
-                                <td>  @Html.DisplayFor(modelItem => item.estado_otec) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.estado_ito) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad) </td>
-                                <td>  @Html.DisplayFor(modelItem => item.CARTILLA.ruta_documento_pdf)</td>
-                                <td>  @Html.DisplayFor(modelItem => item.INMUEBLE.tipo_inmueble)</td>
-                                <td>  @Html.DisplayFor(modelItem => item.ITEM_VERIF.elemento_verificacion)</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CARTILLA.cartilla_id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)
+                                </td>
+                                <td> 
+                                    @Html.DisplayFor(modelItem => item.estado_otec)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.estado_ito)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ITEM_VERIF.elemento_verificacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.INMUEBLE.tipo_inmueble)
+                                </td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 

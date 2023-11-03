@@ -11,18 +11,18 @@ using Proyecto_Cartilla_Autocontrol.Models;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
-    public class DetalleCartillaController : Controller
+    public class AgrupadoDetalleCartillaController : Controller
     {
         private ObraManzanoConexion db = new ObraManzanoConexion();
 
-        // GET: DetalleCartilla
+        // GET: AgrupadoDetalleCartilla
         public async Task<ActionResult> Index()
         {
-            var dETALLE_CARTILLA = db.DETALLE_CARTILLA.Include(d => d.ACTIVIDAD).Where(d => d.ACTIVIDAD.actividad_id == d.ACTIVIDAD_actividad_id).Include(d => d.CARTILLA).Include(d => d.INMUEBLE).Include(d => d.ITEM_VERIF);
+            var dETALLE_CARTILLA = db.DETALLE_CARTILLA.Include(d => d.ACTIVIDAD).Include(d => d.CARTILLA).Include(d => d.INMUEBLE).Include(d => d.ITEM_VERIF).Where(d => d.CARTILLA_cartilla_id == d.CARTILLA.cartilla_id);
             return View(await dETALLE_CARTILLA.ToListAsync());
         }
 
-        // GET: DetalleCartilla/Details/5
+        // GET: AgrupadoDetalleCartilla/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,7 +37,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(dETALLE_CARTILLA);
         }
 
-        // GET: DetalleCartilla/Create
+        // GET: AgrupadoDetalleCartilla/Create
         public ActionResult Create()
         {
             ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad");
@@ -47,7 +47,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View();
         }
 
-        // POST: DetalleCartilla/Create
+        // POST: AgrupadoDetalleCartilla/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -68,75 +68,54 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(dETALLE_CARTILLA);
         }
 
-        // GET: DetalleCartilla/Edit/5
-        public async Task<ActionResult> Edit(int? id, string entityType)
+        // GET: AgrupadoDetalleCartilla/Edit/5
+        public async Task<ActionResult> Edit(int? cartilla_id)
         {
-            if (id == null || string.IsNullOrEmpty(entityType))
+            if (cartilla_id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if (entityType.Equals("CARTILLA", StringComparison.OrdinalIgnoreCase))
+            // Busca los detalles de DETALLE_CARTILLA relacionados con el cartilla_id
+            var detalles = await db.DETALLE_CARTILLA.Where(dc => dc.CARTILLA_cartilla_id == cartilla_id).ToListAsync();
+
+            if (detalles == null)
             {
-                CARTILLA cartilla = await db.CARTILLA.FindAsync(id);
-
-                if (cartilla == null)
-                {
-                    return HttpNotFound();
-                }
-
-                ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", cartilla.ACTIVIDAD_actividad_id);
-                ViewBag.ESTADO_FINAL_estado_final_id = new SelectList(db.ESTADO_FINAL, "estado_final_id", "estado", cartilla.ESTADO_FINAL_estado_final_id);
-                ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", cartilla.OBRA_obra_id);
-
-                return View("Edit", cartilla);
-            }
-            else if (entityType.Equals("DETALLE_CARTILLA", StringComparison.OrdinalIgnoreCase))
-            {
-                DETALLE_CARTILLA detalleCartilla = await db.DETALLE_CARTILLA.FindAsync(id);
-
-                if (detalleCartilla == null)
-                {
-                    return HttpNotFound();
-                }
-
-                ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", detalleCartilla.ACTIVIDAD_actividad_id);
-                ViewBag.INMUEBLE_inmueble_id = new SelectList(db.INMUEBLE, "inmueble_id", "tipo_inmueble", detalleCartilla.INMUEBLE_inmueble_id);
-                ViewBag.ITEM_VERIF_item_verif_id = new SelectList(db.ITEM_VERIF, "item_verif_id", "elemento_verificacion", detalleCartilla.ITEM_VERIF_item_verif_id);
-
-                return View("Edit", detalleCartilla);
+                return HttpNotFound();
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            ViewBag.CARTILLA_cartilla_id = cartilla_id; // Pasa el cartilla_id a la vista
+            return View(detalles);
         }
 
-        // POST: DetalleCartilla/Edit/5
+        // POST: AgrupadoDetalleCartilla/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "detalle_cartilla_id,estado_otec,estado_ito,ITEM_VERIF_item_verif_id,ACTIVIDAD_actividad_id,CARTILLA_cartilla_id,INMUEBLE_inmueble_id, CARTILLA")] DETALLE_CARTILLA detalleCartilla)
+     
+        public async Task<ActionResult> Edit(List<DETALLE_CARTILLA> detalles)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(detalleCartilla).State = EntityState.Modified;
-                db.Entry(detalleCartilla.CARTILLA).State = EntityState.Modified;
+                foreach (var detalle in detalles)
+                {
+                    // Actualiza cada detalle de DETALLE_CARTILLA
+                    db.Entry(detalle).State = EntityState.Modified;
+                }
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", detalleCartilla.ACTIVIDAD_actividad_id);
-            ViewBag.INMUEBLE_inmueble_id = new SelectList(db.INMUEBLE, "inmueble_id", "tipo_inmueble", detalleCartilla.INMUEBLE_inmueble_id);
-            ViewBag.ITEM_VERIF_item_verif_id = new SelectList(db.ITEM_VERIF, "item_verif_id", "elemento_verificacion", detalleCartilla.ITEM_VERIF_item_verif_id);
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", detalleCartilla.CARTILLA.ACTIVIDAD_actividad_id);
-            ViewBag.ESTADO_FINAL_estado_final_id = new SelectList(db.ESTADO_FINAL, "estado_final_id", "estado", detalleCartilla.CARTILLA.ESTADO_FINAL_estado_final_id);
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", detalleCartilla.CARTILLA.OBRA_obra_id);
+            // Resto del código
 
-            
-            return View("Edit", detalleCartilla);
+
+            return View(detalles);
         }
 
-        // GET: DetalleCartilla/Delete/5
+
+        // GET: AgrupadoDetalleCartilla/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,7 +130,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(dETALLE_CARTILLA);
         }
 
-        // POST: DetalleCartilla/Delete/5
+        // POST: AgrupadoDetalleCartilla/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
