@@ -52,23 +52,23 @@ else
 
                             foreach (var item in Model)
                             {
-                                if (item.ACTIVIDAD.actividad_id != currentActivityId)
+                                if (item.CARTILLA.ACTIVIDAD.actividad_id != currentActivityId)
                                 {
                                     // Iniciar una nueva fila para la actividad
                                     <tr>
                                         <td>@item.CARTILLA.cartilla_id</td>
                                         <td>@item.CARTILLA.fecha.ToString("dd-MM-yyyy")</td>
-                                        <td>@item.ACTIVIDAD.codigo_actividad</td>
+                                        <td>@item.CARTILLA.ACTIVIDAD.codigo_actividad</td>
                                         <td>@item.CARTILLA.OBRA.nombre_obra</td>
-                                        <td>@item.ACTIVIDAD.estado</td>
+                                        <td>@item.CARTILLA.ACTIVIDAD.estado</td>
                                         <td>
                                             <!-- Opciones de edición/ver para la actividad -->
-                                            <a href="#" class="VerCartilla" data-url="@Url.Action("VerCartilla", new { id = item.ACTIVIDAD_actividad_id })">
+                                            <a href="#" class="VerCartilla" data-url="@Url.Action("VerCartilla", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
                                                 <i class="material-icons" data-toggle="tooltip" title="Ver Cartilla">&#xE417;</i>
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
 
-                                            <a href="#" class="VerCartilla" data-url="@Url.Action("GeneratePDF", new { id = item.ACTIVIDAD_actividad_id })">
+                                            <a href="#" class="VerCartilla" data-url="@Url.Action("GeneratePDF", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
                                                 <i class="material-icons" data-toggle="tooltip" title="Descargar Cartilla">&#xE2C4;</i>
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
@@ -78,7 +78,7 @@ else
 
                                         </td>
                                     </tr>
-                                    currentActivityId = item.ACTIVIDAD.actividad_id; // Actualizar la actividad actual
+                                    currentActivityId = item.CARTILLA.ACTIVIDAD.actividad_id; // Actualizar la actividad actual
                                 }
 
                             }

@@ -13,12 +13,12 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class DetalleCartillaController : Controller
     {
-        private ObraManzanoConexion db = new ObraManzanoConexion();
+        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
 
         // GET: DetalleCartilla
         public async Task<ActionResult> Index()
         {
-            var dETALLE_CARTILLA = db.DETALLE_CARTILLA.Include(d => d.ACTIVIDAD).Where(d => d.ACTIVIDAD.actividad_id == d.ACTIVIDAD_actividad_id).Include(d => d.CARTILLA).Include(d => d.INMUEBLE).Include(d => d.ITEM_VERIF);
+            var dETALLE_CARTILLA = db.DETALLE_CARTILLA.Where(d => d.CARTILLA.ACTIVIDAD_actividad_id == d.CARTILLA.ACTIVIDAD.actividad_id).Include(d => d.CARTILLA).Include(d => d.INMUEBLE).Include(d => d.ITEM_VERIF);
             return View(await dETALLE_CARTILLA.ToListAsync());
         }
 
@@ -52,7 +52,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "detalle_cartilla_id,estado_otec,estado_ito,ITEM_VERIF_item_verif_id,ACTIVIDAD_actividad_id,CARTILLA_cartilla_id,INMUEBLE_inmueble_id")] DETALLE_CARTILLA dETALLE_CARTILLA)
+        public async Task<ActionResult> Create([Bind(Include = "detalle_cartilla_id,estado_otec,estado_ito,ITEM_VERIF_item_verif_id,CARTILLA_cartilla_id,INMUEBLE_inmueble_id")] DETALLE_CARTILLA dETALLE_CARTILLA)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", dETALLE_CARTILLA.ACTIVIDAD_actividad_id);
             ViewBag.CARTILLA_cartilla_id = new SelectList(db.CARTILLA, "cartilla_id", "observaciones", dETALLE_CARTILLA.CARTILLA_cartilla_id);
             ViewBag.INMUEBLE_inmueble_id = new SelectList(db.INMUEBLE, "inmueble_id", "tipo_inmueble", dETALLE_CARTILLA.INMUEBLE_inmueble_id);
             ViewBag.ITEM_VERIF_item_verif_id = new SelectList(db.ITEM_VERIF, "item_verif_id", "elemento_verificacion", dETALLE_CARTILLA.ITEM_VERIF_item_verif_id);
@@ -100,7 +99,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     return HttpNotFound();
                 }
 
-                ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", detalleCartilla.ACTIVIDAD_actividad_id);
                 ViewBag.INMUEBLE_inmueble_id = new SelectList(db.INMUEBLE, "inmueble_id", "tipo_inmueble", detalleCartilla.INMUEBLE_inmueble_id);
                 ViewBag.ITEM_VERIF_item_verif_id = new SelectList(db.ITEM_VERIF, "item_verif_id", "elemento_verificacion", detalleCartilla.ITEM_VERIF_item_verif_id);
 
@@ -115,7 +113,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "detalle_cartilla_id,estado_otec,estado_ito,ITEM_VERIF_item_verif_id,ACTIVIDAD_actividad_id,CARTILLA_cartilla_id,INMUEBLE_inmueble_id, CARTILLA")] DETALLE_CARTILLA detalleCartilla)
+        public async Task<ActionResult> Edit([Bind(Include = "detalle_cartilla_id,estado_otec,estado_ito,ITEM_VERIF_item_verif_id,CARTILLA_cartilla_id,INMUEBLE_inmueble_id, CARTILLA")] DETALLE_CARTILLA detalleCartilla)
         {
             if (ModelState.IsValid)
             {
@@ -125,7 +123,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", detalleCartilla.ACTIVIDAD_actividad_id);
             ViewBag.INMUEBLE_inmueble_id = new SelectList(db.INMUEBLE, "inmueble_id", "tipo_inmueble", detalleCartilla.INMUEBLE_inmueble_id);
             ViewBag.ITEM_VERIF_item_verif_id = new SelectList(db.ITEM_VERIF, "item_verif_id", "elemento_verificacion", detalleCartilla.ITEM_VERIF_item_verif_id);
             ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", detalleCartilla.CARTILLA.ACTIVIDAD_actividad_id);

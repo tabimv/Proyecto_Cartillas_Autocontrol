@@ -45,14 +45,6 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ACTIVIDAD_actividad_id, "ACTIVIDAD_actividad_id", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("ACTIVIDAD_actividad_id", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(model => model.CARTILLA_cartilla_id, "CARTILLA_cartilla_id", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.CARTILLA_cartilla_id)

@@ -143,6 +143,7 @@
     <Content Include="Content\js\admin.js" />
     <Content Include="Content\js\alert.js" />
     <Content Include="Content\js\CRUD.js" />
+    <Content Include="Content\js\rut.js" />
     <Content Include="Content\js\menu.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
@@ -167,7 +168,6 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActividadController.cs" />
-    <Compile Include="Controllers\AgrupadoDetalleCartillaController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CartillaController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolController.cs" />
@@ -187,6 +187,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CARTILLA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CARTILLA_DETALLE_VIEW.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\COMUNA.cs">
@@ -302,14 +305,9 @@
     <Content Include="Views\Inmueble\Delete.cshtml" />
     <Content Include="Views\Inmueble\Edit.cshtml" />
     <Content Include="Views\Inmueble\Index.cshtml" />
-    <Content Include="Views\Test\CrearEditarCartilla.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\CartillasAutocontrol\Edit.cshtml" />
-    <Content Include="Views\AgrupadoDetalleCartilla\Create.cshtml" />
-    <Content Include="Views\AgrupadoDetalleCartilla\Delete.cshtml" />
-    <Content Include="Views\AgrupadoDetalleCartilla\Details.cshtml" />
-    <Content Include="Views\AgrupadoDetalleCartilla\Edit.cshtml" />
-    <Content Include="Views\AgrupadoDetalleCartilla\Index.cshtml" />
+    <Content Include="Views\Test\Create.cshtml" />
+    <Content Include="Views\Test\CrearCartilla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ObraManzanoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ObraManzanoNovModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACTIVIDAD">
           <Key>
             <PropertyRef Name="actividad_id" />
@@ -42,23 +42,22 @@
           <Property Name="estado_otec" Type="bit" Nullable="false" />
           <Property Name="estado_ito" Type="bit" Nullable="false" />
           <Property Name="ITEM_VERIF_item_verif_id" Type="int" Nullable="false" />
-          <Property Name="ACTIVIDAD_actividad_id" Type="int" Nullable="false" />
           <Property Name="CARTILLA_cartilla_id" Type="int" Nullable="false" />
-          <Property Name="INMUEBLE_inmueble_id" Type="int" Nullable="false" />
+          <Property Name="INMUEBLE_inmueble_id" Type="char" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="ESTADO_FINAL">
           <Key>
             <PropertyRef Name="estado_final_id" />
           </Key>
           <Property Name="estado_final_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="estado" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="4" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="INMUEBLE">
           <Key>
             <PropertyRef Name="inmueble_id" />
           </Key>
-          <Property Name="inmueble_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="inmueble_id" Type="char" MaxLength="5" Nullable="false" />
           <Property Name="tipo_inmueble" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
         </EntityType>
@@ -123,6 +122,29 @@
           <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
           <Property Name="PERSONA_rut" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ObraManzanoNov.dbo.CARTILLA_DETALLE_VIEW' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="CARTILLA_DETALLE_VIEW">
+          <Key>
+            <PropertyRef Name="cartilla_id" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="OBRA_obra_id" />
+            <PropertyRef Name="ACTIVIDAD_actividad_id" />
+            <PropertyRef Name="ESTADO_FINAL_estado_final_id" />
+          </Key>
+          <Property Name="cartilla_id" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="observaciones" Type="varchar" MaxLength="200" />
+          <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
+          <Property Name="ACTIVIDAD_actividad_id" Type="int" Nullable="false" />
+          <Property Name="ESTADO_FINAL_estado_final_id" Type="int" Nullable="false" />
+          <Property Name="CARTILLA_cartilla_id" Type="int" />
+          <Property Name="detalle_cartilla_id" Type="int" />
+          <Property Name="estado_otec" Type="bit" />
+          <Property Name="estado_ito" Type="bit" />
+          <Property Name="ITEM_VERIF_item_verif_id" Type="int" />
+          <Property Name="INMUEBLE_inmueble_id" Type="char" MaxLength="5" />
+        </EntityType>
         <Association Name="ACTIVIDAD_OBRA_FK">
           <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
           <End Role="ACTIVIDAD" Type="Self.ACTIVIDAD" Multiplicity="*" />
@@ -180,18 +202,6 @@
             </Principal>
             <Dependent Role="COMUNA">
               <PropertyRef Name="REGION_region_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="DETALLE_CARTILLA_ACTIVIDAD_FK">
-          <End Role="ACTIVIDAD" Type="Self.ACTIVIDAD" Multiplicity="1" />
-          <End Role="DETALLE_CARTILLA" Type="Self.DETALLE_CARTILLA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACTIVIDAD">
-              <PropertyRef Name="actividad_id" />
-            </Principal>
-            <Dependent Role="DETALLE_CARTILLA">
-              <PropertyRef Name="ACTIVIDAD_actividad_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -327,7 +337,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ObraManzanoModelStoreContainer">
+        <Function Name="CrearNuevaCartilla" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="observaciones" Type="varchar(max)" Mode="In" />
+          <Parameter Name="OBRA_obra_id" Type="int" Mode="In" />
+          <Parameter Name="ACTIVIDAD_actividad_id" Type="int" Mode="In" />
+          <Parameter Name="ESTADO_FINAL_estado_final_id" Type="int" Mode="In" />
+          <Parameter Name="estado_otec" Type="bit" Mode="In" />
+          <Parameter Name="estado_ito" Type="bit" Mode="In" />
+          <Parameter Name="ITEM_VERIF_item_verif_id" Type="int" Mode="In" />
+          <Parameter Name="INMUEBLE_inmueble_id" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="ObraManzanoNovModelStoreContainer">
           <EntitySet Name="ACTIVIDAD" EntityType="Self.ACTIVIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CARTILLA" EntityType="Self.CARTILLA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="dbo" store:Type="Tables" />
@@ -341,6 +362,22 @@
           <EntitySet Name="REGION" EntityType="Self.REGION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RESPONSABLE" EntityType="Self.RESPONSABLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARTILLA_DETALLE_VIEW" EntityType="Self.CARTILLA_DETALLE_VIEW" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CARTILLA_DETALLE_VIEW].[cartilla_id] AS [cartilla_id], 
+    [CARTILLA_DETALLE_VIEW].[fecha] AS [fecha], 
+    [CARTILLA_DETALLE_VIEW].[observaciones] AS [observaciones], 
+    [CARTILLA_DETALLE_VIEW].[OBRA_obra_id] AS [OBRA_obra_id], 
+    [CARTILLA_DETALLE_VIEW].[ACTIVIDAD_actividad_id] AS [ACTIVIDAD_actividad_id], 
+    [CARTILLA_DETALLE_VIEW].[ESTADO_FINAL_estado_final_id] AS [ESTADO_FINAL_estado_final_id], 
+    [CARTILLA_DETALLE_VIEW].[CARTILLA_cartilla_id] AS [CARTILLA_cartilla_id], 
+    [CARTILLA_DETALLE_VIEW].[detalle_cartilla_id] AS [detalle_cartilla_id], 
+    [CARTILLA_DETALLE_VIEW].[estado_otec] AS [estado_otec], 
+    [CARTILLA_DETALLE_VIEW].[estado_ito] AS [estado_ito], 
+    [CARTILLA_DETALLE_VIEW].[ITEM_VERIF_item_verif_id] AS [ITEM_VERIF_item_verif_id], 
+    [CARTILLA_DETALLE_VIEW].[INMUEBLE_inmueble_id] AS [INMUEBLE_inmueble_id]
+    FROM [dbo].[CARTILLA_DETALLE_VIEW] AS [CARTILLA_DETALLE_VIEW]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="ACTIVIDAD_OBRA_FK" Association="Self.ACTIVIDAD_OBRA_FK">
             <End Role="OBRA" EntitySet="OBRA" />
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
@@ -360,10 +397,6 @@
           <AssociationSet Name="COMUNA_REGION_FK" Association="Self.COMUNA_REGION_FK">
             <End Role="REGION" EntitySet="REGION" />
             <End Role="COMUNA" EntitySet="COMUNA" />
-          </AssociationSet>
-          <AssociationSet Name="DETALLE_CARTILLA_ACTIVIDAD_FK" Association="Self.DETALLE_CARTILLA_ACTIVIDAD_FK">
-            <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
-            <End Role="DETALLE_CARTILLA" EntitySet="DETALLE_CARTILLA" />
           </AssociationSet>
           <AssociationSet Name="DETALLE_CARTILLA_CARTILLA_FK" Association="Self.DETALLE_CARTILLA_CARTILLA_FK">
             <End Role="CARTILLA" EntitySet="CARTILLA" />
@@ -414,7 +447,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ObraManzanoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ObraManzanoNovModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ACTIVIDAD">
           <Key>
             <PropertyRef Name="actividad_id" />
@@ -426,7 +459,6 @@
           <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OBRA" Relationship="Self.ACTIVIDAD_OBRA_FK" FromRole="ACTIVIDAD" ToRole="OBRA" />
           <NavigationProperty Name="CARTILLA" Relationship="Self.CARTILLA_ACTIVIDAD_FK" FromRole="ACTIVIDAD" ToRole="CARTILLA" />
-          <NavigationProperty Name="DETALLE_CARTILLA" Relationship="Self.DETALLE_CARTILLA_ACTIVIDAD_FK" FromRole="ACTIVIDAD" ToRole="DETALLE_CARTILLA" />
           <NavigationProperty Name="ITEM_VERIF" Relationship="Self.ITEM_VERIF_ACTIVIDAD_FK" FromRole="ACTIVIDAD" ToRole="ITEM_VERIF" />
         </EntityType>
         <EntityType Name="CARTILLA">
@@ -462,10 +494,8 @@
           <Property Name="estado_otec" Type="Boolean" Nullable="false" />
           <Property Name="estado_ito" Type="Boolean" Nullable="false" />
           <Property Name="ITEM_VERIF_item_verif_id" Type="Int32" Nullable="false" />
-          <Property Name="ACTIVIDAD_actividad_id" Type="Int32" Nullable="false" />
           <Property Name="CARTILLA_cartilla_id" Type="Int32" Nullable="false" />
-          <Property Name="INMUEBLE_inmueble_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACTIVIDAD" Relationship="Self.DETALLE_CARTILLA_ACTIVIDAD_FK" FromRole="DETALLE_CARTILLA" ToRole="ACTIVIDAD" />
+          <Property Name="INMUEBLE_inmueble_id" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CARTILLA" Relationship="Self.DETALLE_CARTILLA_CARTILLA_FK" FromRole="DETALLE_CARTILLA" ToRole="CARTILLA" />
           <NavigationProperty Name="INMUEBLE" Relationship="Self.DETALLE_CARTILLA_INMUEBLE_FK" FromRole="DETALLE_CARTILLA" ToRole="INMUEBLE" />
           <NavigationProperty Name="ITEM_VERIF" Relationship="Self.DETALLE_CARTILLA_ITEM_VERIF_FK" FromRole="DETALLE_CARTILLA" ToRole="ITEM_VERIF" />
@@ -475,7 +505,7 @@
             <PropertyRef Name="estado_final_id" />
           </Key>
           <Property Name="estado_final_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CARTILLA" Relationship="Self.CARTILLA_ESTADO_FINAL_FK" FromRole="ESTADO_FINAL" ToRole="CARTILLA" />
         </EntityType>
@@ -483,7 +513,7 @@
           <Key>
             <PropertyRef Name="inmueble_id" />
           </Key>
-          <Property Name="inmueble_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="inmueble_id" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="tipo_inmueble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DETALLE_CARTILLA" Relationship="Self.DETALLE_CARTILLA_INMUEBLE_FK" FromRole="INMUEBLE" ToRole="DETALLE_CARTILLA" />
@@ -567,6 +597,27 @@
           <NavigationProperty Name="PERFIL" Relationship="Self.USUARIO_PERFIL_FK" FromRole="USUARIO" ToRole="PERFIL" />
           <NavigationProperty Name="PERSONA" Relationship="Self.USUARIO_PERSONA_FK" FromRole="USUARIO" ToRole="PERSONA" />
         </EntityType>
+        <EntityType Name="CARTILLA_DETALLE_VIEW">
+          <Key>
+            <PropertyRef Name="cartilla_id" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="OBRA_obra_id" />
+            <PropertyRef Name="ACTIVIDAD_actividad_id" />
+            <PropertyRef Name="ESTADO_FINAL_estado_final_id" />
+          </Key>
+          <Property Name="cartilla_id" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
+          <Property Name="ACTIVIDAD_actividad_id" Type="Int32" Nullable="false" />
+          <Property Name="ESTADO_FINAL_estado_final_id" Type="Int32" Nullable="false" />
+          <Property Name="CARTILLA_cartilla_id" Type="Int32" />
+          <Property Name="detalle_cartilla_id" Type="Int32" />
+          <Property Name="estado_otec" Type="Boolean" />
+          <Property Name="estado_ito" Type="Boolean" />
+          <Property Name="ITEM_VERIF_item_verif_id" Type="Int32" />
+          <Property Name="INMUEBLE_inmueble_id" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+        </EntityType>
         <Association Name="ACTIVIDAD_OBRA_FK">
           <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
           <End Role="ACTIVIDAD" Type="Self.ACTIVIDAD" Multiplicity="*" />
@@ -587,18 +638,6 @@
               <PropertyRef Name="actividad_id" />
             </Principal>
             <Dependent Role="CARTILLA">
-              <PropertyRef Name="ACTIVIDAD_actividad_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="DETALLE_CARTILLA_ACTIVIDAD_FK">
-          <End Role="ACTIVIDAD" Type="Self.ACTIVIDAD" Multiplicity="1" />
-          <End Role="DETALLE_CARTILLA" Type="Self.DETALLE_CARTILLA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACTIVIDAD">
-              <PropertyRef Name="actividad_id" />
-            </Principal>
-            <Dependent Role="DETALLE_CARTILLA">
               <PropertyRef Name="ACTIVIDAD_actividad_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -771,7 +810,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ObraManzanoConexion" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ObraManzanoNoviembre" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ACTIVIDAD" EntityType="Self.ACTIVIDAD" />
           <EntitySet Name="CARTILLA" EntityType="Self.CARTILLA" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" />
@@ -785,6 +824,7 @@
           <EntitySet Name="REGION" EntityType="Self.REGION" />
           <EntitySet Name="RESPONSABLE" EntityType="Self.RESPONSABLE" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <EntitySet Name="CARTILLA_DETALLE_VIEW" EntityType="Self.CARTILLA_DETALLE_VIEW" />
           <AssociationSet Name="ACTIVIDAD_OBRA_FK" Association="Self.ACTIVIDAD_OBRA_FK">
             <End Role="OBRA" EntitySet="OBRA" />
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
@@ -792,10 +832,6 @@
           <AssociationSet Name="CARTILLA_ACTIVIDAD_FK" Association="Self.CARTILLA_ACTIVIDAD_FK">
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
             <End Role="CARTILLA" EntitySet="CARTILLA" />
-          </AssociationSet>
-          <AssociationSet Name="DETALLE_CARTILLA_ACTIVIDAD_FK" Association="Self.DETALLE_CARTILLA_ACTIVIDAD_FK">
-            <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
-            <End Role="DETALLE_CARTILLA" EntitySet="DETALLE_CARTILLA" />
           </AssociationSet>
           <AssociationSet Name="ITEM_VERIF_ACTIVIDAD_FK" Association="Self.ITEM_VERIF_ACTIVIDAD_FK">
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
@@ -853,15 +889,26 @@
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <FunctionImport Name="CrearNuevaCartilla">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="observaciones" Mode="In" Type="String" />
+            <Parameter Name="OBRA_obra_id" Mode="In" Type="Int32" />
+            <Parameter Name="ACTIVIDAD_actividad_id" Mode="In" Type="Int32" />
+            <Parameter Name="ESTADO_FINAL_estado_final_id" Mode="In" Type="Int32" />
+            <Parameter Name="estado_otec" Mode="In" Type="Boolean" />
+            <Parameter Name="estado_ito" Mode="In" Type="Boolean" />
+            <Parameter Name="ITEM_VERIF_item_verif_id" Mode="In" Type="Int32" />
+            <Parameter Name="INMUEBLE_inmueble_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ObraManzanoModelStoreContainer" CdmEntityContainer="ObraManzanoConexion">
+        <EntityContainerMapping StorageEntityContainer="ObraManzanoNovModelStoreContainer" CdmEntityContainer="ObraManzanoNoviembre">
           <EntitySetMapping Name="ACTIVIDAD">
-            <EntityTypeMapping TypeName="ObraManzanoModel.ACTIVIDAD">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.ACTIVIDAD">
               <MappingFragment StoreEntitySet="ACTIVIDAD">
                 <ScalarProperty Name="actividad_id" ColumnName="actividad_id" />
                 <ScalarProperty Name="codigo_actividad" ColumnName="codigo_actividad" />
@@ -872,7 +919,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CARTILLA">
-            <EntityTypeMapping TypeName="ObraManzanoModel.CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.CARTILLA">
               <MappingFragment StoreEntitySet="CARTILLA">
                 <ScalarProperty Name="cartilla_id" ColumnName="cartilla_id" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -884,7 +931,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="COMUNA">
-            <EntityTypeMapping TypeName="ObraManzanoModel.COMUNA">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.COMUNA">
               <MappingFragment StoreEntitySet="COMUNA">
                 <ScalarProperty Name="comuna_id" ColumnName="comuna_id" />
                 <ScalarProperty Name="nombre_comuna" ColumnName="nombre_comuna" />
@@ -893,20 +940,19 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLE_CARTILLA">
-            <EntityTypeMapping TypeName="ObraManzanoModel.DETALLE_CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.DETALLE_CARTILLA">
               <MappingFragment StoreEntitySet="DETALLE_CARTILLA">
                 <ScalarProperty Name="detalle_cartilla_id" ColumnName="detalle_cartilla_id" />
                 <ScalarProperty Name="estado_otec" ColumnName="estado_otec" />
                 <ScalarProperty Name="estado_ito" ColumnName="estado_ito" />
                 <ScalarProperty Name="ITEM_VERIF_item_verif_id" ColumnName="ITEM_VERIF_item_verif_id" />
-                <ScalarProperty Name="ACTIVIDAD_actividad_id" ColumnName="ACTIVIDAD_actividad_id" />
                 <ScalarProperty Name="CARTILLA_cartilla_id" ColumnName="CARTILLA_cartilla_id" />
                 <ScalarProperty Name="INMUEBLE_inmueble_id" ColumnName="INMUEBLE_inmueble_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ESTADO_FINAL">
-            <EntityTypeMapping TypeName="ObraManzanoModel.ESTADO_FINAL">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.ESTADO_FINAL">
               <MappingFragment StoreEntitySet="ESTADO_FINAL">
                 <ScalarProperty Name="estado_final_id" ColumnName="estado_final_id" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -915,7 +961,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="INMUEBLE">
-            <EntityTypeMapping TypeName="ObraManzanoModel.INMUEBLE">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.INMUEBLE">
               <MappingFragment StoreEntitySet="INMUEBLE">
                 <ScalarProperty Name="inmueble_id" ColumnName="inmueble_id" />
                 <ScalarProperty Name="tipo_inmueble" ColumnName="tipo_inmueble" />
@@ -924,7 +970,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ITEM_VERIF">
-            <EntityTypeMapping TypeName="ObraManzanoModel.ITEM_VERIF">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.ITEM_VERIF">
               <MappingFragment StoreEntitySet="ITEM_VERIF">
                 <ScalarProperty Name="item_verif_id" ColumnName="item_verif_id" />
                 <ScalarProperty Name="elemento_verificacion" ColumnName="elemento_verificacion" />
@@ -934,7 +980,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OBRA">
-            <EntityTypeMapping TypeName="ObraManzanoModel.OBRA">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.OBRA">
               <MappingFragment StoreEntitySet="OBRA">
                 <ScalarProperty Name="obra_id" ColumnName="obra_id" />
                 <ScalarProperty Name="nombre_obra" ColumnName="nombre_obra" />
@@ -944,7 +990,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PERFIL">
-            <EntityTypeMapping TypeName="ObraManzanoModel.PERFIL">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.PERFIL">
               <MappingFragment StoreEntitySet="PERFIL">
                 <ScalarProperty Name="perfil_id" ColumnName="perfil_id" />
                 <ScalarProperty Name="rol" ColumnName="rol" />
@@ -952,7 +998,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PERSONA">
-            <EntityTypeMapping TypeName="ObraManzanoModel.PERSONA">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.PERSONA">
               <MappingFragment StoreEntitySet="PERSONA">
                 <ScalarProperty Name="rut" ColumnName="rut" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -963,7 +1009,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="REGION">
-            <EntityTypeMapping TypeName="ObraManzanoModel.REGION">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.REGION">
               <MappingFragment StoreEntitySet="REGION">
                 <ScalarProperty Name="region_id" ColumnName="region_id" />
                 <ScalarProperty Name="nombre_region" ColumnName="nombre_region" />
@@ -971,7 +1017,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RESPONSABLE">
-            <EntityTypeMapping TypeName="ObraManzanoModel.RESPONSABLE">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.RESPONSABLE">
               <MappingFragment StoreEntitySet="RESPONSABLE">
                 <ScalarProperty Name="responsable_id" ColumnName="responsable_id" />
                 <ScalarProperty Name="cargo" ColumnName="cargo" />
@@ -981,7 +1027,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="USUARIO">
-            <EntityTypeMapping TypeName="ObraManzanoModel.USUARIO">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIO">
                 <ScalarProperty Name="usuario_id" ColumnName="usuario_id" />
                 <ScalarProperty Name="contraseña" ColumnName="contraseña" />
@@ -991,6 +1037,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CARTILLA_DETALLE_VIEW">
+            <EntityTypeMapping TypeName="ObraManzanoNovModel.CARTILLA_DETALLE_VIEW">
+              <MappingFragment StoreEntitySet="CARTILLA_DETALLE_VIEW">
+                <ScalarProperty Name="cartilla_id" ColumnName="cartilla_id" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="OBRA_obra_id" ColumnName="OBRA_obra_id" />
+                <ScalarProperty Name="ACTIVIDAD_actividad_id" ColumnName="ACTIVIDAD_actividad_id" />
+                <ScalarProperty Name="ESTADO_FINAL_estado_final_id" ColumnName="ESTADO_FINAL_estado_final_id" />
+                <ScalarProperty Name="CARTILLA_cartilla_id" ColumnName="CARTILLA_cartilla_id" />
+                <ScalarProperty Name="detalle_cartilla_id" ColumnName="detalle_cartilla_id" />
+                <ScalarProperty Name="estado_otec" ColumnName="estado_otec" />
+                <ScalarProperty Name="estado_ito" ColumnName="estado_ito" />
+                <ScalarProperty Name="ITEM_VERIF_item_verif_id" ColumnName="ITEM_VERIF_item_verif_id" />
+                <ScalarProperty Name="INMUEBLE_inmueble_id" ColumnName="INMUEBLE_inmueble_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CrearNuevaCartilla" FunctionName="ObraManzanoNovModel.Store.CrearNuevaCartilla" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

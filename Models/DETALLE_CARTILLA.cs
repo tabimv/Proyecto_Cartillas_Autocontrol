@@ -18,11 +18,9 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public bool estado_otec { get; set; }
         public bool estado_ito { get; set; }
         public int ITEM_VERIF_item_verif_id { get; set; }
-        public int ACTIVIDAD_actividad_id { get; set; }
         public int CARTILLA_cartilla_id { get; set; }
-        public int INMUEBLE_inmueble_id { get; set; }
+        public string INMUEBLE_inmueble_id { get; set; }
     
-        public virtual ACTIVIDAD ACTIVIDAD { get; set; }
         public virtual CARTILLA CARTILLA { get; set; }
         public virtual INMUEBLE INMUEBLE { get; set; }
         public virtual ITEM_VERIF ITEM_VERIF { get; set; }

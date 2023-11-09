@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class CartillaController : Controller
     {
-        private ObraManzanoConexion db = new ObraManzanoConexion();
+        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
 
         // GET: Cartilla
         public async Task<ActionResult> Index()

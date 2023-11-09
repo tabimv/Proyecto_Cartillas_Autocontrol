@@ -8,12 +8,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
+using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
+using System.Data.SqlClient;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ItemVerifController : Controller
     {
-        private ObraManzanoConexion db = new ObraManzanoConexion();
+        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
 
         // GET: ItemVerif
         public async Task<ActionResult> Index()

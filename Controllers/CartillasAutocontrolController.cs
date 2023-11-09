@@ -17,11 +17,11 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     public class CartillasAutocontrolController : Controller
     {
 
-        private ObraManzanoConexion db = new ObraManzanoConexion();
+        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
 
         public async Task<ActionResult> ListaCartillasPorActividad()
         {
-            var detalleCartillas = db.DETALLE_CARTILLA.Include(d => d.ACTIVIDAD).Include(d => d.ITEM_VERIF).Include(d => d.CARTILLA).Where(d => d.ACTIVIDAD_actividad_id == d.ACTIVIDAD.actividad_id);
+            var detalleCartillas = db.DETALLE_CARTILLA.Include(d => d.ITEM_VERIF).Include(d => d.CARTILLA).Where(d => d.CARTILLA.ACTIVIDAD_actividad_id == d.CARTILLA.ACTIVIDAD.actividad_id);
             return View(await detalleCartillas.ToListAsync());
         }
         public async Task<ActionResult> VerCartilla(int id)
@@ -37,7 +37,8 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             // 2. Obtener todos los elementos de verificación relacionados con esa actividad
             var elementosVerificacion = await db.DETALLE_CARTILLA
                 .Include(dc => dc.ITEM_VERIF)
-                .Where(dc => dc.ACTIVIDAD_actividad_id == actividad.actividad_id)
+                .Include(dc => dc.CARTILLA.ACTIVIDAD)
+                .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
                 .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
 
             var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
@@ -64,7 +65,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             // 2. Obtener todos los elementos de verificación relacionados con esa actividad
             var elementosVerificacion = await db.DETALLE_CARTILLA
                 .Include(dc => dc.ITEM_VERIF)
-                .Where(dc => dc.ACTIVIDAD_actividad_id == actividad.actividad_id)
+                .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
                 .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
 
             var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
@@ -122,7 +123,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // Agrupa los detalles de la cartilla por ACTIVIDAD_actividad_id
                 var detallesAgrupados = db.DETALLE_CARTILLA
                     .Include(d => d.ITEM_VERIF)
-                    .Where(dc => dc.ACTIVIDAD_actividad_id == detalleCartilla.ACTIVIDAD_actividad_id)
+                    .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == detalleCartilla.CARTILLA.ACTIVIDAD.actividad_id)
                     .ToList();
 
                 ViewBag.DetallesAgrupados = detallesAgrupados;

@@ -15,7 +15,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     public class AccountController : Controller
     {
         // GET: Account
-        private ObraManzanoConexion db = new ObraManzanoConexion(); // Tu contexto de base de datos
+        private ObraManzanoNoviembre db = new ObraManzanoNoviembre(); // Tu contexto de base de datos
 
         [HttpGet]
         [AllowAnonymous]

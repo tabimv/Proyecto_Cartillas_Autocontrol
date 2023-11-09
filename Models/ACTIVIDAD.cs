@@ -18,7 +18,6 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public ACTIVIDAD()
         {
             this.CARTILLA = new HashSet<CARTILLA>();
-            this.DETALLE_CARTILLA = new HashSet<DETALLE_CARTILLA>();
             this.ITEM_VERIF = new HashSet<ITEM_VERIF>();
         }
     
@@ -31,8 +30,6 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public virtual OBRA OBRA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CARTILLA> CARTILLA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DETALLE_CARTILLA> DETALLE_CARTILLA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ITEM_VERIF> ITEM_VERIF { get; set; }
     }

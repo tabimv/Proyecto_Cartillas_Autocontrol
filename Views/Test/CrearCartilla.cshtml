@@ -1,0 +1,139 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ViewModels.CartillasViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Formulario para la CARTILLA -->
+@using (Html.BeginForm("CrearCartilla", "Test", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <!-- Campos para la CARTILLA -->
+    @Html.LabelFor(model => model.Cartilla.cartilla_id, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.Cartilla.cartilla_id)
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cartilla.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Cartilla.fecha, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.Cartilla.fecha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cartilla.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Cartilla.observaciones)
+                @Html.ValidationMessageFor(model => model.Cartilla.observaciones, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cartilla.OBRA_obra_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Cartilla.OBRA_obra_id)
+                @Html.ValidationMessageFor(model => model.Cartilla.OBRA_obra_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cartilla.ACTIVIDAD_actividad_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
+                @Html.ValidationMessageFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id)
+                @Html.ValidationMessageFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <table id="detalleTable">
+        <tr>
+            <th>Cartilla Relacionada</th>
+            <th>Item Verif ID</th>
+            <th>Estado OTEC</th>
+            <th>Estado ITO</th>
+            <th>Inmueble ID</th>
+            <th>Acciones</th>
+        </tr>
+        @for (int i = 0; i < Model.DetalleCartillas.Count; i++)
+        {
+            <tr class="detalle-cartilla">
+                @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
+                <td>@Html.DisplayFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)</td>
+                @Html.HiddenFor(model => model.DetalleCartillas[i].detalle_cartilla_id)
+                <td>@Html.EditorFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id)</td>
+                <td>@Html.EditorFor(model => model.DetalleCartillas[i].estado_otec)</td>
+                <td>@Html.EditorFor(model => model.DetalleCartillas[i].estado_ito)</td>
+                <td>@Html.EditorFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id)</td>
+                <td><button type="button" class="eliminarRegistro">Eliminar</button></td>
+            </tr>
+        }
+    </table>
+
+
+    <button type="button" id="agregarRegistro">Agregar más registros</button>
+    <input type="submit" value="Guardar" />
+
+}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+     $(document).ready(function () {
+        var newIndex = @Model.DetalleCartillas.Count;
+
+        // Manejar el clic en el botón
+        $("#agregarRegistro").on("click", function () {
+            // Clonar la última fila de la tabla de detalles
+            var nuevaFila = $(".detalle-cartilla:last").clone();
+
+            // Limpiar los valores de los campos clonados
+            nuevaFila.find(":input").val('');
+
+            // Establecer el valor del campo CARTILLA_cartilla_id en la nueva fila
+            nuevaFila.find("[name$='.CARTILLA_cartilla_id']").val($("#Cartilla_cartilla_id").val());
+
+            // Establecer nuevos nombres para los campos clonados
+            nuevaFila.find("[name$='.detalle_cartilla_id']").val('');
+            nuevaFila.find("[name$='.ITEM_VERIF_item_verif_id']").attr('name', 'DetalleCartillas[' + newIndex + '].ITEM_VERIF_item_verif_id');
+            nuevaFila.find("[name$='.estado_otec']").attr('name', 'DetalleCartillas[' + newIndex + '].estado_otec');
+            nuevaFila.find("[name$='.estado_ito']").attr('name', 'DetalleCartillas[' + newIndex + '].estado_ito');
+            nuevaFila.find("[name$='.INMUEBLE_inmueble_id']").attr('name', 'DetalleCartillas[' + newIndex + '].INMUEBLE_inmueble_id');
+
+            // Agregar la nueva fila a la tabla
+            $(".detalle-cartilla:last").after(nuevaFila);
+
+            newIndex++;
+        });
+
+        // Manejar clic en el botón eliminar
+        $("#detalleTable").on("click", ".eliminarRegistro", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+</script>
+
+
