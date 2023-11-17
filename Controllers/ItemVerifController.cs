@@ -124,6 +124,50 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+
+        // GET: ItemVerif/Crear
+
+        public ActionResult Crear()
+        {
+            ViewBag.Actividades = new SelectList(db.ACTIVIDAD.ToList(), "actividad_id", "nombre_actividad"); // Obtener actividades para el DropDownList
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarRegistros(FormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+                // Obtener el valor de la actividad seleccionada
+                int actividadId = int.Parse(form["ActividadId"]);
+
+                // Obtener los datos de los campos clonados para ITEM_VERIF y guardarlos
+                for (int i = 0; i < form.Count / 3; i++) // Suponiendo que por cada registro hay 3 campos (ElementoVerificacion, Label y ActividadId)
+                {
+                    var nuevoItem = new ITEM_VERIF
+                    {
+                        elemento_verificacion = form[$"ItemsVerif[{i}].ElementoVerificacion"],
+                        label = form[$"ItemsVerif[{i}].Label"],
+                        ACTIVIDAD_actividad_id = actividadId
+                    };
+
+                    db.ITEM_VERIF.Add(nuevoItem);
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            // En caso de errores, regresar a la vista
+            ViewBag.Actividades = new SelectList(db.ACTIVIDAD.ToList(), "actividad_id", "nombre_actividad");
+            return View("Crear");
+        }
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

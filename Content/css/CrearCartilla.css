@@ -1,0 +1,62 @@
+﻿/* Estilos para el formulario */
+.form-container {
+    margin: 20px; /* Márgenes para el formulario */
+    padding: 20px; /* Relleno para el formulario */
+    border: 1px solid #ccc; /* Borde alrededor del formulario */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: #f8f8f8; /* Color de fondo del formulario */
+}
+
+/* Estilos para la tabla */
+#detalleTable {
+    margin-top: 20px; /* Espacio entre el formulario y la tabla */
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    #detalleTable th, #detalleTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #detalleTable th {
+        background-color: #f2f2f2;
+    }
+/* Estilos para los botones */
+.btn-guardar {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+    border: 1px solid #218838;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-agregar {
+    background-color: #218838; /* Otro tono de verde */
+    color: #fff;
+    border: 1px solid #138496;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.eliminarRegistro {
+    background-color: #dc3545; /* Rojo */
+    color: #fff;
+    border: 1px solid #c82333;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.eliminarRegistro:hover {
+    background-color: #c82333; /* Rojo */
+}
+
+label {
+    white-space: nowrap; /* Evita saltos de línea */
+}

@@ -62,7 +62,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
                     if (Session["Perfil"].Equals("Administrador"))
                     {
-                        return RedirectToAction("Index", "Usuario");
+                        return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
                     }
                 }
             }

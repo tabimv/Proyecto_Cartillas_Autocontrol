@@ -6,7 +6,7 @@
 }
 
 <!-- Formulario para la CARTILLA -->
-@using (Html.BeginForm("CrearCartilla", "Test", FormMethod.Post))
+@using (Html.BeginForm("CrearCartilla", "Cartilla", FormMethod.Post))
 {
     @Html.ValidationSummary(true)
 
@@ -76,6 +76,7 @@
                     @Html.DropDownListFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, new SelectList(Model.ElementosVerificacion, "item_verif_id", "elemento_verificacion"), "Seleccione una actividad", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
                 </td>
+
                 <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_otec, new { @disabled = "disabled" })  </td>
                 <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_ito, new { @disabled = "disabled" })  </td>
                 <td>
@@ -96,40 +97,76 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-      $(document).ready(function () {
-        var newIndex = @Model.DetalleCartillas.Count;
+$(document).ready(function () {
+    $('#Cartilla_ACTIVIDAD_actividad_id').change(function () {
+        var selectedActividadId = $(this).val();
 
-        // Manejar el clic en el botón
-        $("#agregarRegistro").on("click", function () {
-            // Clonar la última fila de la tabla de detalles
-            var nuevaFila = $(".detalle-cartilla:last").clone();
+        // Realizar petición AJAX para obtener las combinaciones de elementos de verificación e inmuebles
+        $.ajax({
+            url: '@Url.Action("GetCombinacionesElementosInmuebles", "Cartilla")',
+            type: 'GET',
+            data: { actividadId: selectedActividadId },
+            success: function (data) {
+                // Verificar si hay elementos de verificación para la actividad seleccionada
+                if (data.length === 0) {
+                    // No hay elementos de verificación, por lo que se mostrará solo una fila vacía
+                    $(".detalle-cartilla").hide();
+                    $(".detalle-cartilla:first").show().find("select").val('');
+                } else {
+                    // Obtener la cantidad de combinaciones de elementos de verificación e inmuebles
+                    var cantidadCombinaciones = data.length;
 
-            // Limpiar los valores de los campos que deben cambiar
-            nuevaFila.find('[name$=".detalle_cartilla_id"]').val('');
-            nuevaFila.find('[name$=".ITEM_VERIF_item_verif_id"]').val('');
-            nuevaFila.find('[name$=".INMUEBLE_inmueble_id"]').val('');
+                    // Obtener la cantidad actual de filas en la tabla
+                    var cantidadFilasActuales = $(".detalle-cartilla").length;
 
-            // Establecer el valor del campo CARTILLA_cartilla_id en la nueva fila
-            nuevaFila.find("[name$='.CARTILLA_cartilla_id']").val($("#Cartilla_cartilla_id").val());
+                    // Si la cantidad de filas actuales es menor a la cantidad de combinaciones,
+                    // agregar nuevas filas hasta alcanzar la cantidad necesaria
+                    if (cantidadFilasActuales < cantidadCombinaciones) {
+                        var filasAAgregar = cantidadCombinaciones - cantidadFilasActuales;
+                        for (var i = 0; i < filasAAgregar; i++) {
+                            var nuevaFila = $(".detalle-cartilla:first").clone();
+                            $("#detalleTable").append(nuevaFila);
+                        }
+                    }
 
-            // Establecer nuevos nombres para los campos clonados
-            nuevaFila.find("[name$='.detalle_cartilla_id']").val('');
-            nuevaFila.find("[name$='.ITEM_VERIF_item_verif_id']").attr('name', 'DetalleCartillas[' + newIndex + '].ITEM_VERIF_item_verif_id');
-            nuevaFila.find("[name$='.estado_otec']").attr('name', 'DetalleCartillas[' + newIndex + '].estado_otec');
-            nuevaFila.find("[name$='.estado_ito']").attr('name', 'DetalleCartillas[' + newIndex + '].estado_ito');
-            nuevaFila.find("[name$='.INMUEBLE_inmueble_id']").attr('name', 'DetalleCartillas[' + newIndex + '].INMUEBLE_inmueble_id');
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var newRow = $("<tr class='detalle-cartilla'>" +
+                                "<td><select name='DetalleCartillas[" + i + "].ITEM_VERIF_item_verif_id' class='form-control'></select></td>" +
+                                "<td><select name='DetalleCartillas[" + i + "].INMUEBLE_inmueble_id' class='form-control'></select></td>" +
+                                "<td><button type='button' class='eliminarRegistro'>Eliminar</button></td>" +
+                                "</tr>");
 
-            // Agregar la nueva fila a la tabla
-            $(".detalle-cartilla:last").after(nuevaFila);
+                            newRow.find("select[name$='.ITEM_VERIF_item_verif_id']").append("<option value='" + data[i].item_verif_id + "'>" + data[i].elemento_verificacion + "</option>");
+                            newRow.find("select[name$='.INMUEBLE_inmueble_id']").append("<option value='" + data[i].inmueble_id + "'>" + data[i].tipo_inmueble + "</option>");
 
-            newIndex++;
-        });
+                            newRow.appendTo("#detalleTable");
+                        }
+                    }
 
-        // Manejar clic en el botón eliminar
-        $("#detalleTable").on("click", ".eliminarRegistro", function () {
-            $(this).closest("tr").remove();
+                    // Mostrar solo la cantidad necesaria de filas basadas en las combinaciones de elementos de verificación e inmuebles
+                    $(".detalle-cartilla").hide();
+                    for (var i = 0; i < cantidadCombinaciones; i++) {
+                        $(".detalle-cartilla").eq(i).show();
+                        var elementoVerificacionId = data[i].item_verif_id;
+                        var inmuebleId = data[i].inmueble_id;
+
+                        $(".detalle-cartilla").eq(i).find("select[name^='DetalleCartillas'][name$='.ITEM_VERIF_item_verif_id']").val(elementoVerificacionId);
+                        $(".detalle-cartilla").eq(i).find("select[name^='DetalleCartillas'][name$='.INMUEBLE_inmueble_id']").val(inmuebleId);
+                    }
+                }
+            },
+            error: function () {
+                console.error('Error al obtener combinaciones de elementos e inmuebles');
+            }
         });
     });
+
+    // Manejar clic en el botón eliminar
+    $("#detalleTable").on("click", ".eliminarRegistro", function () {
+        $(this).closest("tr").hide(); // Ocultar la fila en lugar de eliminarla
+    });
+});
 </script>
 <script>
     $(document).ready(function () {
@@ -138,7 +175,7 @@
 
             // Realizar petición AJAX para obtener la obra asociada
             $.ajax({
-                url: '@Url.Action("GetObraByActividadId", "Test")', // Reemplaza con la URL de tu endpoint para la obra
+                url: '@Url.Action("GetObraByActividadId", "Cartilla")', // Reemplaza con la URL de tu endpoint para la obra
                 type: 'GET',
                 data: { actividadId: selectedActividadId },
                 success: function (data) {
@@ -157,7 +194,7 @@
 
                 // Realizar petición AJAX para obtener los elementos de verificación asociados a la actividad seleccionada
                 $.ajax({
-                    url: '@Url.Action("GetElementosVerificacionByActividad", "Test")',
+                    url: '@Url.Action("GetElementosVerificacionByActividad", "Cartilla")',
                     type: 'GET',
                     data: { actividadId: selectedActividadId },
                     success: function (data) {
@@ -182,7 +219,7 @@ $(document).ready(function () {
     function obtenerInmueblesPorActividad(actividadId) {
         // Realizar petición AJAX para obtener la obra asociada a la actividad seleccionada
         $.ajax({
-            url: '@Url.Action("GetObraByActividadId", "Test")',
+            url: '@Url.Action("GetObraByActividadId", "Cartilla")',
             type: 'GET',
             data: { actividadId: actividadId },
             success: function (data) {
@@ -199,7 +236,7 @@ $(document).ready(function () {
     function obtenerInmueblesPorObra(obraId) {
         // Llamar a la función para obtener los inmuebles por obra
         $.ajax({
-            url: '@Url.Action("GetInmuebleByObra", "Test")',
+            url: '@Url.Action("GetInmuebleByObra", "Cartilla")',
             type: 'GET',
             data: { obraID: obraId },
             success: function (data) {

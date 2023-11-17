@@ -1,0 +1,52 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ViewModels.CartillasViewModel
+
+<!-- Resto del código HTML y estructura de la vista -->
+
+
+@using (Html.BeginForm("EditarCartilla", "Test", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Cartilla.cartilla_id) <!-- Campo oculto para el ID de la cartilla -->
+
+    <!-- Mostrar datos de la cartilla -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cartilla.fecha, "Fecha Cartilla Autocontrol:", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Cartilla.fecha, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.Cartilla.fecha, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    @Html.HiddenFor(model => model.Cartilla.observaciones)
+
+    @Html.HiddenFor(model => model.Cartilla.OBRA_obra_id)
+
+    @Html.HiddenFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
+
+    @Html.HiddenFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id)
+    <!--
+    <!--
+    <!-- Otros campos editables para la cartilla -->
+    <!-- ... -->
+
+    <!-- Mostrar datos del detalle de la cartilla -->
+    <table id="detalleTable">
+        <!-- Iterar sobre los detalles existentes -->
+        @for (int i = 0; i < Model.DetalleCartillas.Count; i++)
+        {
+            <tr class="detalle-cartilla">
+                @Html.HiddenFor(model => model.DetalleCartillas[i].detalle_cartilla_id) <!-- Campo oculto para el ID del detalle -->
+                @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
+                @Html.HiddenFor(model => model.DetalleCartillas[i].estado_ito)
+                @Html.HiddenFor(model => model.DetalleCartillas[i].estado_otec)
+                @Html.HiddenFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id)
+                @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
+                @Html.HiddenFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id)
+                <!-- Mostrar y permitir la edición de datos del detalle -->
+                <!-- ... -->
+            </tr>
+        }
+    </table>
+
+    <input type="submit" value="Guardar cambios" />
+}

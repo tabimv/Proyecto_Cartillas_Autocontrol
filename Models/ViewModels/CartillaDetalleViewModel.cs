@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,10 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
     {
         public CARTILLA Cartilla { get; set; }
         public List<DETALLE_CARTILLA> DetalleCartillas { get; set; }
+        public List<ACTIVIDAD> ActividadesList { get; set; }
+        public List<ITEM_VERIF> ElementosVerificacion { get; set; }
+        public List<INMUEBLE> InmuebleList { get; set; }
+        public List<ESTADO_FINAL> EstadoFinalList { get; set; }
     }
 
     public class CartillaViewModel
@@ -40,4 +45,13 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
         public int ItemVerifId { get; set; }
         public string InmuebleId { get; set; }
     }
+
+
+    public class CreateCartillaViewModel
+    {
+      
+        [Display(Name = "Inmueble ID")]
+        public string InmuebleId { get; set; }
+    }
+
 }

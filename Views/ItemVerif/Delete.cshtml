@@ -2,48 +2,81 @@
 
 @{
     ViewBag.Title = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>ITEM_VERIF</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.elemento_verificacion)
-        </dt>
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
 
-        <dd>
-            @Html.DisplayFor(model => model.elemento_verificacion)
-        </dd>
+    <div class="container-delete">
+        <div class="form-container-delete">
+            <h2> Eliminar Item Verificación </h2>
+            <h3>¿Estás seguro que quieres eliminar este Item de Verificación?</h3>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Label:
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.label)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.label)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.label)
-        </dd>
+                    <dt>
+                        Item Verificación:
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ACTIVIDAD.codigo_actividad)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.elemento_verificacion)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad)
-        </dd>
+                    <dt>
+                        Actividad Asociada:
+                    </dt>
 
-    </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad)
+                    </dd>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+                </dl>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
+                }
+            </div>
         </div>
-    }
-</div>
+    </div>
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

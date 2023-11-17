@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
+using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
+using System.Data.SqlClient;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -22,125 +24,144 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(await cARTILLA.ToListAsync());
         }
 
-        // GET: Cartilla/Details/5
-        public async Task<ActionResult> Details(int? id)
+
+        public ActionResult CrearCartilla()
         {
-            if (id == null)
+            CartillasViewModel viewModel = new CartillasViewModel();
+            viewModel.DetalleCartillas = new List<DETALLE_CARTILLA>();
+            // Puedes agregar instancias de DETALLE_CARTILLA según sea necesario
+            viewModel.DetalleCartillas.Add(new DETALLE_CARTILLA());
+
+
+            // Realiza una consulta a tu base de datos para obtener el valor deseado
+            using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                // Supongamos que tienes una entidad llamada Configuracion con una propiedad ItemVerifId
+                viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
+                viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
+                viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
+                viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
+
+
             }
-            CARTILLA cARTILLA = await db.CARTILLA.FindAsync(id);
-            if (cARTILLA == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cARTILLA);
+
+            return View(viewModel);
         }
 
-        // GET: Cartilla/Create
-        public ActionResult Create()
-        {
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad");
-            ViewBag.ESTADO_FINAL_estado_final_id = new SelectList(db.ESTADO_FINAL, "estado_final_id", "estado");
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
-            return View();
-        }
-
-        // POST: Cartilla/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "cartilla_id,fecha,observaciones,OBRA_obra_id,ACTIVIDAD_actividad_id,ESTADO_FINAL_estado_final_id")] CARTILLA cARTILLA)
+        public ActionResult CrearCartilla(CartillasViewModel viewModel, List<DETALLE_CARTILLA> DetalleCartillas)
         {
             if (ModelState.IsValid)
             {
-                db.CARTILLA.Add(cARTILLA);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+                    {
+                        // Guardar la CARTILLA
+                        dbContext.CARTILLA.Add(viewModel.Cartilla);
+                        dbContext.SaveChanges();
+
+                        // Asignar el ID de la CARTILLA a cada DETALLE_CARTILLA
+                        foreach (var detalleCartilla in viewModel.DetalleCartillas)
+                        {
+                            detalleCartilla.CARTILLA_cartilla_id = viewModel.Cartilla.cartilla_id;
+                            dbContext.DETALLE_CARTILLA.Add(detalleCartilla);
+                            detalleCartilla.estado_ito = false;
+                            detalleCartilla.estado_otec = false;
+                        }
+
+                        // Guardar los cambios en DETALLE_CARTILLA
+                        dbContext.SaveChanges();
+                    }
+
+                    // Redirigir a la página de índice u otra acción
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier excepción que pueda ocurrir al guardar en la base de datos
+                    ModelState.AddModelError("", "Error al guardar en la base de datos: " + ex.Message);
+                }
             }
 
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", cARTILLA.ACTIVIDAD_actividad_id);
-            ViewBag.ESTADO_FINAL_estado_final_id = new SelectList(db.ESTADO_FINAL, "estado_final_id", "estado", cARTILLA.ESTADO_FINAL_estado_final_id);
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", cARTILLA.OBRA_obra_id);
-            return View(cARTILLA);
+            // Si el modelo no es válido, vuelve a la vista con los errores
+            return View(viewModel);
         }
 
-        // GET: Cartilla/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult GetObraByActividadId(int actividadId)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                // Buscar la actividad por su ID en la base de datos
+                ACTIVIDAD actividad = db.ACTIVIDAD.FirstOrDefault(a => a.actividad_id == actividadId);
+
+                if (actividad != null)
+                {
+                    // Si se encuentra la actividad, obtén la obra asociada a ella
+                    OBRA obra = db.OBRA.FirstOrDefault(o => o.obra_id == actividad.OBRA_obra_id);
+
+                    if (obra != null)
+                    {
+                        // Devuelve los detalles de la obra en formato JSON
+                        return Json(new { obraId = obra.obra_id, nombreObra = obra.nombre_obra }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                // En caso de no encontrar la actividad u obra, devuelve un error o un valor por defecto
+                return Json(new { error = "No se encontró la obra asociada a esta actividad" }, JsonRequestBehavior.AllowGet);
             }
-            CARTILLA cARTILLA = await db.CARTILLA.FindAsync(id);
-            if (cARTILLA == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                // Manejar cualquier error que pueda surgir
+                return Json(new { error = "Ocurrió un error al obtener la obra: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", cARTILLA.ACTIVIDAD_actividad_id);
-            ViewBag.ESTADO_FINAL_estado_final_id = new SelectList(db.ESTADO_FINAL, "estado_final_id", "estado", cARTILLA.ESTADO_FINAL_estado_final_id);
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", cARTILLA.OBRA_obra_id);
-            return View(cARTILLA);
         }
 
-        // POST: Cartilla/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "cartilla_id,fecha,observaciones,OBRA_obra_id,ACTIVIDAD_actividad_id,ESTADO_FINAL_estado_final_id")] CARTILLA cARTILLA)
+        public ActionResult GetElementosVerificacionByActividad(int actividadId)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cARTILLA).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", cARTILLA.ACTIVIDAD_actividad_id);
-            ViewBag.ESTADO_FINAL_estado_final_id = new SelectList(db.ESTADO_FINAL, "estado_final_id", "estado", cARTILLA.ESTADO_FINAL_estado_final_id);
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", cARTILLA.OBRA_obra_id);
-            return View(cARTILLA);
+            // Realiza la lógica para obtener los elementos de verificación por la actividad seleccionada
+            var elementos = db.ITEM_VERIF.Where(iv => iv.ACTIVIDAD_actividad_id == actividadId).ToList();
+
+            // Devuelve los elementos de verificación en formato JSON
+            var jsonData = elementos.Select(e => new { value = e.item_verif_id, text = e.elemento_verificacion }).ToList();
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Cartilla/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+
+        public ActionResult GetInmuebleByObra(int obraID)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CARTILLA cARTILLA = await db.CARTILLA.FindAsync(id);
-            if (cARTILLA == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cARTILLA);
+            // Realiza la lógica para obtener los elementos de verificación por la actividad seleccionada
+            var elementos = db.INMUEBLE.Where(iv => iv.OBRA_obra_id == obraID).ToList();
+
+            // Devuelve los elementos de verificación en formato JSON
+            var jsonData = elementos.Select(i => new { value = i.inmueble_id, text = i.inmueble_id }).ToList();
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        // POST: Cartilla/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public JsonResult GetCombinacionesElementosInmuebles()
         {
-            CARTILLA cARTILLA = await db.CARTILLA.FindAsync(id);
+            List<dynamic> result = new List<dynamic>();
 
-            if (cARTILLA == null)
+            using (var context = new ObraManzanoNoviembre()) // Reemplaza 'TuContextoDeBaseDeDatos' con tu contexto de Entity Framework
             {
-                return HttpNotFound();
+                var query = from iv in context.ITEM_VERIF
+                            from i in context.INMUEBLE
+                            select new
+                            {
+                                iv.item_verif_id,
+                                iv.elemento_verificacion,
+                                iv.label,
+                                i.inmueble_id,
+                                i.tipo_inmueble
+                            };
+
+                result = query.ToList<dynamic>();
             }
 
-            // Verificar si existen relaciones con claves foráneas
-            if (db.CARTILLA.Any(t => t.cartilla_id == id))
-            {
-                ViewBag.ErrorMessage = "No se puede eliminar esta Cartilla debido a  que esta relacionado a otras Entidades.";
-                return View("Delete", cARTILLA); // Mostrar vista de eliminación con el mensaje de error
-            }
-
-            db.CARTILLA.Remove(cARTILLA);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

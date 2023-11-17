@@ -28,7 +28,7 @@ else
                             <h2>Gestión de <b>Cartilla</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("Create")" class="btn btn-success">
+                            <a href="@Url.Action("CrearCartilla")" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i>
                                 Crear Nueva Cartilla
                             </a>
@@ -67,16 +67,15 @@ else
 
                                 <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)</td>
-                                <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.estado)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.descripcion)</td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
 
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.cartilla_id })">
+                                    <a href="#" class="edit" data-url="@Url.Action( "EditarCartilla", "Test", new { id = item.cartilla_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
-
 
                                     <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.cartilla_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
