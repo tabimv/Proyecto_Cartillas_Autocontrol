@@ -15,9 +15,7 @@ else
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
 {
-
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
-
 
     <div class="container-xl">
         <div class="table-responsive">
@@ -28,11 +26,11 @@ else
                             <h2> <b>Cartillas de Autocontrol</b></h2>
                         </div>
                         <div class="col-sm-6">
-                          
+
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
+                <table id="cartillaTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th style="white-space: nowrap;"> ID de Cartilla</th>
@@ -73,7 +71,7 @@ else
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
 
-                                       
+
 
 
                                         </td>
@@ -131,6 +129,8 @@ else
             });
         });
     </script>
+
+
 
 }
 
