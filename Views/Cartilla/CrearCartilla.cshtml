@@ -1,103 +1,150 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.ViewModels.CartillasViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Crear Cartilla";
+}
+
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<!-- Formulario para la CARTILLA -->
-@using (Html.BeginForm("CrearCartilla", "Cartilla", FormMethod.Post))
+else
 {
-    @Html.ValidationSummary(true)
-
-    <!-- Campos para la CARTILLA -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cartilla.fecha, "Fecha Cartilla Autocontrol:", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Cartilla.fecha, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                @Html.ValidationMessageFor(model => model.Cartilla.fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "Actividad Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.DropDownListFor(model => model.Cartilla.ACTIVIDAD_actividad_id, new SelectList(Model.ActividadesList, "actividad_id", "nombre_actividad"), "Seleccione una actividad", new { @class = "form-control", id = "Cartilla_ACTIVIDAD_actividad_id" })
-                @Html.ValidationMessageFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cartilla.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Cartilla.OBRA_obra_id, new { htmlAttributes = new { @class = "form-control", id = "Cartilla_OBRA_obra_id" } })
-                @Html.ValidationMessageFor(model => model.Cartilla.OBRA_obra_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, "Estado Final Cartilla", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado de Cartilla", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-
-    <table id="detalleTable">
-        <tr>
-            <th>Item Verif ID</th>
-            <th>Estado OTEC</th>
-            <th>Estado ITO</th>
-            <th>Inmueble ID</th>
-            <th>Acciones</th>
-        </tr>
-        @for (int i = 0; i < Model.DetalleCartillas.Count; i++)
-        {
-            <tr class="detalle-cartilla">
-                @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
-                @Html.HiddenFor(model => model.DetalleCartillas[i].detalle_cartilla_id)
-
-
-                <td>
-                    @Html.DropDownListFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, new SelectList(Model.ElementosVerificacion, "item_verif_id", "elemento_verificacion"), "Seleccione una actividad", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
-                </td>
-
-                <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_otec, new { @disabled = "disabled" })  </td>
-                <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_ito, new { @disabled = "disabled" })  </td>
-                <td>
-                    @Html.DropDownListFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id, new SelectList(Model.InmuebleList, "inmueble_id", "inmueble_id"), "Seleccione un inmueble", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id, "", new { @class = "text-danger" })
-                </td>
-                <td><button type="button" class="eliminarRegistro">Eliminar</button></td>
-            </tr>
-        }
-    </table>
-
-
-
-    <button type="button" id="agregarRegistro">Agregar más registros</button>
-    <input type="submit" value="Guardar" />
-
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-$(document).ready(function () {
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit.css">
+    <link rel="stylesheet" href="~/Content/css/items.css">
+    using (Html.BeginForm("CrearCartilla", "Cartilla", FormMethod.Post))
+    {
+        <div class="container-formularios">
+            <div class="form-container">
+                <h2 >Crear Cartilla Autocontrol</h2>
+                <form>
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "Actividad Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.DropDownListFor(model => model.Cartilla.ACTIVIDAD_actividad_id, new SelectList(Model.ActividadesList, "actividad_id", "nombre_actividad"), "Seleccione una actividad", new { @class = "form-control", id = "Cartilla_ACTIVIDAD_actividad_id" })
+                                @Html.ValidationMessageFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cartilla.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Cartilla.OBRA_obra_id, new { htmlAttributes = new { @class = "form-control", id = "Cartilla_OBRA_obra_id" } })
+                                @Html.ValidationMessageFor(model => model.Cartilla.OBRA_obra_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, "Estado Final Cartilla", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion", 3), "Seleccione un Estado de Cartilla", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla para mostrar los campos -->
+                    <table id="detalleTable">
+                        <thead>
+                            <tr>
+                                <th>Item Verificación</th>
+                                <th>VB OTEC</th>
+                                <th>VB ITO</th>
+                                <th>Inmueble ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contenedorRegistros">
+                            @for (int i = 0; i < Model.DetalleCartillas.Count; i++)
+                            {
+                                <tr class="detalle-cartilla">
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].detalle_cartilla_id)
+
+
+                                    <td>
+                                        @Html.DropDownListFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, new SelectList(Model.ElementosVerificacion, "item_verif_id", "elemento_verificacion"), "Seleccione una actividad", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
+                                    </td>
+
+                                    <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_otec, new { @disabled = "disabled" })  </td>
+                                    <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_ito, new { @disabled = "disabled" })  </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id, new SelectList(Model.InmuebleList, "inmueble_id", "inmueble_id"), "ID", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+
+                    <div style=" margin-top: 20px;" class="form-group">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="submit" value="Crear" class="btn btn-primary-custom" />
+                    </div>
+
+                    <div> 
+                        <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    <script>
+        $(document).ready(function () {
+            $('#btnAgregarRegistro').on('click', function () {
+                var $ultimoRegistro = $('#contenedorRegistros').find('.registro:last');
+                var indice = $('#contenedorRegistros').find('.detalle-cartilla').length;
+
+                // Clonar el último registro y sus campos
+                var $nuevoRegistro = $ultimoRegistro.clone();
+
+                // Limpiar los valores del nuevo registro
+                $nuevoRegistro.find('input[type="text"]').val('');
+
+                // Actualizar los nombres de los campos clonados
+                $nuevoRegistro.find('input').each(function () {
+                    var newName = $(this).attr('name').replace(/\[\d\]/, '[' + indice + ']');
+                    $(this).attr('name', newName);
+                });
+
+                // Agregar el nuevo registro a la tabla
+                $('#contenedorRegistros').append($nuevoRegistro);
+            });
+
+            $('#btnEliminarRegistro').on('click', function () {
+                var $registros = $('#contenedorRegistros').find('.detalle-cartilla');
+
+                // Evitar eliminar todos los registros
+                if ($registros.length > 1) {
+                    $registros.last().remove();
+                }
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+ $(document).ready(function () {
     $('#Cartilla_ACTIVIDAD_actividad_id').change(function () {
         var selectedActividadId = $(this).val();
 
@@ -107,12 +154,16 @@ $(document).ready(function () {
             type: 'GET',
             data: { actividadId: selectedActividadId },
             success: function (data) {
+                // Eliminar la fila de mensaje si existe
+                $("#detalleTable tr.mensaje-actividad-vacia").remove();
+
                 // Verificar si hay elementos de verificación para la actividad seleccionada
                 if (data.length === 0) {
                     // No hay elementos de verificación, por lo que se mostrará solo una fila vacía
                     $(".detalle-cartilla").hide();
-                    $(".detalle-cartilla:first").show().find("select").val('');
+                    $("#detalleTable").append("<tr class='mensaje-actividad-vacia'><td colspan='4'>La actividad seleccionada no tiene elementos de verificación asociados.</td></tr>");
                 } else {
+
                     // Obtener la cantidad de combinaciones de elementos de verificación e inmuebles
                     var cantidadCombinaciones = data.length;
 
@@ -134,15 +185,18 @@ $(document).ready(function () {
                             var newRow = $("<tr class='detalle-cartilla'>" +
                                 "<td><select name='DetalleCartillas[" + i + "].ITEM_VERIF_item_verif_id' class='form-control'></select></td>" +
                                 "<td><select name='DetalleCartillas[" + i + "].INMUEBLE_inmueble_id' class='form-control'></select></td>" +
-                                "<td><button type='button' class='eliminarRegistro'>Eliminar</button></td>" +
                                 "</tr>");
 
                             newRow.find("select[name$='.ITEM_VERIF_item_verif_id']").append("<option value='" + data[i].item_verif_id + "'>" + data[i].elemento_verificacion + "</option>");
                             newRow.find("select[name$='.INMUEBLE_inmueble_id']").append("<option value='" + data[i].inmueble_id + "'>" + data[i].tipo_inmueble + "</option>");
 
                             newRow.appendTo("#detalleTable");
+
+
+
                         }
                     }
+
 
                     // Mostrar solo la cantidad necesaria de filas basadas en las combinaciones de elementos de verificación e inmuebles
                     $(".detalle-cartilla").hide();
@@ -162,13 +216,39 @@ $(document).ready(function () {
         });
     });
 
-    // Manejar clic en el botón eliminar
-    $("#detalleTable").on("click", ".eliminarRegistro", function () {
-        $(this).closest("tr").hide(); // Ocultar la fila en lugar de eliminarla
-    });
 });
-</script>
-<script>
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Inicializar el contador de cambios de actividad
+            var activityChangeCount = 0;
+
+            $('#Cartilla_ACTIVIDAD_actividad_id').mousedown(function () {
+                // Incrementar el contador de cambios de actividad
+                activityChangeCount++;
+
+                // Verificar si es la segunda vez que se cambia la actividad o posterior
+                if (activityChangeCount > 1) {
+                    // Mostrar un cuadro de diálogo de confirmación
+                    var confirmResult = confirm('¿Seguro que deseas seleccionar otra actividad?');
+
+                    // Si el usuario hace clic en "Aceptar", recargar la página
+                    if (confirmResult) {
+                        location.reload();
+                    } else {
+                        // Restaurar el valor anterior del select
+                        $(this).val($(this).data('previous-value'));
+                    }
+                }
+            });
+
+            // Al cargar la página, establecer el valor inicial del select como valor anterior
+            $('#Cartilla_ACTIVIDAD_actividad_id').data('previous-value', $('#Cartilla_ACTIVIDAD_actividad_id').val());
+        });
+    </script>
+
+
+    <script>
     $(document).ready(function () {
         $('#Cartilla_ACTIVIDAD_actividad_id').change(function () {
             var selectedActividadId = $(this).val();
@@ -213,8 +293,8 @@ $(document).ready(function () {
         });
         });
     });
-</script>
-<script>
+    </script>
+    <script>
 $(document).ready(function () {
     function obtenerInmueblesPorActividad(actividadId) {
         // Realizar petición AJAX para obtener la obra asociada a la actividad seleccionada
@@ -263,5 +343,15 @@ $(document).ready(function () {
     });
 });
 
-</script>
+    </script>
+}
 
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

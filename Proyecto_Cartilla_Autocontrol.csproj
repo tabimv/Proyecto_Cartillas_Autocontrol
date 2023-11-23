@@ -300,6 +300,7 @@
     <Content Include="Views\Cartilla\CrearCartilla.cshtml" />
     <Content Include="Views\Test\EditarCartilla.cshtml" />
     <Content Include="Views\ItemVerif\Crear.cshtml" />
+    <Content Include="Views\Cartilla\EditarCartilla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

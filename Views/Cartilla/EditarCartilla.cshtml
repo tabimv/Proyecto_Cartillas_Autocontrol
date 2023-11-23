@@ -1,0 +1,196 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ViewModels.CartillasViewModel
+
+@{
+    ViewBag.Title = "Editar Cartilla";
+    var detallesAgrupados = Model.DetalleCartillas
+       .GroupBy(detalle => detalle.ITEM_VERIF.elemento_verificacion)
+       .ToList();
+}
+
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit.css">
+    <link rel="stylesheet" href="~/Content/css/items.css">
+    using (Html.BeginForm("EditarCartilla", "Cartilla", FormMethod.Post))
+    {
+        <div class="container-formularios">
+            <div class="form-container">
+                <h2>Editar Cartilla Autocontrol </h2>
+                <form>
+                    @Html.HiddenFor(model => model.Cartilla.cartilla_id) <!-- Campo oculto para el ID de la cartilla -->
+                    <!-- Mostrar datos de la cartilla -->
+
+                    @Html.HiddenFor(model => model.Cartilla.fecha)
+
+                    @Html.HiddenFor(model => model.Cartilla.observaciones)
+
+
+                    @Html.HiddenFor(model => model.Cartilla.OBRA_obra_id)
+
+                    @Html.HiddenFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
+
+                    <div class="form-group">
+                        <p> <strong> Fecha de emisión:  </strong>  @Html.DisplayFor(model => model.Cartilla.fecha)</p>
+                        <p> <strong> Actividad:  </strong>  @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
+                        <p> <strong> Obra:  </strong>  @Html.DisplayFor(model => model.Cartilla.OBRA.nombre_obra)</p>
+                        <p> <strong> Estado Final:  </strong>  @Html.EditorFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id)</p>
+                    </div>
+
+
+
+
+
+
+                    <!-- Tabla para mostrar los campos -->
+                    <table id="detalleTable">
+                        <thead>
+                            <tr>
+                                <th>Item Verificación</th>
+                                <th style="text-align: center;">
+                                    VB OTEC
+                                    @Html.CheckBox("selectAllOTEC", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+                                <th style="text-align: center;">
+                                    VB ITO
+                                    @Html.CheckBox("selectAllITO", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+
+
+                                <th>N° VIV</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="contenedorRegistros">
+                            @for (int i = 0; i < Model.DetalleCartillas.Count; i++)
+                            {
+                                <tr class="detalle-cartilla">
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].detalle_cartilla_id) <!-- Campo oculto para el ID del detalle -->
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id)
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id)
+
+                                    <td>
+                                        @Html.DisplayFor(model => model.DetalleCartillas[i].ITEM_VERIF.elemento_verificacion)
+                                    </td>
+
+                                    <td class="column-otec">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_otec, true) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_otec, false) No
+                                    </td>
+                                    <td class="column-ito">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_ito, true) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_ito, false) No
+                                    </td>
+
+
+                                    <td>@Html.DisplayFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id) </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                    <div style=" margin-top: 20px;" class="form-group">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
+                    </div>
+
+                    <div>
+                        <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    <script>
+        $(document).ready(function () {
+            $('#btnAgregarRegistro').on('click', function () {
+                var $ultimoRegistro = $('#contenedorRegistros').find('.registro:last');
+                var indice = $('#contenedorRegistros').find('.detalle-cartilla').length;
+
+                // Clonar el último registro y sus campos
+                var $nuevoRegistro = $ultimoRegistro.clone();
+
+                // Limpiar los valores del nuevo registro
+                $nuevoRegistro.find('input[type="text"]').val('');
+
+                // Actualizar los nombres de los campos clonados
+                $nuevoRegistro.find('input').each(function () {
+                    var newName = $(this).attr('name').replace(/\[\d\]/, '[' + indice + ']');
+                    $(this).attr('name', newName);
+                });
+
+                // Agregar el nuevo registro a la tabla
+                $('#contenedorRegistros').append($nuevoRegistro);
+            });
+
+            $('#btnEliminarRegistro').on('click', function () {
+                var $registros = $('#contenedorRegistros').find('.detalle-cartilla');
+
+                // Evitar eliminar todos los registros
+                if ($registros.length > 1) {
+                    $registros.last().remove();
+                }
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#selectAllITO').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Seleccionar o deseleccionar todos los radio buttons de la columna VB ITO
+                $('td.column-ito :radio').prop('checked', isChecked);
+
+                // Si está seleccionado, establecer todos los valores en true
+                if (isChecked) {
+                    $('td.column-ito :radio[value="True"]').prop('checked', true);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#selectAllOTEC').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Seleccionar o deseleccionar todos los radio buttons de la columna VB ITO
+                $('td.column-otec :radio').prop('checked', isChecked);
+
+                // Si está seleccionado, establecer todos los valores en true
+                if (isChecked) {
+                    $('td.column-otec :radio[value="True"]').prop('checked', true);
+                }
+            });
+        });
+    </script>
+
+
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

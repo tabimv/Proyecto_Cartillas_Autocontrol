@@ -68,17 +68,15 @@ else
                                 <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.descripcion)</td>
+                                
                                 <td>
-                                    <!-- Enlace "Edit" dentro de un botón -->
-
-
-                                    <a href="#" class="edit" data-url="@Url.Action( "EditarCartilla", "Test", new { id = item.cartilla_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                    <a href="#" class="edit" data-url="@Url.Action( "EditarCartilla", "Cartilla", new { id = item.cartilla_id })">
+                                        <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
 
                                     <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.cartilla_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
                                     </a>
 
                                 </td>
