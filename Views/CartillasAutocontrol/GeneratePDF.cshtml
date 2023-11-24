@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC")
 {
     Layout = "~/Views/Shared/_LayoutCartilla.cshtml";
 }
@@ -14,7 +14,7 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC")
 {
     <link rel="stylesheet" href="~/Content/css/cartillaPDF.css">
 

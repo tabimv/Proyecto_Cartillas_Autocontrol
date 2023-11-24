@@ -41,6 +41,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
                 viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
                 viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
+                viewModel.ObraList = dbContext.OBRA.ToList();
 
 
             }
@@ -57,6 +58,26 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 {
                     using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
                     {
+                        // Verificar si ya existe una cartilla con las mismas combinaciones de FK y un estado final diferente de 1
+                        bool existeCartilla = dbContext.CARTILLA.Any(c =>
+                            c.OBRA_obra_id == viewModel.Cartilla.OBRA_obra_id &&
+                            c.ACTIVIDAD_actividad_id == viewModel.Cartilla.ACTIVIDAD_actividad_id &&
+                            c.ESTADO_FINAL_estado_final_id == 1);
+
+                        if (existeCartilla)
+                        {
+                            ModelState.AddModelError("", "Ya existe una misma Cartilla con un Estado Final de Visto Bueno.");
+
+                            // Recargar las listas necesarias para volver a mostrar la vista con los datos
+                            viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
+                            viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
+                            viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
+                            viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
+                            viewModel.ObraList = dbContext.OBRA.ToList();
+
+                            return View(viewModel);
+                        }
+
                         // Guardar la CARTILLA
                         viewModel.Cartilla.fecha = DateTime.Now;
                         dbContext.CARTILLA.Add(viewModel.Cartilla);
@@ -186,7 +207,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 viewModel.ElementosVerificacion = db.ITEM_VERIF.ToList();
                 viewModel.InmuebleList = db.INMUEBLE.ToList();
                 viewModel.EstadoFinalList = db.ESTADO_FINAL.ToList();
-
+                
                 return View(viewModel);
             }
 
@@ -244,6 +265,65 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult ConfirmarEliminarCartilla(int id)
+        {
+            using (var dbContext = new ObraManzanoNoviembre())
+            {
+                var cartilla = dbContext.CARTILLA.Include(c => c.DETALLE_CARTILLA).Include(c => c.ACTIVIDAD).Include(c => c.OBRA).Include(c => c.ESTADO_FINAL).FirstOrDefault(c => c.cartilla_id == id);
+                if (cartilla != null)
+                {
+                    return View(cartilla);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No se encontró la cartilla con el ID proporcionado");
+                    return RedirectToAction("Index"); // O alguna otra acción adecuada
+                }
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult EliminarCartilla(int id)
+        {
+            try
+            {
+                using (var dbContext = new ObraManzanoNoviembre())
+                {
+                    // Obtener la Cartilla y sus detalles por ID
+                    var cartilla = dbContext.CARTILLA.Include(c => c.DETALLE_CARTILLA).Include(c => c.ACTIVIDAD).Include(c => c.OBRA).Include(c => c.ESTADO_FINAL).FirstOrDefault(c => c.cartilla_id == id);
+
+                    if (cartilla != null)
+                    {
+                        // Eliminar los detalles de la Cartilla
+                        dbContext.DETALLE_CARTILLA.RemoveRange(cartilla.DETALLE_CARTILLA);
+
+                        // Eliminar la Cartilla
+                        dbContext.CARTILLA.Remove(cartilla);
+
+                        // Guardar los cambios en la base de datos
+                        dbContext.SaveChanges();
+
+                        // Redirigir a la página de índice u otra acción
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        // Manejar si no se encuentra la Cartilla con el ID proporcionado
+                        ModelState.AddModelError("", "No se encontró la cartilla con el ID proporcionado");
+                        return RedirectToAction("Index"); // O alguna otra acción adecuada
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción que pueda ocurrir al eliminar en la base de datos
+                ModelState.AddModelError("", "Error al eliminar la cartilla: " + ex.Message);
+                return RedirectToAction("Index"); // O alguna otra acción adecuada
+            }
         }
 
 

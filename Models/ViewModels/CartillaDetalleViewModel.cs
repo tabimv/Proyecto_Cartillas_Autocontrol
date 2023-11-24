@@ -17,10 +17,12 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
     public class CartillasViewModel
     {
         public CARTILLA Cartilla { get; set; }
+     
         public List<DETALLE_CARTILLA> DetalleCartillas { get; set; }
         public List<ACTIVIDAD> ActividadesList { get; set; }
         public List<ITEM_VERIF> ElementosVerificacion { get; set; }
         public List<INMUEBLE> InmuebleList { get; set; }
+        public List<OBRA> ObraList { get; set; }
         public List<ESTADO_FINAL> EstadoFinalList { get; set; }
     }
 

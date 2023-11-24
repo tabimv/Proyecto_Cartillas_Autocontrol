@@ -4,16 +4,16 @@
     ViewBag.Title = "Index";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "OTEC")
 {
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_OTEC.cshtml";
 }
 else
 {
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "OTEC")
 {
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
@@ -29,10 +29,6 @@ else
                             <h2>Gestión de <b>Cartilla</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("CrearCartilla")" class="btn btn-success">
-                                <i class="material-icons">&#xE147;</i>
-                                Crear Nueva Cartilla
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -82,19 +78,12 @@ else
                                             <span style="display: none;">Edit</span>
                                         </a>
 
-                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
-                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede Eliminar en Estado Cerrado">&#xE872;</i>
-                                        </a>
                                     }
                                     else if (item.ACTIVIDAD.estado == "A")
                                     {
-                                        <a href="#" class="edit" data-url="@Url.Action("EditarCartilla", "Cartilla", new { id = item.cartilla_id })">
-                                            <i class="material-icons" data-toggle="tooltip" title="Editar Cartilla">&#xE254;</i>
+                                        <a href="#" class="edit" data-url="@Url.Action("EditarCartilla", "VistaPerfilOTEC", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Aprobar Cartilla">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
-                                        </a>
-
-                                        <a href="#" class="delete" id="eliminarCartilla" data-id="@item.cartilla_id"  data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarCartilla", "Cartilla", new { id = item.cartilla_id })">
-                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
                                         </a>
                                     }
 
@@ -117,28 +106,6 @@ else
     <script>
         $(document).ready(function () {
             $(".edit").click(function (e) {
-                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
-
-                var url = $(this).data("url"); // Obtener la URL de data-url
-
-                // Redirigir a la vista "Edit"
-                window.location.href = url;
-            });
-        });
-    </script>
-    <script>
-        $(function () {
-            $("#eliminarCartilla").click(function () {
-                var id = $(this).data("id");
-                $.post("/Cartilla/ConfirmarEliminarCartilla/" + id, function () {
-                    // Manejar la respuesta si es necesario
-                });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $(".delete").click(function (e) {
                 e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
 
                 var url = $(this).data("url"); // Obtener la URL de data-url
@@ -185,7 +152,7 @@ else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
     <div id="header">
-        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <h1> Acceso denegado. Esta vista solo está disponible para OTEC</h1>
         <br />
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>

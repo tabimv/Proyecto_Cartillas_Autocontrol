@@ -179,6 +179,8 @@
     <Compile Include="Controllers\ResponsableController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\VistaPerfilOTECController.cs" />
+    <Compile Include="Controllers\VistaConsultaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -301,6 +303,15 @@
     <Content Include="Views\Test\EditarCartilla.cshtml" />
     <Content Include="Views\ItemVerif\Crear.cshtml" />
     <Content Include="Views\Cartilla\EditarCartilla.cshtml" />
+    <Content Include="Views\Cartilla\ConfirmarEliminarCartilla.cshtml" />
+    <Content Include="Views\VistaPerfilOTEC\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout_OTEC.cshtml" />
+    <Content Include="Views\VistaConsulta\Obra.cshtml" />
+    <Content Include="Views\VistaConsulta\Responsable.cshtml" />
+    <Content Include="Views\VistaConsulta\Inmueble.cshtml" />
+    <Content Include="Views\VistaConsulta\Actividad.cshtml" />
+    <Content Include="Views\VistaConsulta\ItemVerificacion.cshtml" />
+    <Content Include="Views\VistaPerfilOTEC\EditarCartilla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

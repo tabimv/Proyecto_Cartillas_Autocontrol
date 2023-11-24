@@ -64,6 +64,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     {
                         return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
                     }
+                    else if (Session["Perfil"].Equals("OTEC"))
+                    {
+                        return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+                    }
                 }
             }
 

@@ -43,7 +43,7 @@ else
                         @Html.LabelFor(model => model.Cartilla.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <div class="checkbox">
-                                @Html.EditorFor(model => model.Cartilla.OBRA_obra_id, new { htmlAttributes = new { @class = "form-control", id = "Cartilla_OBRA_obra_id" } })
+                                @Html.DropDownListFor(model => model.Cartilla.OBRA_obra_id, new SelectList(Model.ObraList, "obra_id", "nombre_obra"), "Seleccione una Obra", new { @class = "form-control", id = "Cartilla_OBRA_obra_id" })
                                 @Html.ValidationMessageFor(model => model.Cartilla.OBRA_obra_id, "", new { @class = "text-danger" })
                             </div>
                         </div>

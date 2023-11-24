@@ -20,7 +20,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // GET: ItemVerif
         public async Task<ActionResult> Index()
         {
-            var iTEM_VERIF = db.ITEM_VERIF.Include(i => i.ACTIVIDAD);
+            var iTEM_VERIF = db.ITEM_VERIF.Include(i => i.ACTIVIDAD).OrderBy(i => i.label).ThenBy(i => i.ACTIVIDAD_actividad_id);
             return View(await iTEM_VERIF.ToListAsync());
         }
 

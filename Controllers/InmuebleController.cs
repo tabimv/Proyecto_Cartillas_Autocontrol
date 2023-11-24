@@ -94,7 +94,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.OBRA_obra_id);
             return View(iNMUEBLE);
         }
-
+ 
         // GET: Inmueble/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
