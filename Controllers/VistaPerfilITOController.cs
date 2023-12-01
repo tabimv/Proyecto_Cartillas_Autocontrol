@@ -1,27 +1,25 @@
-﻿using System;
+﻿using Proyecto_Cartilla_Autocontrol.Models;
+using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
-using Proyecto_Cartilla_Autocontrol.Models;
-
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
-    public class VistaPerfilOTECController : Controller
+    public class VistaPerfilITOController : Controller
     {
         private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
-        // GET: VistaPerfilOTEC
+        // GET: VistaPerfilITO
         public async Task<ActionResult> Index()
         {
             var cARTILLA = db.CARTILLA.Include(c => c.ACTIVIDAD).Include(c => c.ESTADO_FINAL).Include(c => c.OBRA);
             return View(await cARTILLA.ToListAsync());
         }
+
 
         public ActionResult EditarCartilla(int id)
         {
@@ -61,7 +59,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
 
-                        // Verificar si el estado final es "Aprobado" (id 1)
+                         // Verificar si el estado final es "Aprobado" (id 1)
                         if (viewModel.Cartilla.ESTADO_FINAL_estado_final_id == 1)
                         {
                             // Verificar si al menos un campo de aprobación está en falso

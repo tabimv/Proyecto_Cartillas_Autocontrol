@@ -44,11 +44,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.PDF, Version=23.11.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.PDF.23.11.1\lib\net4.0\Aspose.PDF.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetZip, Version=1.16.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>packages\DotNetZip.1.16.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -80,6 +92,11 @@
     </Reference>
     <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -139,6 +156,7 @@
     <Content Include="Content\css\cartilla.css" />
     <Content Include="Content\css\cartillaPDF.css" />
     <Content Include="Content\css\CrearCartilla.css" />
+    <Content Include="Content\css\perfil.css" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logo2.png" />
     <Content Include="Content\js\admin.js" />
@@ -172,13 +190,16 @@
     <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\CartillaController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolController.cs" />
+    <Compile Include="Controllers\EnviarPorCorreoController.cs" />
     <Compile Include="Controllers\InmuebleController.cs" />
     <Compile Include="Controllers\ItemVerifController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\ResponsableController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\VistaPerfilITOController.cs" />
     <Compile Include="Controllers\VistaPerfilOTECController.cs" />
     <Compile Include="Controllers\VistaConsultaController.cs" />
     <Compile Include="Global.asax.cs">
@@ -312,6 +333,14 @@
     <Content Include="Views\VistaConsulta\Actividad.cshtml" />
     <Content Include="Views\VistaConsulta\ItemVerificacion.cshtml" />
     <Content Include="Views\VistaPerfilOTEC\EditarCartilla.cshtml" />
+    <Content Include="Views\Shared\_Layout_Consulta.cshtml" />
+    <Content Include="Views\VistaPerfilITO\Index.cshtml" />
+    <Content Include="Views\VistaPerfilITO\EditarCartilla.cshtml" />
+    <Content Include="Views\Shared\_Layout_ITO.cshtml" />
+    <Content Include="Views\Perfil\PerfilAdmin.cshtml" />
+    <Content Include="Views\Perfil\PerfilOtec.cshtml" />
+    <Content Include="Views\Perfil\PerfilIto.cshtml" />
+    <Content Include="Views\EnviarPorCorreo\GeneratePDF.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

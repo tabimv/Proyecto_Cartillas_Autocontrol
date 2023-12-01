@@ -21,8 +21,10 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO")
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO"))
 {
+
+
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
@@ -54,7 +56,14 @@ else
                             <tr>
                                 <td> @Html.DisplayFor(modelItem => item.codigo_actividad)</td>
                                 <td> @Html.DisplayFor(modelItem => item.nombre_actividad) </td>
-                                <td> @Html.DisplayFor(modelItem => item.estado) </td>
+                                @if (item.estado == "C")
+                                {
+                                    <td> Cerrado </td>
+                                }
+                                else if (item.estado == "A")
+                                {
+                                    <td> Abierto </td>
+                                }
                                 <td> @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
                             </tr>
                         }

@@ -26,7 +26,7 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Gestión de <b>Cartilla</b></h2>
+                            <h2>Gestión de <b>Cartillas de Autocontrol</b></h2>
                         </div>
                         <div class="col-sm-6">
                             <a href="@Url.Action("CrearCartilla")" class="btn btn-success">
@@ -93,7 +93,7 @@ else
                                             <span style="display: none;">Edit</span>
                                         </a>
 
-                                        <a href="#" class="delete" id="eliminarCartilla" data-id="@item.cartilla_id"  data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarCartilla", "Cartilla", new { id = item.cartilla_id })">
+                                        <a href="#" class="delete" id="eliminarCartilla" data-id="@item.cartilla_id" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarCartilla", "Cartilla", new { id = item.cartilla_id })">
                                             <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
                                         </a>
                                     }
@@ -114,6 +114,14 @@ else
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 
 
+    if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+        $(document).ready(function () {
+            alert('@TempData["ErrorMessage"]');
+        });
+        </script>
+    }
     <script>
         $(document).ready(function () {
             $(".edit").click(function (e) {

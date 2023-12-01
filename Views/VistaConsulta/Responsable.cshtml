@@ -21,7 +21,7 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO")
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO"))
 {
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">

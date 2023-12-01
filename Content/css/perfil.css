@@ -1,0 +1,53 @@
+﻿.profile-container {
+    background-color: #e9e8e8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra 3D aquí */
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 60px auto;
+    transition: box-shadow 0.3s ease; /* Transición de la sombra */
+}
+
+    .profile-container:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra 3D aumentada en el hover */
+    }
+
+.profile-header {
+    background-color: #E96F21;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-content {
+    text-align: center;
+    padding: 50px;
+}
+
+.user-icon {
+    font-size: 60px;
+    color: #585858;
+}
+
+.user-info {
+    color: #585858;
+    margin-top: 20px;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+p {
+    margin: 5px 0;
+}
+
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icon {
+    font-size: 24px;
+    margin: 0 10px;
+    color: #585858;
+}

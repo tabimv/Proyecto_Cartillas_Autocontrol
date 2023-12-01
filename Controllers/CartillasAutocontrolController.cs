@@ -11,6 +11,8 @@ using Proyecto_Cartilla_Autocontrol.Models;
 using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
 using Rotativa;
 using Rotativa.Options;
+using System.Net.Mail;
+using System.IO;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -159,10 +161,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             return View("Edit", detalleCartilla);
         }
-
-
-
-
 
     }
 }

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -65,6 +67,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
                     }
                     else if (Session["Perfil"].Equals("OTEC"))
+                    {
+                        return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+                    }
+                    else if (Session["Perfil"].Equals("Consulta"))
                     {
                         return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
                     }

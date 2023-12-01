@@ -42,7 +42,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
             ViewBag.PERFIL_perfil_id = new SelectList(db.PERFIL, "perfil_id", "rol");
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre");
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "rut");
             return View();
         }
 
@@ -62,7 +62,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", uSUARIO.OBRA_obra_id);
             ViewBag.PERFIL_perfil_id = new SelectList(db.PERFIL, "perfil_id", "rol", uSUARIO.PERFIL_perfil_id);
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", uSUARIO.PERSONA_rut);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "rut", uSUARIO.PERSONA_rut);
             return View(uSUARIO);
         }
 

@@ -21,7 +21,7 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO")
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO"))
 {
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
@@ -41,6 +41,7 @@ else
                 <table id="cartillaTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
+                            <th> ID de Inmueble</th>
                             <th> Tipo Inmueble</th>
                             <th> Obra Asociada</th>
                         </tr>
@@ -49,6 +50,9 @@ else
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.inmueble_id)
+                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.tipo_inmueble)
                                 </td>

@@ -227,6 +227,17 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
 
+                        // Verificar si el estado final es "Aprobado" (id 1)
+                        if (viewModel.Cartilla.ESTADO_FINAL_estado_final_id == 1)
+                        {
+                            // Verificar si al menos un campo de aprobación está en falso
+                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false))
+                            {
+                                TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobado. Debido a que no todos los valores se encuentra aprobados.";
+                                return RedirectToAction("Index", "Cartilla");
+                            }
+                        } 
+
                         // Actualizar o agregar los detalles de la Cartilla en la base de datos
                         foreach (var detalleCartilla in viewModel.DetalleCartillas)
                         {

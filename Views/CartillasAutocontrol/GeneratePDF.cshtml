@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC")
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "ITO"))
 {
     Layout = "~/Views/Shared/_LayoutCartilla.cshtml";
 }
@@ -14,7 +14,7 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC")
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "ITO"))
 {
     <link rel="stylesheet" href="~/Content/css/cartillaPDF.css">
 
@@ -172,7 +172,7 @@ else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
     <div id="header">
-        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <h1> Acceso denegado. Vista protegida. </h1>
         <br />
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
