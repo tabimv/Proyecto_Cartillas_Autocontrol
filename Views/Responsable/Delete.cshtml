@@ -25,6 +25,20 @@ else
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
+                        Nombre:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PERSONA.nombre)
+                    </dd>
+                    <dt>
+                        Apellidos:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PERSONA.apeliido_paterno)   @Html.DisplayFor(model => model.PERSONA.apellido_materno)
+                    </dd>
+                    <dt>
                         Cargo
                     </dt>
 
@@ -33,27 +47,14 @@ else
                     </dd>
 
                     <dt>
-                        Obra
+                        Obra Asociada
                     </dt>
 
                     <dd>
                         @Html.DisplayFor(model => model.OBRA.nombre_obra)
                     </dd>
 
-                    <dt>
-                        Nombre:
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayNameFor(model => model.PERSONA.nombre)
-                    </dd>
-                    <dt>
-                        Apellidos:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.PERSONA.apeliido_paterno)   @Html.DisplayFor(model => model.PERSONA.apeliido_paterno)
-                    </dd>
 
 
                 </dl>

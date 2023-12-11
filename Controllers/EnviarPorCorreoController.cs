@@ -23,7 +23,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class EnviarPorCorreoController : Controller
     {
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
 
         public ActionResult GeneratePDF(int id)
         {

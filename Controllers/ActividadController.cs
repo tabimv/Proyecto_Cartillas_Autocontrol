@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ActividadController : Controller
     {
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
 
         // GET: Actividad
         public async Task<ActionResult> Index()

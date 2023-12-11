@@ -1,7 +1,8 @@
-﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.OBRA>
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.ITEM_VERIF>
 
 @{
     ViewBag.Title = "Index";
+    int? lastActivityId = null;
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -26,13 +27,14 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Gestión de <b>Obras</b></h2>
+                            <h2>Gestión de <b>Item de Verificación</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("Create")" class="btn btn-success">
+                            <a href="@Url.Action("Crear")" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i>
-                                Crear Nueva Obra
+                                Crear Nuevo Item de Verificación
                             </a>
+
                         </div>
                     </div>
                 </div>
@@ -40,36 +42,50 @@ else
                     <thead>
                         <tr>
                             <th></th>
-                            <th> Nombre Obra </th>
-                            <th> Dirección </th>
-                            <th> Nombre Comuna </th>
-                            <th>Acciones</th>
+                            <th> Actividad Asociada </th>
+                            <th> Nombre Actividad </th>
+                            <th style="white-space: nowrap;">Lista de Items de Verificación</th>
+                            <th> Acciones </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td></td>
-                                <td> @Html.DisplayFor(modelItem => item.nombre_obra)</td>
-                                <td> @Html.DisplayFor(modelItem => item.direccion) </td>
-                                <td> @Html.DisplayFor(modelItem => item.COMUNA.nombre_comuna) </td>
-                                <td>
-                                    <!-- Enlace "Edit" dentro de un botón -->
+                            if (lastActivityId != item.ACTIVIDAD.actividad_id)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td> @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.ACTIVIDAD.nombre_actividad) </td>
+                                    <td>
+                                        <!-- Tu lógica para visualizar detalles o acciones específicas -->
+                                        <!-- Asegúrate de ajustar esta parte según tu lógica -->
+                                        <a href="#" class="edit" data-url="@Url.Action("ItemDetails", new { actividadId = item.ACTIVIDAD_actividad_id })">
+                                            <i class="material-icons eye-icon"
+                                               data-toggle="tooltip"
+                                               title="Visualizar Lista"
+                                               style="color: black; transition: color 0.3s ease;"
+                                               onmouseover="this.style.color='#3770B8'"
+                                               onmouseout="this.style.color='black'">visibility</i>
+                                            <span style="display: none;">Visualizar Lista</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="edit" data-url="@Url.Action("EditarPorActividad", new { actividadId = item.ACTIVIDAD_actividad_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
+
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarItems", new { actividadId = item.ACTIVIDAD_actividad_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
+                                        </a>
 
 
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.obra_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Editar Obra">&#xE254;</i>
-                                        <span style="display: none;">Edit</span>
-                                    </a>
 
-
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.obra_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar Obra">&#xE872;</i>
-                                    </a>
-
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            }
+                            lastActivityId = item.ACTIVIDAD_actividad_id;
                         }
                     </tbody>
                 </table>
@@ -80,6 +96,7 @@ else
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
 
     <script>
         $(document).ready(function () {

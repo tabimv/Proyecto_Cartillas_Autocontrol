@@ -20,7 +20,8 @@ namespace Proyecto_Cartilla_Autocontrol.Models
             this.DETALLE_CARTILLA = new HashSet<DETALLE_CARTILLA>();
         }
     
-        public string inmueble_id { get; set; }
+        public int inmueble_id { get; set; }
+        public string codigo_inmueble { get; set; }
         public string tipo_inmueble { get; set; }
         public int OBRA_obra_id { get; set; }
     

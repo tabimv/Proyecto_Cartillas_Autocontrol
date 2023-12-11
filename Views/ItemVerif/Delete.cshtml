@@ -60,10 +60,10 @@ else
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="form-actions no-color">
-                        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-sm btn-custom-link" }) |
-                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
-                    </div>
+            <div class="form-actions no-color">
+                @Html.ActionLink("Volver a la Lista", "ItemDetails", new { actividadId = Model.ACTIVIDAD_actividad_id }, new { @class = "btn btn-sm btn-custom-link" }) |
+                <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+            </div>
                 }
             </div>
         </div>

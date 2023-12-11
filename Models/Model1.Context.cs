@@ -12,13 +12,11 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
-    public partial class ObraManzanoNoviembre : DbContext
+    public partial class ObraManzanoDicEntities : DbContext
     {
-        public ObraManzanoNoviembre()
-            : base("name=ObraManzanoNoviembre")
+        public ObraManzanoDicEntities()
+            : base("name=ObraManzanoDicEntities")
         {
         }
     
@@ -40,47 +38,5 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public virtual DbSet<REGION> REGION { get; set; }
         public virtual DbSet<RESPONSABLE> RESPONSABLE { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
-        public virtual DbSet<CARTILLA_DETALLE_VIEW> CARTILLA_DETALLE_VIEW { get; set; }
-    
-        public virtual int CrearNuevaCartilla(Nullable<System.DateTime> fecha, string observaciones, Nullable<int> oBRA_obra_id, Nullable<int> aCTIVIDAD_actividad_id, Nullable<int> eSTADO_FINAL_estado_final_id, Nullable<bool> estado_otec, Nullable<bool> estado_ito, Nullable<int> iTEM_VERIF_item_verif_id, string iNMUEBLE_inmueble_id)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var observacionesParameter = observaciones != null ?
-                new ObjectParameter("observaciones", observaciones) :
-                new ObjectParameter("observaciones", typeof(string));
-    
-            var oBRA_obra_idParameter = oBRA_obra_id.HasValue ?
-                new ObjectParameter("OBRA_obra_id", oBRA_obra_id) :
-                new ObjectParameter("OBRA_obra_id", typeof(int));
-    
-            var aCTIVIDAD_actividad_idParameter = aCTIVIDAD_actividad_id.HasValue ?
-                new ObjectParameter("ACTIVIDAD_actividad_id", aCTIVIDAD_actividad_id) :
-                new ObjectParameter("ACTIVIDAD_actividad_id", typeof(int));
-    
-            var eSTADO_FINAL_estado_final_idParameter = eSTADO_FINAL_estado_final_id.HasValue ?
-                new ObjectParameter("ESTADO_FINAL_estado_final_id", eSTADO_FINAL_estado_final_id) :
-                new ObjectParameter("ESTADO_FINAL_estado_final_id", typeof(int));
-    
-            var estado_otecParameter = estado_otec.HasValue ?
-                new ObjectParameter("estado_otec", estado_otec) :
-                new ObjectParameter("estado_otec", typeof(bool));
-    
-            var estado_itoParameter = estado_ito.HasValue ?
-                new ObjectParameter("estado_ito", estado_ito) :
-                new ObjectParameter("estado_ito", typeof(bool));
-    
-            var iTEM_VERIF_item_verif_idParameter = iTEM_VERIF_item_verif_id.HasValue ?
-                new ObjectParameter("ITEM_VERIF_item_verif_id", iTEM_VERIF_item_verif_id) :
-                new ObjectParameter("ITEM_VERIF_item_verif_id", typeof(int));
-    
-            var iNMUEBLE_inmueble_idParameter = iNMUEBLE_inmueble_id != null ?
-                new ObjectParameter("INMUEBLE_inmueble_id", iNMUEBLE_inmueble_id) :
-                new ObjectParameter("INMUEBLE_inmueble_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CrearNuevaCartilla", fechaParameter, observacionesParameter, oBRA_obra_idParameter, aCTIVIDAD_actividad_idParameter, eSTADO_FINAL_estado_final_idParameter, estado_otecParameter, estado_itoParameter, iTEM_VERIF_item_verif_idParameter, iNMUEBLE_inmueble_idParameter);
-        }
     }
 }

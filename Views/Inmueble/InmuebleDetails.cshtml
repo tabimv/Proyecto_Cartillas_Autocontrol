@@ -1,7 +1,8 @@
-﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.OBRA>
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.INMUEBLE>
 
 @{
     ViewBag.Title = "Index";
+    var obraSeleccionada = ViewBag.ObraSeleccionado as Proyecto_Cartilla_Autocontrol.Models.OBRA;
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -26,23 +27,24 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Gestión de <b>Obras</b></h2>
+                            <h2>Lista Inmuebles de la Obra: <b> @obraSeleccionada.nombre_obra </b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("Create")" class="btn btn-success">
-                                <i class="material-icons">&#xE147;</i>
-                                Crear Nueva Obra
+                            <a href="@Url.Action("InmuebleLista", "Inmueble")" class="btn btn-success">
+                                <i class="material-icons">arrow_back</i>
+                                Volver
                             </a>
+
                         </div>
+
                     </div>
                 </div>
                 <table id="cartillaTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th></th>
-                            <th> Nombre Obra </th>
-                            <th> Dirección </th>
-                            <th> Nombre Comuna </th>
+                            <th> Código Inmueble </th>
+                            <th> Tipo Inmueble </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -51,21 +53,19 @@ else
                         {
                             <tr>
                                 <td></td>
-                                <td> @Html.DisplayFor(modelItem => item.nombre_obra)</td>
-                                <td> @Html.DisplayFor(modelItem => item.direccion) </td>
-                                <td> @Html.DisplayFor(modelItem => item.COMUNA.nombre_comuna) </td>
+                                <td> @Html.DisplayFor(modelItem => item.codigo_inmueble)</td>
+                                <td> @Html.DisplayFor(modelItem => item.tipo_inmueble) </td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
-
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.obra_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Editar Obra">&#xE254;</i>
+                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.inmueble_id })">
+                                        <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
 
 
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.obra_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar Obra">&#xE872;</i>
+                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.inmueble_id })">
+                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
                                     </a>
 
                                 </td>
@@ -80,6 +80,7 @@ else
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
 
     <script>
         $(document).ready(function () {

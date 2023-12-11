@@ -25,6 +25,14 @@ else
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
+                        Código Inmueble:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.codigo_inmueble)
+                    </dd>
+
+                    <dt>
                         Tipo de Inmueble:
                     </dt>
 
@@ -37,7 +45,7 @@ else
                     </dt>
 
                     <dd>
-                        @Html.DisplayNameFor(model => model.OBRA.nombre_obra)
+                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
                     </dd>
 
                 </dl>
@@ -52,11 +60,15 @@ else
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="form-actions no-color">
-                        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-sm btn-custom-link" }) |
-                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
-                    </div>
+            <div class="form-actions no-color">
+                @Html.ActionLink("Volver a la Lista", "InmuebleDetails", new { obraId = Model.OBRA_obra_id }, new { @class = "btn btn-sm btn-custom-link" }) |
+                <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+            </div>
+             
+                    
                 }
+
+
             </div>
         </div>
     </div>

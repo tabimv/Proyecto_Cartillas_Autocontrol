@@ -19,7 +19,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     public class CartillasAutocontrolController : Controller
     {
 
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
 
         public async Task<ActionResult> ListaCartillasPorActividad()
         {

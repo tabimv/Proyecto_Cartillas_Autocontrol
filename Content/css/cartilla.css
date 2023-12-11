@@ -87,7 +87,8 @@ section p {
 table {
     border-collapse: collapse;
     width: 80%;
-    margin: 10%;
+    margin-top: 12%;
+    margin-bottom: 12%;
 }
 
 th, td {
@@ -95,6 +96,8 @@ th, td {
     padding: 8px;
     text-align: left;
 }
+
+
 
 tr:nth-child(even) {
     background-color: #f2f2f2;

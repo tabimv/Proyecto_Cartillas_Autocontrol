@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ResponsableController : Controller
     {
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
 
         // GET: Responsable
         public async Task<ActionResult> Index()
@@ -42,6 +42,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
             ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre");
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno }), "rut", "nombreCompleto");
             return View();
         }
 
@@ -60,7 +61,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", rESPONSABLE.PERSONA_rut);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno }), "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
             return View(rESPONSABLE);
         }
 
@@ -77,7 +78,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", rESPONSABLE.PERSONA_rut);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno }), "rut", "nombreCompleto");
             return View(rESPONSABLE);
         }
 
@@ -95,7 +96,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre", rESPONSABLE.PERSONA_rut);
+            ViewBag.PERSONA_rut = new SelectList(db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno }), "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
             return View(rESPONSABLE);
         }
 

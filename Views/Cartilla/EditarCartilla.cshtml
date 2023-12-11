@@ -40,10 +40,10 @@ else
                     @Html.HiddenFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
 
                     <div class="form-group">
-                        <p> <strong> Fecha de emisión:  </strong>  @Html.DisplayFor(model => model.Cartilla.fecha)</p>
+                        <p> <strong> Fecha de Creación:  </strong>  @Html.DisplayFor(model => model.Cartilla.fecha)</p>
                         <p> <strong> Actividad:  </strong>  @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
                         <p> <strong> Obra:  </strong>  @Html.DisplayFor(model => model.Cartilla.OBRA.nombre_obra)</p>
-                        <p> <strong> Estado Final:  </strong>  @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado Final", new { @class = "form-control", @id = "estadoFinalDropdown" }) </p>
+                        <p style="width: 80%;"> <strong> Estado Final:  </strong>  @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado Final", new { @class = "form-control", @id = "estadoFinalDropdown" }) </p>
                     </div>
 
 
@@ -103,7 +103,7 @@ else
 
                     <div style=" margin-top: 20px;" class="form-group">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <input id="submitButton" type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
+                        <input style="width: 100%;"  id="submitButton" type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
                     </div>
 
                     <div>

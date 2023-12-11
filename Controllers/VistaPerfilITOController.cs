@@ -12,7 +12,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class VistaPerfilITOController : Controller
     {
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
         // GET: VistaPerfilITO
         public async Task<ActionResult> Index()
         {
@@ -54,7 +54,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoNoviembre())
+                    using (var dbContext = new ObraManzanoDicEntities())
                     {
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;

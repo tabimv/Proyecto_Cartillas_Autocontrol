@@ -76,31 +76,13 @@ else
         }
     </section>
 
-    <table class="lista-table">
-        <tr>
-
-            <th></th>
-            <th></th>
-            @foreach (var item in Model)
-            {
-                <th><strong>VIV. N°: </strong> </th>
-            }
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            @foreach (var item in Model)
-            {
-                <td>@item.INMUEBLE_inmueble_id </td>
-            }
-        </tr>
-
+    <table  class="lista-table">
         <tr>
             <th>N°</th>
             <th>Elementos de verificación</th>
             <td>ITO</td>
             <td>OTEC</td>
+            <td>N° VIV</td>
 
         </tr>
 
@@ -118,9 +100,11 @@ else
 
                 <td>@Html.DisplayFor(modelItem => item.estado_ito) </td>
                 <td>@Html.DisplayFor(modelItem => item.estado_otec)</td>
+                <td>@item.INMUEBLE_inmueble_id </td>
             </tr>
         }
     </table>
+
 
     <div class="observaciones">
         <div class="cuadro-observaciones">

@@ -9,165 +9,13 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
 using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
-using System.Data.SqlClient;
-using System.Data.Entity.Infrastructure;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
-    public class TestController : Controller
+    public class PruebaController : Controller
     {
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
-        // GET: Test
-        public ActionResult Index()
-        {
-            List<CartillaViewModel> model = ObtenerDatosDesdeBaseDeDatos();
-            return View(model);
-        }
 
-
-        private List<CartillaViewModel> ObtenerDatosDesdeBaseDeDatos()
-        {
-            // Lógica para obtener datos desde la base de datos y llenar el ViewModel
-            // Asegúrate de agrupar por cartilla_id y mapear los datos correspondientes
-            // a las propiedades del ViewModel.
-
-            // Ejemplo simplificado:
-            List<CartillaViewModel> cartillas = db.CARTILLA_DETALLE_VIEW
-             .GroupBy(c => c.cartilla_id)
-             .Select(group => new CartillaViewModel
-             {
-                 CartillaId = group.Key,
-                 Fecha = group.FirstOrDefault().fecha,
-                 Observaciones = group.FirstOrDefault().observaciones,
-                 ObraId = group.FirstOrDefault().OBRA_obra_id,
-                 ActividadId = group.FirstOrDefault().ACTIVIDAD_actividad_id,
-                 EstadoFinalId = group.FirstOrDefault().ESTADO_FINAL_estado_final_id,
-                 Detalles = group.Select(d => new DetalleCartillaViewModel
-                 {
-                     CARTILLACartillaId = d.CARTILLA_cartilla_id ?? 0,
-                     DetalleCartillaId = d.detalle_cartilla_id ?? 0,
-                     EstadoOtec = d.estado_otec ?? false,
-                     EstadoIto = d.estado_ito ?? false,
-                     ItemVerifId = d.ITEM_VERIF_item_verif_id ?? 0,
-                     InmuebleId = d.INMUEBLE_inmueble_id ?? ""
-                 }).ToList()
-             })
-             .ToList();
-
-            return cartillas;
-        }
-
-        public void CrearNuevaCartilla(CartillaViewModel viewModel)
-        {
-            using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
-            {
-                // Llamada al procedimiento almacenado mediante Entity Framework
-                dbContext.Database.ExecuteSqlCommand(
-                    "CrearNuevaCartilla @fecha, @observaciones, @OBRA_obra_id, @ACTIVIDAD_actividad_id, " +
-                    "@ESTADO_FINAL_estado_final_id, @estado_otec, @estado_ito, @ITEM_VERIF_item_verif_id, @INMUEBLE_inmueble_id",
-                    new SqlParameter("@fecha", viewModel.Fecha),
-                    new SqlParameter("@observaciones", viewModel.Observaciones),
-                    new SqlParameter("@OBRA_obra_id", viewModel.ObraId),
-                    new SqlParameter("@ACTIVIDAD_actividad_id", viewModel.ActividadId),
-                    new SqlParameter("@ESTADO_FINAL_estado_final_id", viewModel.EstadoFinalId),
-                    new SqlParameter("@estado_otec", viewModel.Detalles[0].EstadoOtec),  // Suponiendo que tienes al menos un detalle en el ViewModel
-                    new SqlParameter("@estado_ito", viewModel.Detalles[0].EstadoIto),
-                    new SqlParameter("@ITEM_VERIF_item_verif_id", viewModel.Detalles[0].ItemVerifId),
-                    new SqlParameter("@INMUEBLE_inmueble_id", viewModel.Detalles[0].InmuebleId)
-                );
-            }
-        }
-
-        public ActionResult Create()
-        {
-            // Puedes personalizar esta lógica según tus necesidades
-            var viewModel = new CartillaViewModel
-            {
-                // Inicializa propiedades según sea necesario
-            };
-
-            return View(viewModel);
-        }
-
-
-        [HttpPost]
-        public ActionResult Create(CartillaViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                // Guardar la nueva cartilla
-                var nuevaCartilla = new CARTILLA
-                {
-                    fecha = viewModel.Fecha,
-                    observaciones = viewModel.Observaciones,
-                    OBRA_obra_id = viewModel.ObraId,
-                    ACTIVIDAD_actividad_id = viewModel.ActividadId,
-                    ESTADO_FINAL_estado_final_id = viewModel.EstadoFinalId
-                };
-
-                db.CARTILLA.Add(nuevaCartilla);
-                db.SaveChanges();
-
-                // Obtener el ID de la nueva cartilla
-                int nuevaCartillaId = nuevaCartilla.cartilla_id;
-
-                // Cargar los detalles asociados a la nueva cartilla
-                viewModel.Detalles = db.DETALLE_CARTILLA
-                    .Where(d => d.CARTILLA_cartilla_id == nuevaCartillaId)
-                    .Select(detalle => new DetalleCartillaViewModel
-                    {
-                        DetalleCartillaId = detalle.detalle_cartilla_id,
-                        EstadoOtec = detalle.estado_otec,
-                        EstadoIto = detalle.estado_ito,
-                        ItemVerifId = detalle.ITEM_VERIF_item_verif_id,
-                        InmuebleId = detalle.INMUEBLE_inmueble_id
-                    })
-                    .ToList();
-
-                // Guardar los detalles asociados a la nueva cartilla (si es necesario)
-                if (viewModel.Detalles != null && viewModel.Detalles.Any())
-                {
-                    foreach (var detalle in viewModel.Detalles)
-                    {
-                        var nuevoDetalle = new DETALLE_CARTILLA
-                        {
-                            estado_otec = detalle.EstadoOtec,
-                            estado_ito = detalle.EstadoIto,
-                            ITEM_VERIF_item_verif_id = detalle.ItemVerifId,
-                            INMUEBLE_inmueble_id = detalle.InmuebleId,
-                            CARTILLA_cartilla_id = nuevaCartillaId
-                        };
-
-                        db.DETALLE_CARTILLA.Add(nuevoDetalle);
-                    }
-
-                    db.SaveChanges();
-                }
-
-                return RedirectToAction("Index");
-            }
-
-            // Si hay errores de validación, cargar los detalles actuales y regresar a la vista con el ViewModel para mostrar los mensajes de error
-            viewModel.Detalles = ObtenerDetallesActuales(viewModel.CartillaId);
-            return View(viewModel);
-        }
-
-        private List<DetalleCartillaViewModel> ObtenerDetallesActuales(int cartillaId)
-        {
-            return db.DETALLE_CARTILLA
-                .Where(d => d.CARTILLA_cartilla_id == cartillaId)
-                .Select(detalle => new DetalleCartillaViewModel
-                {
-                    DetalleCartillaId = detalle.detalle_cartilla_id,
-                    EstadoOtec = detalle.estado_otec,
-                    EstadoIto = detalle.estado_ito,
-                    ItemVerifId = detalle.ITEM_VERIF_item_verif_id,
-                    InmuebleId = detalle.INMUEBLE_inmueble_id
-                })
-                .ToList();
-        }
-
-
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
 
         public ActionResult CrearCartilla()
         {
@@ -175,16 +23,17 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             viewModel.DetalleCartillas = new List<DETALLE_CARTILLA>();
             // Puedes agregar instancias de DETALLE_CARTILLA según sea necesario
             viewModel.DetalleCartillas.Add(new DETALLE_CARTILLA());
-       
+
 
             // Realiza una consulta a tu base de datos para obtener el valor deseado
-            using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+            using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
             {
                 // Supongamos que tienes una entidad llamada Configuracion con una propiedad ItemVerifId
                 viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
                 viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
                 viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
                 viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
+                viewModel.ObraList = dbContext.OBRA.ToList();
 
 
             }
@@ -199,9 +48,30 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+                    using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
                     {
+                        // Verificar si ya existe una cartilla con las mismas combinaciones de FK y un estado final diferente de 1
+                        bool existeCartilla = dbContext.CARTILLA.Any(c =>
+                            c.OBRA_obra_id == viewModel.Cartilla.OBRA_obra_id &&
+                            c.ACTIVIDAD_actividad_id == viewModel.Cartilla.ACTIVIDAD_actividad_id &&
+                            c.ESTADO_FINAL_estado_final_id == 1);
+
+                        if (existeCartilla)
+                        {
+                            ModelState.AddModelError("", "Ya existe una misma Cartilla con un Estado Final de Visto Bueno.");
+
+                            // Recargar las listas necesarias para volver a mostrar la vista con los datos
+                            viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
+                            viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
+                            viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
+                            viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
+                            viewModel.ObraList = dbContext.OBRA.ToList();
+
+                            return View(viewModel);
+                        }
+
                         // Guardar la CARTILLA
+                        viewModel.Cartilla.fecha = DateTime.Now;
                         dbContext.CARTILLA.Add(viewModel.Cartilla);
                         dbContext.SaveChanges();
 
@@ -278,13 +148,38 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             var elementos = db.INMUEBLE.Where(iv => iv.OBRA_obra_id == obraID).ToList();
 
             // Devuelve los elementos de verificación en formato JSON
-            var jsonData = elementos.Select(i => new { value = i.inmueble_id, text = i.inmueble_id}).ToList();
+            var jsonData = elementos.Select(i => new { value = i.inmueble_id, text = i.inmueble_id }).ToList();
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetCombinacionesElementosInmuebles(int actividadId)
+        {
+            try
+            {
+                using (var context = new ObraManzanoDicEntities())
+                {
+                    var query = from iv in context.ITEM_VERIF
+                                join a in context.ACTIVIDAD on iv.ACTIVIDAD_actividad_id equals a.actividad_id
+                                join o in context.OBRA on a.OBRA_obra_id equals o.obra_id
+                                join i in context.INMUEBLE on o.obra_id equals i.OBRA_obra_id
+                                where iv.ACTIVIDAD_actividad_id == actividadId
+                                select new
+                                {
+                                    iv.item_verif_id,
+                                    iv.elemento_verificacion,
+                                    i.inmueble_id,
+                                    i.tipo_inmueble
+                                };
 
-
-
+                    var result = query.ToList();
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "Error al obtener combinaciones: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
         public ActionResult EditarCartilla(int id)
@@ -320,10 +215,21 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoNoviembre())
+                    using (var dbContext = new ObraManzanoDicEntities())
                     {
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
+
+                        // Verificar si el estado final es "Aprobado" (id 1)
+                        if (viewModel.Cartilla.ESTADO_FINAL_estado_final_id == 1)
+                        {
+                            // Verificar si al menos un campo de aprobación está en falso
+                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false))
+                            {
+                                TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobado. Debido a que no todos los valores se encuentra aprobados.";
+                                return RedirectToAction("Index", "Cartilla");
+                            }
+                        }
 
                         // Actualizar o agregar los detalles de la Cartilla en la base de datos
                         foreach (var detalleCartilla in viewModel.DetalleCartillas)
@@ -365,17 +271,22 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(viewModel);
         }
 
-
-        // Recuerda implementar Dispose para liberar recursos del DbContext
-        protected override void Dispose(bool disposing)
+        [HttpGet]
+        public ActionResult ConfirmarEliminarCartilla(int id)
         {
-            if (disposing)
+            using (var dbContext = new ObraManzanoDicEntities())
             {
-                db.Dispose();
+                var cartilla = dbContext.CARTILLA.Include(c => c.DETALLE_CARTILLA).Include(c => c.ACTIVIDAD).Include(c => c.OBRA).Include(c => c.ESTADO_FINAL).FirstOrDefault(c => c.cartilla_id == id);
+                if (cartilla != null)
+                {
+                    return View(cartilla);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No se encontró la cartilla con el ID proporcionado");
+                    return RedirectToAction("Index"); // O alguna otra acción adecuada
+                }
             }
-            base.Dispose(disposing);
         }
     }
-
-
 }

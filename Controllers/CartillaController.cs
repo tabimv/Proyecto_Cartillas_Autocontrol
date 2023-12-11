@@ -15,7 +15,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class CartillaController : Controller
     {
-        private ObraManzanoNoviembre db = new ObraManzanoNoviembre();
+        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
 
         // GET: Cartilla
         public async Task<ActionResult> Index()
@@ -34,7 +34,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
 
             // Realiza una consulta a tu base de datos para obtener el valor deseado
-            using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+            using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
             {
                 // Supongamos que tienes una entidad llamada Configuracion con una propiedad ItemVerifId
                 viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
@@ -56,7 +56,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoNoviembre())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+                    using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
                     {
                         // Verificar si ya existe una cartilla con las mismas combinaciones de FK y un estado final diferente de 1
                         bool existeCartilla = dbContext.CARTILLA.Any(c =>
@@ -164,16 +164,17 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             try
             {
-                using (var context = new ObraManzanoNoviembre())
+                using (var context = new ObraManzanoDicEntities())
                 {
                     var query = from iv in context.ITEM_VERIF
-                                from i in context.INMUEBLE
+                                join a in context.ACTIVIDAD on iv.ACTIVIDAD_actividad_id equals a.actividad_id
+                                join o in context.OBRA on a.OBRA_obra_id equals o.obra_id
+                                join i in context.INMUEBLE on o.obra_id equals i.OBRA_obra_id
                                 where iv.ACTIVIDAD_actividad_id == actividadId
                                 select new
                                 {
                                     iv.item_verif_id,
                                     iv.elemento_verificacion,
-                                    iv.label,
                                     i.inmueble_id,
                                     i.tipo_inmueble
                                 };
@@ -222,7 +223,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoNoviembre())
+                    using (var dbContext = new ObraManzanoDicEntities())
                     {
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
@@ -281,7 +282,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         [HttpGet]
         public ActionResult ConfirmarEliminarCartilla(int id)
         {
-            using (var dbContext = new ObraManzanoNoviembre())
+            using (var dbContext = new ObraManzanoDicEntities())
             {
                 var cartilla = dbContext.CARTILLA.Include(c => c.DETALLE_CARTILLA).Include(c => c.ACTIVIDAD).Include(c => c.OBRA).Include(c => c.ESTADO_FINAL).FirstOrDefault(c => c.cartilla_id == id);
                 if (cartilla != null)
@@ -302,7 +303,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             try
             {
-                using (var dbContext = new ObraManzanoNoviembre())
+                using (var dbContext = new ObraManzanoDicEntities())
                 {
                     // Obtener la Cartilla y sus detalles por ID
                     var cartilla = dbContext.CARTILLA.Include(c => c.DETALLE_CARTILLA).Include(c => c.ACTIVIDAD).Include(c => c.OBRA).Include(c => c.ESTADO_FINAL).FirstOrDefault(c => c.cartilla_id == id);

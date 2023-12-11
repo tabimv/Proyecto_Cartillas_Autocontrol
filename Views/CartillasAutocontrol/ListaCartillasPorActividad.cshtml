@@ -85,7 +85,7 @@ else
                                             }
                                         </td>
                                         <td>@item.CARTILLA.ESTADO_FINAL.descripcion</td>
-                                        <td>
+                                        <td style="white-space: nowrap;">
                                             <!-- Opciones de edición/ver para la actividad -->
                                             <a href="#" class="VerCartilla" data-url="@Url.Action("VerCartilla", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
                                                 <i class="material-icons" data-toggle="tooltip" title="Ver Cartilla">&#xE417;</i>
@@ -97,9 +97,10 @@ else
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
 
-
-                                            <a href="@Url.Action("EnviarPDFPorCorreo", "EnviarPorCorreo", new { id = item.CARTILLA.ACTIVIDAD_actividad_id  })">Enviar PDF</a>
-
+                                            <a href="#" class="VerCartilla" data-url="@Url.Action("EnviarPDFPorCorreo", "EnviarPorCorreo", new { id = item.CARTILLA.ACTIVIDAD_actividad_id  })">
+                                                <i class="material-icons" data-toggle="tooltip" title="Enviar al Correo">email</i>
+                                                <span style="display: none;">VerCartilla</span>
+                                            </a>
                                         </td>
 
 
