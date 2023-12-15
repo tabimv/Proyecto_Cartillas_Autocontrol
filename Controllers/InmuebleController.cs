@@ -281,7 +281,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             INMUEBLE iNMUEBLE = await db.INMUEBLE.FindAsync(id);
             db.INMUEBLE.Remove(iNMUEBLE);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("InmuebleLista");
         }
 
         protected override void Dispose(bool disposing)

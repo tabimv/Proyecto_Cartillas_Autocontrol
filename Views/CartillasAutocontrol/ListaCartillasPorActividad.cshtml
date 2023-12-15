@@ -8,24 +8,12 @@
 {
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "OTEC")
-{
-    Layout = "~/Views/Shared/_Layout_OTEC.cshtml";
-}
-else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "ITO")
-{
-    Layout = "~/Views/Shared/_Layout_ITO.cshtml";
-}
-else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta")
-{
-    Layout = "~/Views/Shared/_Layout_Consulta.cshtml";
-}
 else
 {
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Administrador" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "ITO"))
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
 {
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">

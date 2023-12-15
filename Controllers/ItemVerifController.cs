@@ -177,7 +177,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 db.ITEM_VERIF.Add(iTEM_VERIF);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("ItemLista");
             }
 
             ViewBag.ACTIVIDAD_actividad_id = new SelectList(db.ACTIVIDAD, "actividad_id", "codigo_actividad", iTEM_VERIF.ACTIVIDAD_actividad_id);
@@ -196,7 +196,17 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 return HttpNotFound();
             }
-            
+
+            var actividades = db.ACTIVIDAD.ToList(); // Obtén la lista de actividades desde tu base de datos
+
+            // Crear una lista de objetos anónimos con los campos que necesitas
+            var listaActividades = actividades.Select(a => new
+            {
+                ActividadId = a.actividad_id,
+                CodigoYNombre = $"{a.codigo_actividad} - {a.nombre_actividad}"
+            }).ToList();
+
+            ViewBag.ACTIVIDAD_actividad_id = new SelectList(listaActividades, "ActividadId", "CodigoYNombre");
 
             return View(iTEM_VERIF);
         }
@@ -212,10 +222,19 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 db.Entry(iTEM_VERIF).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("ItemLista");
             }
-          
-            
+
+            var actividades = db.ACTIVIDAD.ToList(); // Obtén la lista de actividades desde tu base de datos
+
+            // Crear una lista de objetos anónimos con los campos que necesitas
+            var listaActividades = actividades.Select(a => new
+            {
+                ActividadId = a.actividad_id,
+                CodigoYNombre = $"{a.codigo_actividad} - {a.nombre_actividad}"
+            }).ToList();
+
+            ViewBag.ACTIVIDAD_actividad_id = new SelectList(listaActividades, "ActividadId", "CodigoYNombre", iTEM_VERIF.ACTIVIDAD_actividad_id);
             return View(iTEM_VERIF);
         }
 
@@ -242,7 +261,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             ITEM_VERIF iTEM_VERIF = await db.ITEM_VERIF.FindAsync(id);
             db.ITEM_VERIF.Remove(iTEM_VERIF);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("ItemLista");
         }
 
 
@@ -252,7 +271,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
         public ActionResult Crear()
         {
-            ViewBag.Actividades = new SelectList(db.ACTIVIDAD.ToList(), "actividad_id", "nombre_actividad"); // Obtener actividades para el DropDownList
+            ViewBag.Actividades = new SelectList(db.ACTIVIDAD.Where(a => a.estado == "A").ToList(), "actividad_id", "nombre_actividad"); // Obtener actividades para el DropDownList
             return View();
         }
 
@@ -282,7 +301,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     }
 
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ItemLista");
                 }
             }
             catch (Exception ex)
@@ -292,7 +311,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             // En caso de errores, regresar a la vista con los datos y mensajes de error
-            ViewBag.Actividades = new SelectList(db.ACTIVIDAD.ToList(), "actividad_id", "nombre_actividad");
+            ViewBag.Actividades = new SelectList(db.ACTIVIDAD.Where(a => a.estado == "A").ToList(), "actividad_id", "nombre_actividad");
             return View("Crear");
         }
 

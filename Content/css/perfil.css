@@ -1,15 +1,16 @@
 ﻿.profile-container {
     background-color: #e9e8e8;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra 3D aquí */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Cambiado el valor de la opacidad para hacer la sombra más visible y de color negro */
     border-radius: 10px;
     overflow: hidden;
     max-width: 800px;
     margin: 60px auto;
-    transition: box-shadow 0.3s ease; /* Transición de la sombra */
+    transition: box-shadow 0.3s ease;
 }
 
     .profile-container:hover {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra 3D aumentada en el hover */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Aumentado la opacidad de la sombra en el hover */
+        margin: 50px auto;
     }
 
 .profile-header {
@@ -22,6 +23,7 @@
 .profile-content {
     text-align: center;
     padding: 50px;
+    color: black;
 }
 
 .user-icon {

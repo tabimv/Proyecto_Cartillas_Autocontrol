@@ -44,12 +44,18 @@ else
                         Estado:
                     </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.estado)
-                    </dd>
+                    @if (Model.estado == "A")
+                    {
+                        <dd> Activo </dd>
+                    }
+                    else if (Model.estado == "B")
+                    {
+                        <dd> Bloqueado </dd>
+                    }
+
 
                     <dt>
-                        Nombre Obra:
+                        Obra Asociada:
                     </dt>
 
                     <dd>

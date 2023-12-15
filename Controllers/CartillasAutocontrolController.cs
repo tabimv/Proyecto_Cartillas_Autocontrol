@@ -49,10 +49,8 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             // 3. Pasar estos datos a la vista
             ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
 
-
             return View(elementosVerificacion);
         }
-
 
         public async Task<ActionResult> GeneratePDF(int id)
         {

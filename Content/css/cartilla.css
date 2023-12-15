@@ -3,10 +3,12 @@
 .encabezado {
     display: flex;
     justify-content: space-between;
+    max-width: 97%;
 }
 
 #contenido-pdf{
     margin-top: 5%;
+
 }
 
 .encabezado-imagen {
@@ -16,8 +18,11 @@
 
 .encabezado-titulo {
     font-size: 15px;
-    margin-right: -1%;
     font-weight: bold;
+    position: absolute;
+    top: 35%;
+    right: 10%;
+    margin: 8px;
 }
 
 .encabezado p {
@@ -61,7 +66,7 @@ section p {
     padding: 10px;
     position: absolute;
     font-family: Arial, sans-serif;
-    bottom: 30%;
+    bottom: 40%;
     right: 10%; /* Ajusta la distancia desde la derecha según tus necesidades */
     line-height: 1.5;
 }
@@ -87,9 +92,17 @@ section p {
 table {
     border-collapse: collapse;
     width: 80%;
-    margin-top: 12%;
-    margin-bottom: 12%;
+  
 }
+
+    /* En tu archivo cartilla.css o en línea */
+    table.default {
+        margin: 0 auto; /* Esto centrará la tabla horizontalmente */
+        width: 80%; /* Ajusta el ancho de la tabla según tus necesidades */
+        margin-top: 5%;
+        margin-bottom: 8%;
+    }
+
 
 th, td {
     border: 2px solid black;
@@ -161,14 +174,55 @@ textarea {
     }
 
 
-/* Estilo para pantallas pequeñas (menos de 768px de ancho) */
-@media (max-width: 768px) {
-    table {
-        margin-top: 60%; /* Ajusta la cantidad de espacio adicional deseado */
-        margin-bottom: 10%;
+
+@media only screen and (max-width: 768px) {
+    .encabezado {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .encabezado-titulo {
+        position: static;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+
+    .fecha-firma {
+        position: static;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    table.default {
+        width: 100%;
+        margin-top: 40%; /* Adjust as needed */
+        margin-bottom: 8%;
     }
 
     .rectangulo {
-        margin-top: 30%;
+        width: 100%;
+        margin: -230px 0; /* Adjust as needed */
     }
+
+    .observaciones {
+        margin: 20px 0;
+    }
+
+    .cuadro-observaciones {
+        max-width: 100%;
+        margin: 10% auto;
+    }
+
+    .firma {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+        .firma .linea {
+            width: 80%;
+            margin: 10px auto;
+        }
 }

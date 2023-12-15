@@ -14,10 +14,24 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     {
         private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
         // GET: VistaPerfilITO
+       
         public async Task<ActionResult> Index()
         {
-            var cARTILLA = db.CARTILLA.Include(c => c.ACTIVIDAD).Include(c => c.ESTADO_FINAL).Include(c => c.OBRA);
-            return View(await cARTILLA.ToListAsync());
+            var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+            ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var cARTILLA = db.CARTILLA.Include(c => c.ACTIVIDAD).Include(c => c.ESTADO_FINAL).Include(c => c.OBRA)
+                               .Include(c => c.OBRA.USUARIO)
+                               .Where(c => c.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol));
+                return View(await cARTILLA.ToListAsync());
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
         }
 
 
@@ -60,12 +74,12 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
 
                          // Verificar si el estado final es "Aprobado" (id 1)
-                        if (viewModel.Cartilla.ESTADO_FINAL_estado_final_id == 1)
+                        if (viewModel.Cartilla.ESTADO_FINAL.descripcion == "Aprobada")
                         {
                             // Verificar si al menos un campo de aprobación está en falso
                             if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false))
                             {
-                                TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobado. Debido a que no todos los valores se encuentra aprobados.";
+                                TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobada. Debido a que no todos los valores se encuentra aprobados.";
                                 return RedirectToAction("Index");
                             }
                         }

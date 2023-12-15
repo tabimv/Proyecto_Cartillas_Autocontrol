@@ -35,7 +35,12 @@ else
                     <p><strong> Obra Asociada: </strong>  @usuario.OBRA.nombre_obra </p>
                 </div>
             }
-            </div>
+            <br />
+            <a href="@Url.Action("ListaCartillasPorActividad", "CartillasAutocontrol")" class="VerCartilla">
+                <i style="color: black; font-size: 30px;" class="material-icons" data-toggle="tooltip" title="Ir a Cartillas de Autocontrol">&#xE879;</i>
+                <span style="display: none;">VerCartilla</span>
+            </a>
+        </div>
     </div>
 }
 

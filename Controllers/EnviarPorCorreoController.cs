@@ -43,11 +43,12 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             ViewBag.Responsables = ReponsablesObra;
             ViewBag.Actividad = actividad;
 
+           
             var pdfStream = new MemoryStream();
             var pdf = new ViewAsPdf("GeneratePDF", elementosVerificacion)
             {
                 FileName = "CartillaDeControl.pdf",
-                PageSize = Size.B4,
+                PageSize = Size.B3, // Uso de Size.Custom para especificar el tamaño personalizado
                 PageOrientation = Orientation.Landscape,
                 CustomSwitches = "--disable-smart-shrinking",
             };
@@ -81,8 +82,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     {
                         mailMessage.From = new MailAddress("cartillas.obra.manzano@gmail.com");
                         mailMessage.Subject = "Cartilla de Control Vivienda";
-                        mailMessage.Body = "Cartilla de Control Vivienda";
+                        string nombreActividad = ObtenerNombreActividadPorID(id);
+                        string nombreObra = ObtenerNombreObraPorID(id);
 
+                        mailMessage.Body = $"Cartilla de Control Vivienda para la Obra Asociada: {nombreObra} y Actividad: {nombreActividad}";
                         mailMessage.To.Add(correoDestinatario);
 
                         // Crear un nuevo MemoryStream y copiar el contenido del FileStream original
@@ -108,8 +111,43 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
         }
 
+        private string ObtenerNombreObraPorID(int obraId)
+        {
+   
+            using (var dbContext = new ObraManzanoDicEntities())
+            {
+                var obra = dbContext.ACTIVIDAD.Include(a => a.OBRA).FirstOrDefault(a => a.OBRA_obra_id == obraId);
+                if (obra != null)
+                {
+                    return obra.OBRA.nombre_obra;
+                }
+            }
+
+            // Si no se encuentra la actividad, devolver un valor por defecto o manejar de otra manera según tus necesidades.
+            return "Obra Desconocida";
+        }
 
 
-        
+        private string ObtenerNombreActividadPorID(int actividadId)
+        {
+            // Aquí deberías obtener el nombre de la actividad según el ID desde tu base de datos
+            // Puedes utilizar Entity Framework u otro método para acceder a la base de datos.
+
+            // Ejemplo utilizando Entity Framework
+            using (var dbContext = new ObraManzanoDicEntities())
+            {
+                var actividad = dbContext.ACTIVIDAD.FirstOrDefault(a => a.actividad_id == actividadId);
+                if (actividad != null)
+                {
+                    return actividad.nombre_actividad;
+                }
+            }
+
+            // Si no se encuentra la actividad, devolver un valor por defecto o manejar de otra manera según tus necesidades.
+            return "Actividad Desconocida";
+        }
+
+
+
     }
 }

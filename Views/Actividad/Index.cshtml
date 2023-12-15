@@ -26,7 +26,7 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Gestión de <b>Actividad</b></h2>
+                            <h2>Gestión de <b>Actividades</b></h2>
                         </div>
                         <div class="col-sm-6">
                             <a href="@Url.Action("Create")" class="btn btn-success">
@@ -54,13 +54,13 @@ else
                                 <td></td>
                                 <td> @Html.DisplayFor(modelItem => item.codigo_actividad)</td>
                                 <td> @Html.DisplayFor(modelItem => item.nombre_actividad) </td>
-                                @if (item.estado == "C")
+                                @if (item.estado == "B")
                                 {
-                                    <td> Cerrado </td>
+                                    <td> Bloqueado </td>
                                 }
                                 else if (item.estado == "A")
                                 {
-                                    <td> Abierto </td>
+                                    <td> Activo </td>
                                 } 
                                 <td> @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
                                 <td>
@@ -68,13 +68,13 @@ else
 
 
                                     <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.actividad_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                        <i class="material-icons" data-toggle="tooltip" title="Editar Actividad">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
 
 
                                     <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.actividad_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar Actividad">&#xE872;</i>
                                     </a>
 
                                 </td>

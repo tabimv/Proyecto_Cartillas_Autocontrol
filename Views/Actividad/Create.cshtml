@@ -47,7 +47,7 @@ else
                         @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
                     </div>

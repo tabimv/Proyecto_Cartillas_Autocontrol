@@ -37,13 +37,11 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
             {
                 // Supongamos que tienes una entidad llamada Configuracion con una propiedad ItemVerifId
-                viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
+                viewModel.ActividadesList = dbContext.ACTIVIDAD.Where(a => a.estado == "A").ToList();
                 viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
                 viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
                 viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
                 viewModel.ObraList = dbContext.OBRA.ToList();
-
-
             }
 
             return View(viewModel);
@@ -69,7 +67,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                             ModelState.AddModelError("", "Ya existe una misma Cartilla con un Estado Final de Visto Bueno.");
 
                             // Recargar las listas necesarias para volver a mostrar la vista con los datos
-                            viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
+                            viewModel.ActividadesList = dbContext.ACTIVIDAD.Where(a => a.estado == "A").ToList();
                             viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
                             viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
                             viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();

@@ -8,10 +8,6 @@
 {
     Layout = "~/Views/Shared/_Layout_Consulta.cshtml";
 }
-else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "OTEC")
-{
-    Layout = "~/Views/Shared/_Layout_OTEC.cshtml";
-}
 else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "ITO")
 {
     Layout = "~/Views/Shared/_Layout_ITO.cshtml";
@@ -21,7 +17,7 @@ else
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC" || Session["Perfil"].ToString() == "ITO"))
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "ITO"))
 {
 
 

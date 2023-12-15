@@ -37,24 +37,27 @@
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/VistaConsulta/Obra">Obras</a></li>
                                 <li><a class="dropdown-item" href="/VistaConsulta/Responsable">Responsables de Obra</a></li>
-                                <li><a class="dropdown-item" href="/VistaConsulta/Inmueble">Inmuebles</a></li>
+                                <li><a class="dropdown-item" href="/VistaConsulta/InmuebleLista">Inmuebles</a></li>
                             </ul>
                         </li>
 
-                        <li class="nav-item"><a class="nav-link" href="/VistaConsulta/Actividad">Actividades</a></li>
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cartillas</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Actividades</a>
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/VistaConsulta/ItemVerificacion">Items de Verificación</a></li>
-                                <li><a class="dropdown-item" href="/CartillasAutocontrol/ListaCartillasPorActividad">Cartillas de Autocontrol</a></li>
+                                <li><a class="dropdown-item" href="/VistaConsulta/Actividad">Actividades</a></li>
+                                <li><a class="dropdown-item" href="/VistaConsulta/ItemLista">Items de Verificación</a></li>
                             </ul>
                         </li>
+
+                        <li class="nav-item"><a class="nav-link" href="/CartillasAutocontrolFiltrado/ListaCartillasPorActividad">Cartillas de Autocontrol</a></li>
+
 
                         <li class="nav-item dropdown">
                             <i class="fa fa-user icono-usuario"></i>
                             <a class="nav-link dropdown-toggle" id="navbarDropdown3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuario</a>
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="/Perfil/PerfilConsulta">Mi Perfil</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li> @Html.ActionLink("Cerrar sesión", "Logout", "Account", null, new { @class = "dropdown-item", style = "color: black;" })</li>
 

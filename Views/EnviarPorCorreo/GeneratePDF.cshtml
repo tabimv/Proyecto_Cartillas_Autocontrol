@@ -68,30 +68,51 @@
 </section>
 
 <table class="lista-table">
+    <colgroup>
+        <col span="2">
+    </colgroup>
+    @{
+        var groupedByInmueble = Model.GroupBy(x => x.INMUEBLE_inmueble_id);
+    }
     <tr>
-        <th>N°</th>
-        <th>Elementos de verificación</th>
-        <td>ITO</td>
-        <td>OTEC</td>
-        <td>N° VIV</td>
-
+        <th> </th>
+        @foreach (var inmuebleGroup in groupedByInmueble)
+        {
+            var codigoInmueble = inmuebleGroup.First().INMUEBLE.codigo_inmueble;
+            <th colspan="2" style="max-width: 2%; white-space: nowrap;">N ° VIV: @Html.DisplayFor(modelItem => codigoInmueble) </th>
+        }
     </tr>
+    <tr>
+        <th style="width: 28%;">Elementos de Verificación</th>
+        @foreach (var inmuebleGroup in groupedByInmueble)
+        {
+            <th>ITO</th>
+            <th>OTEC</th>
 
-
-
-    @foreach (var item in Model)
+        }
+    </tr>
+    @{
+        var labels = Model.Select(x => x.ITEM_VERIF.elemento_verificacion).Distinct().ToList();
+    }
+    @foreach (var label in labels)
     {
-
-
         <tr>
-            <td rowspan="2"> @item.ITEM_VERIF.label</td>
-            <td rowspan="2"> @item.ITEM_VERIF.elemento_verificacion </td>
-        </tr>
-        <tr>
+            <th>@label</th>
+            @foreach (var inmuebleGroup in groupedByInmueble)
+            {
+                var detalles = inmuebleGroup.Where(x => x.ITEM_VERIF.elemento_verificacion == label).ToList();
+                if (detalles.Any())
+                {
+                    <td>@Html.DisplayFor(modelItem => detalles.First().estado_ito)</td>
+                    <td>@Html.DisplayFor(modelItem => detalles.First().estado_otec)</td>
 
-            <td>@Html.DisplayFor(modelItem => item.estado_ito) </td>
-            <td>@Html.DisplayFor(modelItem => item.estado_otec)</td>
-            <td>@item.INMUEBLE_inmueble_id </td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                }
+            }
         </tr>
     }
 </table>

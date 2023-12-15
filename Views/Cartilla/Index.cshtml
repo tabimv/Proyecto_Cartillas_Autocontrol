@@ -36,6 +36,8 @@ else
                         </div>
                     </div>
                 </div>
+
+
                 <table id="cartillaTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -62,28 +64,28 @@ else
                                 <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.descripcion)</td>
                                 <td>
-                                    @if (item.ACTIVIDAD.estado == "C")
+                                    @if (item.ACTIVIDAD.estado == "B")
                                     {
-                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Cerrado">&#xE897;</i>
+                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
                                     }
                                     else if (item.ACTIVIDAD.estado == "A")
                                     {
-                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Abierto">&#xE898;</i>
+                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Activo">&#xE898;</i>
                                     }
                                 </td>
 
 
 
                                 <td>
-                                    @if (item.ACTIVIDAD.estado == "C")
+                                    @if (item.ACTIVIDAD.estado == "B")
                                     {
                                         <a href="#" class="edit" data-url="#">
-                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede modificar en Estado Cerrado">&#xE254;</i>
+                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede modificar en Estado Bloqueado">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
                                         </a>
 
                                         <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
-                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede Eliminar en Estado Cerrado">&#xE872;</i>
+                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede Eliminar en Estado Bloqueado">&#xE872;</i>
                                         </a>
                                     }
                                     else if (item.ACTIVIDAD.estado == "A")
@@ -96,6 +98,7 @@ else
                                         <a href="#" class="delete" id="eliminarCartilla" data-id="@item.cartilla_id" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarCartilla", "Cartilla", new { id = item.cartilla_id })">
                                             <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
                                         </a>
+
                                     }
 
 

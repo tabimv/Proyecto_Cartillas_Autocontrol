@@ -29,6 +29,10 @@ else
                             <h2>Gestión de <b>Cartillas de Autocontrol</b></h2>
                         </div>
                         <div class="col-sm-6">
+                            <a href="@Url.Action("CrearCartilla")" class="btn btn-success">
+                                <i class="material-icons">&#xE147;</i>
+                                Crear Nueva Cartilla
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -77,13 +81,20 @@ else
                                             <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede modificar en Estado Cerrado">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
                                         </a>
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
+                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede Eliminar en Estado Bloqueado">&#xE872;</i>
+                                        </a>
 
                                     }
                                     else if (item.ACTIVIDAD.estado == "A")
                                     {
                                         <a href="#" class="edit" data-url="@Url.Action("EditarCartilla", "VistaPerfilOTEC", new { id = item.cartilla_id })">
-                                            <i class="material-icons" data-toggle="tooltip" title="Aprobar Cartilla">&#xE254;</i>
+                                            <i class="material-icons" data-toggle="tooltip" title="Revisión Cartilla">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
+                                        </a>
+
+                                        <a href="#" class="delete delete-cartilla" data-id="@item.cartilla_id" data-url="@Url.Action("ConfirmarEliminarCartilla", "VistaPerfilOTEC", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
                                         </a>
                                     }
 
@@ -111,6 +122,31 @@ else
         </script>
     }
 
+    <script>
+        $(document).ready(function () {
+            // Utiliza una clase en lugar de un ID para seleccionar los elementos
+            $(".delete-cartilla").on("click", function (e) {
+                e.preventDefault();
+
+                // Obtén la URL desde el atributo data-url del botón
+                var url = $(this).data("url");
+
+                // Redirigir a la vista ConfirmarEliminarCartilla
+                window.location.href = url;
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $("#eliminarCartilla").click(function () {
+                var id = $(this).data("id");
+                $.post("/VistaPerfilOTEC/ConfirmarEliminarCartilla/" + id, function () {
+                    // Manejar la respuesta si es necesario
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $(".edit").click(function (e) {

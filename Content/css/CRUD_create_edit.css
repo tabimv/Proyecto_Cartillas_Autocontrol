@@ -9,7 +9,7 @@
     position: relative;
     overflow-x: auto;
     width: 100%;
-    max-width: 100%;
+    max-width: 110%;
     height: 100%;
 }
 
@@ -85,17 +85,17 @@
         color: #ffffff;
     }
 
-/* Estilo personalizado para el botón */
 .btn-custom {
     font-size: 15px; /* Tamaño de letra */
-    padding: 10px 230px; /* Espaciado vertical y horizontal */
-    height: 10px; /* Altura del botón */
+    padding: 10px 150px; /* Espaciado vertical y horizontal ajustado según tus necesidades */
+    height: 40px; /* Altura del botón */
     background-color: #6c757d; /* Color de fondo */
     color: #fff; /* Color de texto */
     cursor: pointer;
     text-decoration: none; /* Elimina el subrayado de enlace */
     text-align: center; /* Alineación del texto al centro */
     border-radius: 5px; /* Agrega bordes redondeados */
+    display: inline-block; /* Hace que el elemento sea en línea con bloque de ajuste automático al contenido */
 }
 
     .btn-custom:hover {
@@ -105,6 +105,7 @@
         text-decoration: none; /* Elimina el subrayado de enlace */
         text-align: center; /* Alineación del texto al centro */
     }
+
 
 /* Añade una clase para el contenedor de la tabla */
 .tabla-container {
@@ -128,6 +129,6 @@
     }
 
     .btn-custom {
-        padding: 10px 169px; /* Espaciado vertical y horizontal */
+        padding: 10px 210px; /* Espaciado vertical y horizontal */
     }
 }

@@ -26,11 +26,11 @@ else
             <div class="form-container">
                 <h2>Crear Usuario</h2>
                 @Html.AntiForgeryToken()
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
-                </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("PERSONA_rut", null, "Seleccione una persona", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+            </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.contraseña, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.PasswordFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control" } })

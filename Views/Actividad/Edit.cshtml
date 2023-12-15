@@ -42,8 +42,8 @@ else
                         @Html.LabelFor(model => model.estado, "Estado: ", htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.DropDownListFor(model => model.estado, new List<SelectListItem>
                         {
-                            new SelectListItem { Text = "Abierto", Value = "A" },
-                            new SelectListItem { Text = "Cerrado", Value = "C" }
+                            new SelectListItem { Text = "Activo", Value = "A" },
+                            new SelectListItem { Text = "Bloqueado", Value = "B" }
                         }, "Selecciona un estado", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                     </div>

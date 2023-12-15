@@ -11,9 +11,12 @@
 }
 
 .encabezado-titulo {
+    position: absolute;
     font-size: 15px;
-    margin-right: -1%;
     font-weight: bold;
+    color: black;
+    right: 10%;
+    top: 30px;
 }
 
 .encabezado p {
@@ -51,13 +54,13 @@ section p {
     }
 
 .rectangulo {
+    top: 70px;
     width: 550px;
     height: 130px;
     border: 2px solid black;
     padding: 10px;
     position: absolute;
     font-family: Arial, sans-serif;
-    bottom: 80%;
     right: 10%; /* Ajusta la distancia desde la derecha según tus necesidades */
     line-height: 1.5;
 }
@@ -85,6 +88,18 @@ section p {
     width: 80%;
     margin: 10%;
     font-size: 12pt;
+}
+
+table.lista-table {
+    margin: 0 auto; /* Esto centrará la tabla horizontalmente */
+    width: 80%; /* Ajusta el ancho de la tabla según tus necesidades */
+    margin-top: 5%;
+    margin-bottom: 8%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
 }
 
 th, td {

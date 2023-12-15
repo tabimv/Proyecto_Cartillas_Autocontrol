@@ -185,11 +185,14 @@
     <Content Include="Content\css\items.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActividadController.cs" />
+    <Compile Include="Controllers\ActividadOTECController.cs" />
     <Compile Include="Controllers\CartillaController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolController.cs" />
+    <Compile Include="Controllers\CartillasAutocontrolFiltradoController.cs" />
     <Compile Include="Controllers\EnviarPorCorreoController.cs" />
     <Compile Include="Controllers\InmuebleController.cs" />
     <Compile Include="Controllers\ItemVerifController.cs" />
+    <Compile Include="Controllers\ItemVerifOTECController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
@@ -320,7 +323,6 @@
     <Content Include="Views\Shared\_Layout_OTEC.cshtml" />
     <Content Include="Views\VistaConsulta\Obra.cshtml" />
     <Content Include="Views\VistaConsulta\Responsable.cshtml" />
-    <Content Include="Views\VistaConsulta\Inmueble.cshtml" />
     <Content Include="Views\VistaConsulta\Actividad.cshtml" />
     <Content Include="Views\VistaConsulta\ItemVerificacion.cshtml" />
     <Content Include="Views\VistaPerfilOTEC\EditarCartilla.cshtml" />
@@ -342,6 +344,27 @@
     <Content Include="Views\Inmueble\Crear.cshtml" />
     <Content Include="Views\Inmueble\ConfirmarEliminarInmuebles.cshtml" />
     <Content Include="Views\Inmueble\EditarPorObra.cshtml" />
+    <Content Include="Views\VistaConsulta\InmuebleLista.cshtml" />
+    <Content Include="Views\VistaConsulta\InmuebleDetails.cshtml" />
+    <Content Include="Views\ActividadOTEC\Index.cshtml" />
+    <Content Include="Views\ActividadOTEC\Create.cshtml" />
+    <Content Include="Views\ActividadOTEC\Edit.cshtml" />
+    <Content Include="Views\ActividadOTEC\Delete.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\ItemLista.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\ItemDetails.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\ConfirmarEliminarItems.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\EditarPorActividad.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\Crear.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\Edit.cshtml" />
+    <Content Include="Views\ItemVerifOTEC\Delete.cshtml" />
+    <Content Include="Views\VistaPerfilOTEC\ConfirmarEliminarCartilla.cshtml" />
+    <Content Include="Views\VistaPerfilOTEC\CrearCartilla.cshtml" />
+    <Content Include="Views\CartillasAutocontrolFiltrado\ListaCartillasPorActividad.cshtml" />
+    <Content Include="Views\CartillasAutocontrolFiltrado\VerCartilla.cshtml" />
+    <Content Include="Views\CartillasAutocontrolFiltrado\GeneratePDF.cshtml" />
+    <Content Include="Views\VistaConsulta\ItemLista.cshtml" />
+    <Content Include="Views\VistaConsulta\ItemDetails.cshtml" />
+    <Content Include="Views\Perfil\PerfilConsulta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

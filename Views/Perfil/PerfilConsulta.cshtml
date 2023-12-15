@@ -1,0 +1,55 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.USUARIO
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta")
+{
+    Layout = "~/Views/Shared/_Layout_Consulta.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta")
+{
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/css/perfil.css">
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Mi Perfil</h1>
+        </div>
+        <div class="profile-content">
+            <!-- Utiliza un icono de FontAwesome -->
+            <div class="user-icon"><i class="fas fa-user"></i></div>
+            @foreach (var usuario in ViewBag.InformacionUsuarios)
+            {
+                <div class="user-info">
+                    <h2>@usuario.PERSONA.nombre @usuario.PERSONA.apeliido_paterno</h2>
+                    <p><strong> Tipo de Perfil: </strong>  @usuario.PERFIL.rol </p>
+                    <p><strong> Correo:  </strong>@usuario.PERSONA.correo </p>
+                    <p><strong> Obra Asociada: </strong>  @usuario.OBRA.nombre_obra </p>
+                </div>
+            }
+            <br />
+            <a href="@Url.Action("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado")" class="VerCartilla">
+                <i style="color: black; font-size: 30px;" class="material-icons" data-toggle="tooltip" title="Ir a Cartillas de Autocontrol">&#xE879;</i>
+                <span style="display: none;">VerCartilla</span>
+            </a>
+        </div>
+    </div>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Perfil de Consulta</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

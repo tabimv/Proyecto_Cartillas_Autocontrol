@@ -42,23 +42,24 @@ else
                 <table id="cartillaTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
-
+                    
                             <th> Nombre </th>
                             <th> Apellidos </th>
                             <th> Cargo </th>
                             <th> Obra </th>
+                         
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-
+                           
                                 <td>  @Html.DisplayFor(modelItem => item.PERSONA.nombre) </td>
                                 <td>  @Html.DisplayFor(modelItem => item.PERSONA.apeliido_paterno)  @Html.DisplayFor(modelItem => item.PERSONA.apellido_materno)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.cargo)</td>
-                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
-
+                                <td style="white-space: nowrap;">  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                              
                             </tr>
                         }
                     </tbody>
