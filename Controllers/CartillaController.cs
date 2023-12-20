@@ -34,7 +34,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
 
             // Realiza una consulta a tu base de datos para obtener el valor deseado
-            using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+            using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza con el nombre de tu contexto de base de datos
             {
                 // Supongamos que tienes una entidad llamada Configuracion con una propiedad ItemVerifId
                 viewModel.ActividadesList = dbContext.ACTIVIDAD.Where(a => a.estado == "A").ToList();
@@ -201,12 +201,15 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // Obtener los detalles de la Cartilla que se quiere editar
                 viewModel.DetalleCartillas = db.DETALLE_CARTILLA.Where(d => d.CARTILLA_cartilla_id == id).ToList();
 
+
+
                 // Obtener otras listas necesarias para el formulario (actividades, elementos de verificación, inmuebles, etc.)
                 viewModel.ActividadesList = db.ACTIVIDAD.ToList();
                 viewModel.ElementosVerificacion = db.ITEM_VERIF.ToList();
                 viewModel.InmuebleList = db.INMUEBLE.ToList();
                 viewModel.EstadoFinalList = db.ESTADO_FINAL.ToList();
-                
+
+
                 return View(viewModel);
             }
 
@@ -235,23 +238,25 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                                 TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobado. Debido a que no todos los valores se encuentra aprobados.";
                                 return RedirectToAction("Index", "Cartilla");
                             }
-                        } 
-
-                        // Actualizar o agregar los detalles de la Cartilla en la base de datos
-                        foreach (var detalleCartilla in viewModel.DetalleCartillas)
-                        {
-                            if (detalleCartilla.detalle_cartilla_id == 0)
-                            {
-                                // Nuevo detalle de Cartilla, agregarlo
-                                detalleCartilla.CARTILLA_cartilla_id = viewModel.Cartilla.cartilla_id;
-                                dbContext.DETALLE_CARTILLA.Add(detalleCartilla);
-                            }
-                            else
-                            {
-                                // Detalle de Cartilla existente, marcar como modificado
-                                dbContext.Entry(detalleCartilla).State = EntityState.Modified;
-                            }
                         }
+
+                       
+                            // Actualizar o agregar los detalles de la Cartilla en la base de datos
+                            foreach (var detalleCartilla in viewModel.DetalleCartillas)
+                            {
+                                if (detalleCartilla.detalle_cartilla_id == 0)
+                                {
+                                    // Nuevo detalle de Cartilla, agregarlo
+                                    detalleCartilla.CARTILLA_cartilla_id = viewModel.Cartilla.cartilla_id;
+                                    dbContext.DETALLE_CARTILLA.Add(detalleCartilla);
+                                }
+                                else
+                                {
+                                    // Detalle de Cartilla existente, marcar como modificado
+                                    dbContext.Entry(detalleCartilla).State = EntityState.Modified;
+                                }
+                            }
+                       
 
                         // Eliminar detalles de la Cartilla que se hayan quitado en la edición
                         foreach (var detalle in dbContext.DETALLE_CARTILLA.Where(d => d.CARTILLA_cartilla_id == viewModel.Cartilla.cartilla_id))
@@ -262,9 +267,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                             }
                         }
 
+                        
                         // Guardar los cambios en la base de datos
                         dbContext.SaveChanges();
-
+                      
                         return RedirectToAction("Index", "Cartilla");
                     }
                 }
@@ -276,6 +282,9 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             return View(viewModel);
         }
+
+       
+
 
         [HttpGet]
         public ActionResult ConfirmarEliminarCartilla(int id)

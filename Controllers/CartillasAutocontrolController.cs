@@ -13,6 +13,7 @@ using Rotativa;
 using Rotativa.Options;
 using System.Net.Mail;
 using System.IO;
+using System.Runtime.Remoting.Contexts;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -48,7 +49,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             // 3. Pasar estos datos a la vista
             ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
-
             return View(elementosVerificacion);
         }
 

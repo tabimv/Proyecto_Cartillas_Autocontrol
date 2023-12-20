@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
+  
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -111,6 +112,7 @@ else
                     {
 
 
+
                         var detalles = inmuebleGroup.Where(x => x.ITEM_VERIF.elemento_verificacion == label).ToList();
 
 
@@ -128,6 +130,7 @@ else
                                     <span style="display: none;">No</span>
                                 }
                             </td>
+
 
                             <td>
                                 @if (detalles.First().estado_otec)

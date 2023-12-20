@@ -82,8 +82,9 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     {
                         mailMessage.From = new MailAddress("cartillas.obra.manzano@gmail.com");
                         mailMessage.Subject = "Cartilla de Control Vivienda";
-                        string nombreActividad = ObtenerNombreActividadPorID(id);
-                        string nombreObra = ObtenerNombreObraPorID(id);
+                        // Obtener el nombre de la actividad y de la obra según el ID
+                        string nombreActividad, nombreObra;
+                        ObtenerNombresPorID(id, out nombreActividad, out nombreObra);
 
                         mailMessage.Body = $"Cartilla de Control Vivienda para la Obra Asociada: {nombreObra} y Actividad: {nombreActividad}";
                         mailMessage.To.Add(correoDestinatario);
@@ -111,42 +112,28 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
         }
 
-        private string ObtenerNombreObraPorID(int obraId)
+        // Método para obtener el nombre de la actividad y de la obra por ID
+        private void ObtenerNombresPorID(int actividadId, out string nombreActividad, out string nombreObra)
         {
-   
-            using (var dbContext = new ObraManzanoDicEntities())
-            {
-                var obra = dbContext.ACTIVIDAD.Include(a => a.OBRA).FirstOrDefault(a => a.OBRA_obra_id == obraId);
-                if (obra != null)
-                {
-                    return obra.OBRA.nombre_obra;
-                }
-            }
-
-            // Si no se encuentra la actividad, devolver un valor por defecto o manejar de otra manera según tus necesidades.
-            return "Obra Desconocida";
-        }
-
-
-        private string ObtenerNombreActividadPorID(int actividadId)
-        {
-            // Aquí deberías obtener el nombre de la actividad según el ID desde tu base de datos
+            // Aquí deberías obtener el nombre de la actividad y de la obra según el ID desde tu base de datos
             // Puedes utilizar Entity Framework u otro método para acceder a la base de datos.
 
             // Ejemplo utilizando Entity Framework
             using (var dbContext = new ObraManzanoDicEntities())
             {
-                var actividad = dbContext.ACTIVIDAD.FirstOrDefault(a => a.actividad_id == actividadId);
+                var actividad = dbContext.ACTIVIDAD.Include(a => a.OBRA).FirstOrDefault(a => a.actividad_id == actividadId);
                 if (actividad != null)
                 {
-                    return actividad.nombre_actividad;
+                    nombreActividad = actividad.nombre_actividad;
+                    nombreObra = actividad.OBRA.nombre_obra;
+                    return;
                 }
             }
 
-            // Si no se encuentra la actividad, devolver un valor por defecto o manejar de otra manera según tus necesidades.
-            return "Actividad Desconocida";
+            // Si no se encuentra la actividad, devolver valores por defecto o manejar de otra manera según tus necesidades.
+            nombreActividad = "Actividad Desconocida";
+            nombreObra = "Obra Desconocida";
         }
-
 
 
     }

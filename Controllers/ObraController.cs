@@ -122,13 +122,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
 
-            // Verificar si existen relaciones con claves foráneas
-            if (db.OBRA.Any(t => t.obra_id == id))
-            {
-                ViewBag.ErrorMessage = "No se puede eliminar esta Obra debido a  que esta relacionada a otras Entidades.";
-                return View("Delete", oBRA); // Mostrar vista de eliminación con el mensaje de error
-            }
-
             db.OBRA.Remove(oBRA);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
