@@ -1,0 +1,86 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="19A0BF27-EC53-C058-0EF3-8554E9A5288A" name="ITEM_VERIF">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 14:11:52 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="item_verif_id" id="6E867918-5E30-1D0B-428B-D212EECA4D26">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 14:15:28 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="elemento_verificacion" id="1A39DEB0-FC10-92F4-4D43-A1FC31F53B9A">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 14:16:24 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="label" id="7BD8525E-8A1F-5B25-EE56-48AB64D2A888">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 17:12:40 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2</dataTypeSize>
+<ownDataTypeParameters>2,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="actividad_id" id="8F95CC83-822A-87A9-4167-D8D7B5222F2B">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 19:53:50 UTC</createdTime>
+<generatorID>193638D8-AEC0-D287-FC42-A2997791110E</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>0E9F34AB-614C-8E65-7DA7-EAE17F79E25D</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="835E6AB5-39EB-9FBB-B370-EE7362AB0AF1" name="ITEM_VERIFICACION PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 14:16:21 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>6E867918-5E30-1D0B-428B-D212EECA4D26</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

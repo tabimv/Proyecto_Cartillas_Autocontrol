@@ -1,0 +1,99 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="67D5C787-FA89-72C1-67EE-B546454EF5F9" name="ACTIVIDAD">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>DCD5947C-B3E4-C097-299B-18233655B367</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="actividad_id" id="80D56799-7A85-A35F-2803-E5073C8AD043">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>0E9F34AB-614C-8E65-7DA7-EAE17F79E25D</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="codigo_actividad" id="1C39B030-9BE3-40BC-715D-B19A02FD1773">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>075EC79D-E874-C5EB-0191-CC2069F000E7</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_actividad" id="8B7CC3DA-9321-03E2-4571-2829C0A63A96">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>C6F90F4D-63F4-F55C-D3ED-F047044E8B95</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado" id="0D803BB6-34B6-59FC-85F8-76CF6D8F87CF">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>1E607B97-DA4C-07CD-CD46-EB1F5D18C74A</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OBRA_obra_id" id="50A49931-EC00-8057-B054-55377DF76E2D">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>467A8429-AA7E-6816-B3C4-0D36C7A11F03</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F921FF05-3E7B-204D-7235-DEE67F89BEB9" referredColumn="26E2ED9B-2217-00AE-B0B9-C1F41540A841"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F1D849C4-C74E-DDDD-9AF3-0F349798D5F5" name="ACTIVIDAD_PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>4D78E0F0-7E4A-D2E1-CE60-364ABB352ECD</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="80D56799-7A85-A35F-2803-E5073C8AD043"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8ED0521D-D001-91C5-A9EC-49D81FFE0953" name="ACTIVIDAD_OBRA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>DB529514-EA27-3BE0-8F1D-5CDBF2D3F8D9</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="50A49931-EC00-8057-B054-55377DF76E2D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

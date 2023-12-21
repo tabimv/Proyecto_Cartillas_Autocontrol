@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="DAB0EE3E-10D4-37B5-BF24-BE40F7651728" containerWithKeyObject="FDFC443F-B123-EAD8-8EAF-F06ED7583E2E" localFKIndex="F3F014B9-6215-5520-F55D-ACA7FCE24F00" name="DETALLE_CARTILLA_CARTILLA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>42519C45-3168-0614-EF2E-F7D3695C2EA2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<referredTableLongName>CARTILLA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>334BB8E7-6DB8-E139-8958-DEF15B128FAD</referredTableID>
+<keyObject>AEB8ED52-9CBE-4430-DF20-2AD13FBFCF38</keyObject>
+<referredKeyID>AEB8ED52-9CBE-4430-DF20-2AD13FBFCF38</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>cartilla_id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

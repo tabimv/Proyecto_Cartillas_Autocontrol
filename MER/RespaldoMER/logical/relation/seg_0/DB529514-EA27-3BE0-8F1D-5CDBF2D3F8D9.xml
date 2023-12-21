@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_OBRA_ACTIVIDAD" directorySegmentName="seg_0" id="DB529514-EA27-3BE0-8F1D-5CDBF2D3F8D9">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 19:52:40 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<sourcePk>58B43505-F246-F426-C31E-4E00C0F3B175</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>Contiene</nameOnSource>
+<nameOnTarget>Pertenece</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>4C86BB80-77A9-1FFC-DBC6-CAC6892202B3</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>DCD5947C-B3E4-C097-299B-18233655B367</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

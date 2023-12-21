@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_ITEMVERIF_DETCART" directorySegmentName="seg_0" id="A6D0BA18-16F2-6B70-033F-DF99730431C2">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 12:14:44 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<sourcePk>835E6AB5-39EB-9FBB-B370-EE7362AB0AF1</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>Asoaciado</nameOnSource>
+<nameOnTarget>Pertenece</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>19A0BF27-EC53-C058-0EF3-8554E9A5288A</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>ACE72FC0-8A07-6ECE-D191-4CDD32FDA5B4</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

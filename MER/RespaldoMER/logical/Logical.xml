@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="BC3B5724-D3DB-E9E6-4441-BF2B4DEA4B03" mainViewID="05A295BB-BD2A-A076-D804-6F2183239552">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 12:25:59 UTC</createdTime>
+<ownerDesignName>Cartilla_Autocontrol</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>

@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FD07AABC-2DD4-4B84-44E8-C7726129C122" name="COMUNA">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 18:15:54 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="comuna_id" id="4261AF79-242B-DE16-CCC7-308855403120">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 18:16:06 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombre_comuna" id="E8A115C2-9AC7-4CAE-529C-AFBA46EA0CEA">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 18:16:46 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="region_id" id="1F276AF3-6DE3-4D78-11AA-05F732EE1E2E">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 19:48:40 UTC</createdTime>
+<generatorID>A36FC872-9E96-6A1F-E402-3DB30B4BF15A</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>3A1501C0-4D88-DB0E-87FE-D41DF824F4DA</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="AD2BC4E9-892B-FA4D-2CDA-AB8B0D8E75B8" name="COMUNA_OBRA PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 18:16:43 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>4261AF79-242B-DE16-CCC7-308855403120</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

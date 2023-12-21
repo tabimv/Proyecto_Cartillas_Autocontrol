@@ -1,0 +1,61 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="DC4CA701-544C-983B-5E9A-1117FF77A774" name="ESTADO_FINAL">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>3A1369FE-039C-6480-88D7-BB6F407A1E6D</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="estado_final_id" id="98D15567-65D7-36E8-9408-0B71B8B66E88">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>A62C009B-DC1B-3118-C5A4-C4D566502DE2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado" id="46CF76C2-B89D-BBC0-951C-6441450C742A">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>74160B19-DB50-B556-F0DE-E561F5414EF7</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>4</dataTypeSize>
+<ownDataTypeParameters>4,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descripcion" id="511495C3-C850-CC08-CE7E-E173517C3B25">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>585DA7F2-C1C1-7291-9597-C247854D1CF8</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EF67FC08-FD4D-2FF9-90FE-4B5DA835AD20" name="ESTADO_FINAL_PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>45758541-C318-2E26-53E2-C941574F54F6</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="98D15567-65D7-36E8-9408-0B71B8B66E88"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

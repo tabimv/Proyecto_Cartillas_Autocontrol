@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="11F1D426-75EB-3306-3D8A-5EC70BD68A5E" name="USUARIO">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 12:39:03 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="usuario_id" id="072B0EA1-0F7C-1660-758B-A186EFCB9403">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 19:24:46 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="contraseña" id="18AED923-4817-0934-70B3-F63DDE323203">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 13:24:57 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="perfil_id" id="F1DCB0E7-D4FB-3A17-768C-4F841D478125">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 12:24:51 UTC</createdTime>
+<generatorID>513FF01B-F0ED-0C4B-69BE-5CA3D915425E</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>E3BC246F-DDE0-DC91-E49D-71E8FD267554</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="obra_id" id="8A3A2406-42D7-107C-895F-F727F43BEAFF">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 12:25:34 UTC</createdTime>
+<generatorID>4331FEE4-916A-11EA-6DC1-675B45F426F2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>86FF84BF-E099-74E7-A870-FB9999FFAA41</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="rut" id="441977A0-550F-6D8A-FF4B-C798D1F2654D">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-20 18:56:07 UTC</createdTime>
+<generatorID>8894749E-D8FF-F9BA-FFD4-902A802D0AE7</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>59EAB4A2-4007-8632-EEDE-44835C9FEEFE</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="EC2D7715-27CF-0F06-7FF5-9F60C83879B3" name="USUARIO PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 12:52:52 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>072B0EA1-0F7C-1660-758B-A186EFCB9403</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

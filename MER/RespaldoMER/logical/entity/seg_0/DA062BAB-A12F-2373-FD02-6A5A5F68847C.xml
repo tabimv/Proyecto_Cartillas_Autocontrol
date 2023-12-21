@@ -1,0 +1,74 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DA062BAB-A12F-2373-FD02-6A5A5F68847C" name="INMUEBLE">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-15 12:02:44 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="inmueble_id" id="04E52576-61D9-5C80-8B90-890E13D029A2">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-15 12:02:51 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>5</dataTypeSize>
+<ownDataTypeParameters>5,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="tipo_inmueble" id="84F0EE18-FB83-1420-00ED-244996D1ADB8">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-15 12:03:08 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="obra_id" id="CA6C6087-80CD-E4F3-1D10-4126E79E0ECB">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:01:55 UTC</createdTime>
+<generatorID>D3F52924-2AEA-B2D9-AC9B-A40CA71F4039</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>86FF84BF-E099-74E7-A870-FB9999FFAA41</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="FDBA528B-D430-5126-4447-E21BA96F9D5A" name="INMUEBLE PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-15 12:03:06 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>04E52576-61D9-5C80-8B90-890E13D029A2</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

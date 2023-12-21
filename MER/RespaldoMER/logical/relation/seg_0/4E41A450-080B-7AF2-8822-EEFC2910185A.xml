@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_OBRA_CARTILLA" directorySegmentName="seg_0" id="4E41A450-080B-7AF2-8822-EEFC2910185A">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 11:54:45 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<sourcePk>58B43505-F246-F426-C31E-4E00C0F3B175</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>Contener</nameOnSource>
+<nameOnTarget>Pertenecer</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>4C86BB80-77A9-1FFC-DBC6-CAC6892202B3</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>4499B06E-D62F-9DF0-A8C1-8714962024F7</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

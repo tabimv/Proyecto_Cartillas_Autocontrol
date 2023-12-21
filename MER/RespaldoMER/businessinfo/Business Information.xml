@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<BusinessInfoDesign class="oracle.dbtools.crest.model.businessinfo.BusinessInfoDesign" name="Business Information" id="B053A389-E1D6-0CA6-AAF0-5F9279DC2219">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 12:26:00 UTC</createdTime>
+<ownerDesignName>Cartilla_Autocontrol</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</BusinessInfoDesign>

@@ -1,0 +1,114 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="4499B06E-D62F-9DF0-A8C1-8714962024F7" name="CARTILLA">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 13:42:36 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="cartilla_id" id="913D245D-2A53-2F9F-B640-ECB682A72D9D">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 13:42:57 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha" id="155BFFFB-3475-EF06-8DED-1ED928D19E38">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 18:51:12 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="observaciones" id="6A4CE501-D57B-97B2-52D9-1A5037EA47DC">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 14:02:59 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="obra_id" id="63208D04-866B-A623-4995-3AF8F3435B9B">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 11:54:45 UTC</createdTime>
+<generatorID>4E41A450-080B-7AF2-8822-EEFC2910185A</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>86FF84BF-E099-74E7-A870-FB9999FFAA41</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="actividad_id" id="7C922882-CAF0-3FE2-8C5A-FED568081858">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-14 12:32:43 UTC</createdTime>
+<generatorID>EC95E325-D24B-236C-5947-BE3CCB42BCC9</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>0E9F34AB-614C-8E65-7DA7-EAE17F79E25D</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="estado_final_id" id="65179075-5244-F693-15F9-3950E40A6919">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-15 11:37:46 UTC</createdTime>
+<generatorID>32359580-190D-E482-500D-EA42620F0452</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<referedAttribute>A62C009B-DC1B-3118-C5A4-C4D566502DE2</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="2F1FBFC1-38B8-F816-8514-A85D2EC83539" name="CARTILLA PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 13:43:10 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>913D245D-2A53-2F9F-B640-ECB682A72D9D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

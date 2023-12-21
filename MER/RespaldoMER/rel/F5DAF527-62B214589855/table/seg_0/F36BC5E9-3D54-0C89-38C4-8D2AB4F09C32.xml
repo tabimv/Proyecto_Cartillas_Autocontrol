@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F36BC5E9-3D54-0C89-38C4-8D2AB4F09C32" name="INMUEBLE">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>DA062BAB-A12F-2373-FD02-6A5A5F68847C</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="inmueble_id" id="CD75B220-E73D-4642-CBBA-6BDD1E7C2F6F">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>04E52576-61D9-5C80-8B90-890E13D029A2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>5</dataTypeSize>
+<ownDataTypeParameters>5,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipo_inmueble" id="4D6ED671-0B56-D606-D8EC-E07C52BF80E0">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>84F0EE18-FB83-1420-00ED-244996D1ADB8</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OBRA_obra_id" id="63905E7C-A9B5-C59C-10AB-460239DDAC9A">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>CA6C6087-80CD-E4F3-1D10-4126E79E0ECB</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3302D101-DE66-C484-73B1-4564BE7DBB9A" referredColumn="26E2ED9B-2217-00AE-B0B9-C1F41540A841"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="26F1E29D-1A0E-8B23-EB5E-91D2BF8173D5" name="INMUEBLE_PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>FDBA528B-D430-5126-4447-E21BA96F9D5A</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CD75B220-E73D-4642-CBBA-6BDD1E7C2F6F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C9455BB1-6992-4D6F-618B-62A3D74BB407" name="INMUEBLE_OBRA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>D3F52924-2AEA-B2D9-AC9B-A40CA71F4039</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="63905E7C-A9B5-C59C-10AB-460239DDAC9A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

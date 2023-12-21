@@ -1,0 +1,139 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="77DDF72E-3440-EDA0-005E-207053CBE1E1" name="USUARIO">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>11F1D426-75EB-3306-3D8A-5EC70BD68A5E</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="usuario_id" id="1981AFE1-6F9E-5DC3-17F0-2E4079A6EDC5">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>072B0EA1-0F7C-1660-758B-A186EFCB9403</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="contraseña" id="DD3A4764-009E-3AC3-7275-F687D2521ADF">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>18AED923-4817-0934-70B3-F63DDE323203</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PERFIL_perfil_id" id="D13377D6-7820-0090-BAFF-FC4D30290616">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>F1DCB0E7-D4FB-3A17-768C-4F841D478125</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0DD98DF4-8DBB-A45A-779C-75D5DF86090C" referredColumn="CAFD6A8F-D6DD-C878-2CE4-886A7F053A04"/>
+</associations>
+</Column>
+<Column name="OBRA_obra_id" id="67117F40-9164-C165-C3F0-BB5A8CA4353E">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>8A3A2406-42D7-107C-895F-F727F43BEAFF</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="92F5656F-5D1B-1FB2-C6B9-EA252094D069" referredColumn="26E2ED9B-2217-00AE-B0B9-C1F41540A841"/>
+</associations>
+</Column>
+<Column name="PERSONA_rut" id="DE9D5DFD-D030-C0D2-C36B-517ADBCDEC5A">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>441977A0-550F-6D8A-FF4B-C798D1F2654D</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A750D3F9-B236-1ACE-75BE-5429CF0E09CC" referredColumn="3C5045DF-76D3-CDA8-43A5-408443E62BB5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="424EA35C-CCB1-955F-DCD8-1B0A8D38BBA8" name="USUARIO_PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>EC2D7715-27CF-0F06-7FF5-9F60C83879B3</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1981AFE1-6F9E-5DC3-17F0-2E4079A6EDC5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F0901FA3-A258-2265-6AA4-40232B816A02" name="USUARIO__IDX">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>8894749E-D8FF-F9BA-FFD4-902A802D0AE7</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="DE9D5DFD-D030-C0D2-C36B-517ADBCDEC5A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8F5D57B4-973C-8C61-1A95-F4AA0371B43A" name="USUARIO_OBRA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>4331FEE4-916A-11EA-6DC1-675B45F426F2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="67117F40-9164-C165-C3F0-BB5A8CA4353E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="25F19EFF-377C-09B0-CCD0-FFB2CE374719" name="USUARIO_PERFIL_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>513FF01B-F0ED-0C4B-69BE-5CA3D915425E</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D13377D6-7820-0090-BAFF-FC4D30290616"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1D4EB25A-350D-4A6D-6BF5-7BF17E47B4F6" name="USUARIO_PERSONA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>8894749E-D8FF-F9BA-FFD4-902A802D0AE7</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DE9D5DFD-D030-C0D2-C36B-517ADBCDEC5A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

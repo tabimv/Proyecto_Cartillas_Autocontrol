@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<ProcessModel class="oracle.dbtools.crest.model.design.process.ProcessModel" name="Process Model" id="07A35214-EC5C-CD51-61AF-AC1AEEC9E259">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 12:26:00 UTC</createdTime>
+<ownerDesignName>Cartilla_Autocontrol</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</ProcessModel>

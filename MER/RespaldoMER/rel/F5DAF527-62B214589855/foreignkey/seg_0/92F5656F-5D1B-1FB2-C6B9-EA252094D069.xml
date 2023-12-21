@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="92F5656F-5D1B-1FB2-C6B9-EA252094D069" containerWithKeyObject="77DDF72E-3440-EDA0-005E-207053CBE1E1" localFKIndex="8F5D57B4-973C-8C61-1A95-F4AA0371B43A" name="USUARIO_OBRA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>4331FEE4-916A-11EA-6DC1-675B45F426F2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<referredTableLongName>OBRA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>ED73D17C-4B88-6FBF-9166-9F930BD765F2</referredTableID>
+<keyObject>9940720A-22DF-47F8-3DE0-6A2A0C265DEF</keyObject>
+<referredKeyID>9940720A-22DF-47F8-3DE0-6A2A0C265DEF</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>obra_id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

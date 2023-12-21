@@ -1,0 +1,140 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="FDFC443F-B123-EAD8-8EAF-F06ED7583E2E" name="DETALLE_CARTILLA">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>ACE72FC0-8A07-6ECE-D191-4CDD32FDA5B4</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="detalle_cartilla_id" id="B162506A-DB3A-ED4B-D2B0-3A48966E8102">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>7646078F-A3C9-900A-5B4E-1646A832B4DF</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado_otec" id="F0979771-9C1A-7851-4210-F74FC6FFB5F5">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>9B3D1746-CC08-A5B2-AEDA-C084B035A487</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado_ito" id="9B74842A-0091-0E0A-1EE0-64D3EDD68A79">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>490A2620-2D46-BBA7-0703-416EDC5E1755</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ITEM_VERIF_item_verif_id" id="B8182F7D-BA69-93D0-E5A9-DBEAE60C40D1">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>9C553ECB-7853-0ACC-8552-E5CB73708DAB</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="239FD1BA-5A54-A114-E4FA-38006738428F" referredColumn="CAB1B2AC-D318-0E98-8436-06AD2DDC7FC1"/>
+</associations>
+</Column>
+<Column name="CARTILLA_cartilla_id" id="4F8F7569-4F4A-6BAE-B337-E5D417B37562">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>8F031510-B2ED-6A37-3589-413F0B6D7333</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DAB0EE3E-10D4-37B5-BF24-BE40F7651728" referredColumn="9FDB79F7-305C-F9B2-250C-6AD567610AE3"/>
+</associations>
+</Column>
+<Column name="INMUEBLE_inmueble_id" id="FE0F6F41-9D5E-B4D0-E173-BC31CFD27D43">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>6E22BBE2-1F64-F034-1F47-2DB21C049AC8</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>5</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8C38BAF8-23D6-8050-3684-222C28DCA1EA" referredColumn="CD75B220-E73D-4642-CBBA-6BDD1E7C2F6F"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B53B1CEC-1A7B-DBB2-FE4D-C82C104CEEE6" name="DETALLE_CARTILLA_PK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>285C05BA-D556-E272-2DEE-3299B5906AF5</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B162506A-DB3A-ED4B-D2B0-3A48966E8102"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F3F014B9-6215-5520-F55D-ACA7FCE24F00" name="DETALLE_CARTILLA_CARTILLA_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>42519C45-3168-0614-EF2E-F7D3695C2EA2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4F8F7569-4F4A-6BAE-B337-E5D417B37562"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5F851BF2-7F01-E514-705E-1D03AAD29A5E" name="DETALLE_CARTILLA_INMUEBLE_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>2B0B2488-06A8-A314-3297-991C78B9EBEB</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FE0F6F41-9D5E-B4D0-E173-BC31CFD27D43"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E9E4E842-1268-F46A-CC95-641C987A075F" name="DETALLE_CARTILLA_ITEM_VERIF_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>A6D0BA18-16F2-6B70-033F-DF99730431C2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B8182F7D-BA69-93D0-E5A9-DBEAE60C40D1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

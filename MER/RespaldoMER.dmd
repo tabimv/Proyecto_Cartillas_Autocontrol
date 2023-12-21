@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="RespaldoMER" id="5960BEE0-5949-35F4-B5A8-457CDA307F54" version="3.5">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-08 12:25:59 UTC</createdTime>
+<ownerDesignName>Cartilla_Autocontrol</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>5960BEE0-5949-35F4-B5A8-457CDA307F54</designId>
+</OSDM_Design>

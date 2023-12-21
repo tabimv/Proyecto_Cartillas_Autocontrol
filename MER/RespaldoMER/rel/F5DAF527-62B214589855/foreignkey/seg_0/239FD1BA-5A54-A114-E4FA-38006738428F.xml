@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="239FD1BA-5A54-A114-E4FA-38006738428F" containerWithKeyObject="FDFC443F-B123-EAD8-8EAF-F06ED7583E2E" localFKIndex="E9E4E842-1268-F46A-CC95-641C987A075F" name="DETALLE_CARTILLA_ITEM_VERIF_FK">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-11-09 13:02:55 UTC</createdTime>
+<generatorID>A6D0BA18-16F2-6B70-033F-DF99730431C2</generatorID>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<referredTableLongName>ITEM_VERIF</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>C0E589CA-C352-C547-F1C6-A9DEC1AED343</referredTableID>
+<keyObject>E4949F0C-A745-0C35-B50E-4B7E344168E7</keyObject>
+<referredKeyID>E4949F0C-A745-0C35-B50E-4B7E344168E7</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>item_verif_id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

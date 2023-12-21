@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_COMUNA_OBRA" directorySegmentName="seg_0" id="F04B42F6-6F75-3237-DDFF-153C3C29059C">
+<createdBy>tbmv1</createdBy>
+<createdTime>2023-09-13 19:49:45 UTC</createdTime>
+<ownerDesignName>RespaldoMER</ownerDesignName>
+<engineerTo>
+<item key="F5DAF527-DD7E-5928-56EF-62B214589855" value="true"/>
+</engineerTo>
+<sourcePk>AD2BC4E9-892B-FA4D-2CDA-AB8B0D8E75B8</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>Tener</nameOnSource>
+<nameOnTarget>Asociado</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>FD07AABC-2DD4-4B84-44E8-C7726129C122</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>4C86BB80-77A9-1FFC-DBC6-CAC6892202B3</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
