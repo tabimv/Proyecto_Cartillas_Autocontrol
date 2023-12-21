@@ -1,0 +1,27 @@
+Importante: Los Correos Eléctronicos proporcionados no son reales y solo se están realizando para probar la app. Si desea usar las operación de "Enviar Cartilla a Correo Eléctronico" puede cambiar el correo del Usuario a uno que usted ya posee para realizar la prueba. 
+
+Recomendación: Visualizar la app en incógnito o con el cache del navegador limpio. 
+
+Para realizar el cambio del correo debe editar la tabla "Persona".
+
+
+**********************************
+Correo: ta.melo@duocuc.cl
+Contraseña: 123
+Tipo de Perfil: Administrador
+**********************************
+**********************************
+Correo: consulta2023@gmail.com
+Contraseña: 123
+Tipo de Perfil: Consulta
+**********************************
+**********************************
+Correo: otec2023@gmail.com
+Contraseña: 123
+Tipo de Perfil: OTEC
+**********************************
+**********************************
+Correo: ito2023@gmail.com
+Contraseña: 123
+Tipo de Perfil: ITO
+**********************************

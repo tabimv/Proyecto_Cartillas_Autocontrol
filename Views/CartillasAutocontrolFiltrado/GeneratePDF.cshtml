@@ -85,6 +85,7 @@ else
             var groupedByInmueble = Model.GroupBy(x => x.INMUEBLE_inmueble_id);
         }
         <tr>
+            <th></th>
             <th> </th>
             @foreach (var inmuebleGroup in groupedByInmueble)
             {
@@ -93,6 +94,7 @@ else
             }
         </tr>
         <tr>
+            <th> N° </th>
             <th style="width: 28%;">Elementos de Verificación</th>
             @foreach (var inmuebleGroup in groupedByInmueble)
             {
@@ -103,18 +105,44 @@ else
         </tr>
         @{
             var labels = Model.Select(x => x.ITEM_VERIF.elemento_verificacion).Distinct().ToList();
+            var abc = Model.Select(x => x.ITEM_VERIF.label).Distinct().ToList();
+
         }
         @foreach (var label in labels)
         {
             <tr>
+                <th>@abc[labels.IndexOf(label)]</th>
                 <th>@label</th>
                 @foreach (var inmuebleGroup in groupedByInmueble)
                 {
                     var detalles = inmuebleGroup.Where(x => x.ITEM_VERIF.elemento_verificacion == label).ToList();
                     if (detalles.Any())
                     {
-                        <td>@Html.DisplayFor(modelItem => detalles.First().estado_ito)</td>
-                        <td>@Html.DisplayFor(modelItem => detalles.First().estado_otec)</td>
+                        <td>
+                            @if (detalles.First().estado_ito)
+                            {
+                                <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB ITO: Aprobado">&#xE876;</i>
+                                <span style="display: none;">Sí</span>
+                            }
+                            else
+                            {
+                                <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB ITO: Rechazado">&#xE5CD;</i>
+                                <span style="display: none;">No</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (detalles.First().estado_otec)
+                            {
+                                <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB OTEC: Aprobado">&#xE876;</i>
+                                <span style="display: none;">Sí</span>
+                            }
+                            else
+                            {
+                                <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB OTEC: Rechazado">&#xE5CD;</i>
+                                <span style="display: none;">No</span>
+                            }
+                        </td>
 
                     }
                     else

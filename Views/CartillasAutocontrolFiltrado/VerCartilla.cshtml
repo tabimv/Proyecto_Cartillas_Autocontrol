@@ -91,6 +91,7 @@ else
                 var groupedByInmueble = Model.GroupBy(x => x.INMUEBLE_inmueble_id);
             }
             <tr>
+                <th></th>
                 <th> </th>
                 @foreach (var inmuebleGroup in groupedByInmueble)
                 {
@@ -99,6 +100,7 @@ else
                 }
             </tr>
             <tr>
+                <th> N° </th>
                 <th style="width: 28%;">Elementos de Verificación</th>
                 @foreach (var inmuebleGroup in groupedByInmueble)
                 {
@@ -109,10 +111,12 @@ else
             </tr>
             @{
                 var labels = Model.Select(x => x.ITEM_VERIF.elemento_verificacion).Distinct().ToList();
+                var abc = Model.Select(x => x.ITEM_VERIF.label).Distinct().ToList();
             }
             @foreach (var label in labels)
             {
                 <tr>
+                    <th>@abc[labels.IndexOf(label)]</th>
                     <th>@label</th>
                     @foreach (var inmuebleGroup in groupedByInmueble)
                     {
