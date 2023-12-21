@@ -122,9 +122,22 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
 
-            db.OBRA.Remove(oBRA);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            bool tieneOtrasRelaciones = db.OBRA.Any(o => o.obra_id != id && o.COMUNA_comuna_id != oBRA.COMUNA_comuna_id);
+            bool tieneActividadesRelacionadas = db.ACTIVIDAD.Any(a => a.OBRA_obra_id == id);
+
+
+            if (!tieneOtrasRelaciones && !tieneActividadesRelacionadas)
+            {
+                // Si la obra tiene relación con COMUNA, se permite la eliminación
+                db.OBRA.Remove(oBRA);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No se puede eliminar esta Obra porque está relacionada con otras entidades.";
+                return View("Delete", oBRA); // Mostrar vista de eliminación con el mensaje de error
+            }
         }
 
         protected override void Dispose(bool disposing)

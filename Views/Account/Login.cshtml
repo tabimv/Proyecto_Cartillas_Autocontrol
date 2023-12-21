@@ -67,7 +67,7 @@ else
                 @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
                 <br>
                 <div class="mb-3">
-                    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    <a href="@Url.Action("Contacto", "Contacto")" class="forgot-password">¿Olvidaste tu contraseña?</a>
                 </div>
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })

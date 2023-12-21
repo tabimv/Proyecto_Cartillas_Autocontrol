@@ -189,6 +189,7 @@
     <Compile Include="Controllers\CartillaController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolFiltradoController.cs" />
+    <Compile Include="Controllers\ContactoController.cs" />
     <Compile Include="Controllers\EnviarPorCorreoController.cs" />
     <Compile Include="Controllers\InmuebleController.cs" />
     <Compile Include="Controllers\ItemVerifController.cs" />
@@ -365,6 +366,7 @@
     <Content Include="Views\VistaConsulta\ItemLista.cshtml" />
     <Content Include="Views\VistaConsulta\ItemDetails.cshtml" />
     <Content Include="Views\Perfil\PerfilConsulta.cshtml" />
+    <Content Include="Views\Contacto\Contacto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

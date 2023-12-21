@@ -47,12 +47,11 @@ else
 
                                     @Html.EditorFor(model => Model[i].codigo_inmueble, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => Model[i].codigo_inmueble, "", new { @class = "text-danger" })
-                                </td>
+                                </td>      
                                 <td>
-                                    @Html.DropDownListFor(model => model[i].tipo_inmueble, new SelectList(new[] { "Departamento", "Vivienda" }), new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model[i].tipo_inmueble, new SelectList(new[] { "Departamento", "Vivienda" }, Model[i].tipo_inmueble), new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model[i].tipo_inmueble, "", new { @class = "text-danger" })
                                 </td>
-
                             </tr>
                         }
 
