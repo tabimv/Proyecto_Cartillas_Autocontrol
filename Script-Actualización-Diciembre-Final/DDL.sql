@@ -1,14 +1,7 @@
--- Generado por Oracle SQL Developer Data Modeler 19.4.0.350.1424
---   en:        2023-11-09 10:03:11 CLST
---   sitio:      SQL Server 2012
---   tipo:      SQL Server 2012
-
-
-
 CREATE TABLE ACTIVIDAD 
     (
      actividad_id INTEGER IDENTITY(1, 1) NOT NULL , 
-     codigo_actividad VARCHAR (10) NOT NULL , 
+     codigo_actividad VARCHAR (15) NOT NULL , 
      nombre_actividad VARCHAR (100) NOT NULL , 
      estado CHAR (1) NOT NULL , 
      OBRA_obra_id INTEGER NOT NULL 
@@ -26,6 +19,7 @@ CREATE TABLE CARTILLA
      cartilla_id INTEGER IDENTITY(1, 1) NOT NULL , 
      fecha DATE NOT NULL , 
      observaciones VARCHAR (200) , 
+	 ruta_pdf VARCHAR(MAX),
      OBRA_obra_id INTEGER NOT NULL , 
      ACTIVIDAD_actividad_id INTEGER NOT NULL , 
      ESTADO_FINAL_estado_final_id INTEGER NOT NULL 
@@ -430,32 +424,3 @@ ALTER TABLE USUARIO
 GO
 
 
-
--- Informe de Resumen de Oracle SQL Developer Data Modeler: 
--- 
--- CREATE TABLE                            13
--- CREATE INDEX                             2
--- ALTER TABLE                             29
--- CREATE VIEW                              0
--- ALTER VIEW                               0
--- CREATE PACKAGE                           0
--- CREATE PACKAGE BODY                      0
--- CREATE PROCEDURE                         0
--- CREATE FUNCTION                          0
--- CREATE TRIGGER                           0
--- ALTER TRIGGER                            0
--- CREATE DATABASE                          0
--- CREATE DEFAULT                           0
--- CREATE INDEX ON VIEW                     0
--- CREATE ROLLBACK SEGMENT                  0
--- CREATE ROLE                              0
--- CREATE RULE                              0
--- CREATE SCHEMA                            0
--- CREATE SEQUENCE                          0
--- CREATE PARTITION FUNCTION                0
--- CREATE PARTITION SCHEME                  0
--- 
--- DROP DATABASE                            0
--- 
--- ERRORS                                   0
--- WARNINGS                                 0
