@@ -45,7 +45,7 @@ else
                         @Html.LabelFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "Actividad Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <div class="checkbox">
-                                @Html.DropDownListFor(model => model.Cartilla.ACTIVIDAD_actividad_id, new SelectList(Model.ActividadesList, "actividad_id", "nombre_actividad"), "Seleccione una actividad", new { @class = "form-control", id = "Cartilla_ACTIVIDAD_actividad_id", style = "width: 123%;" })
+                                @Html.DropDownListFor(model => model.Cartilla.ACTIVIDAD_actividad_id, new SelectList(Model.ActividadesList, "actividad_id", "nombre_actividad"), "Seleccione una actividad", new { @class = "form-control", id = "Cartilla_ACTIVIDAD_actividad_id", style = "width: 123%;", required = "required", title = "Por favor, seleccione una actividad" })
                                 @Html.ValidationMessageFor(model => model.Cartilla.ACTIVIDAD_actividad_id, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -56,7 +56,7 @@ else
                         @Html.LabelFor(model => model.Cartilla.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <div class="checkbox">
-                                @Html.DropDownListFor(model => model.Cartilla.OBRA_obra_id, new SelectList(Model.ObraList, "obra_id", "nombre_obra"), "Seleccione una Obra", new { @class = "form-control", id = "Cartilla_OBRA_obra_id", style = "width: 123%;" })
+                                @Html.DropDownListFor(model => model.Cartilla.OBRA_obra_id, new SelectList(Model.ObraList, "obra_id", "nombre_obra"), "Seleccione una Obra", new { @class = "form-control", id = "Cartilla_OBRA_obra_id", style = "width: 123%;", required = "required", title = "Por favor, seleccione una obra" })
                                 @Html.ValidationMessageFor(model => model.Cartilla.OBRA_obra_id, "", new { @class = "text-danger" })
                             </div>
                         </div>

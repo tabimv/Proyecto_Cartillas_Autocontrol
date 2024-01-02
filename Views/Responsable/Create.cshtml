@@ -37,16 +37,16 @@ else
                       new SelectListItem { Text = "I.T.O", Value = "I.T.O" },
                   }, "Seleccione un cargo", new { @class = "form-control" })
 
-                @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger", required = "required", title = "Por favor, seleccione un cargo" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una Obra" })
+                @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger"})
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una Persona" })
                 @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
             </div>
 

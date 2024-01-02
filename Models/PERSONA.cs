@@ -13,7 +13,6 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-
     public partial class PERSONA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,9 +25,17 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         [Required(ErrorMessage = "El RUT es obligatorio")]
         [RegularExpression(@"^[0-9]{7,8}-[0-9Kk]$", ErrorMessage = "Formato de RUT inválido")]
         public string rut { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese un nombre")]
         public string nombre { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese apellido paterno")]
         public string apeliido_paterno { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese apellido materno")]
         public string apellido_materno { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese un correo eléctronico")]
         public string correo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

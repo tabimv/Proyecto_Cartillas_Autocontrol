@@ -23,7 +23,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class EnviarPorCorreoController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         public ActionResult GeneratePDF(int id)
         {
@@ -119,7 +119,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             // Puedes utilizar Entity Framework u otro método para acceder a la base de datos.
 
             // Ejemplo utilizando Entity Framework
-            using (var dbContext = new ObraManzanoDicEntities())
+            using (var dbContext = new ObraManzanoFinal())
             {
                 var actividad = dbContext.ACTIVIDAD.Include(a => a.OBRA).FirstOrDefault(a => a.actividad_id == actividadId);
                 if (actividad != null)

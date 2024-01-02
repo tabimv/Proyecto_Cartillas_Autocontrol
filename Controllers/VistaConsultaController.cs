@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class VistaConsultaController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
         // GET: VistsConsulta
         public async Task<ActionResult> Obra()
         {
@@ -26,7 +26,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // Busca las obras directamente y realiza la condición deseada
                 var obras = await db.OBRA
                     .Include(o => o.USUARIO)
-                    .Where(o => o.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                    .Where(o => o.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                     .Include(o => o.COMUNA)
                     .ToListAsync();
 
@@ -48,7 +48,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
-                var rESPONSABLE = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.OBRA.USUARIO).Where(r => r.OBRA.USUARIO.Any(u => u.PERFIL.rol == usuarioAutenticado.PERFIL.rol));
+                var rESPONSABLE = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.OBRA.USUARIO).Where(r => r.OBRA.USUARIO.Any(u => u.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id));
                 return View(await rESPONSABLE.ToListAsync());
             }
             else
@@ -68,7 +68,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
                 var inmuebleGroupedByObra = await db.INMUEBLE
                 .Include(e => e.OBRA.USUARIO)
-                .Where(o => o.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                .Where(o => o.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                 .OrderBy(e => e.inmueble_id)
                 .GroupBy(e => e.OBRA_obra_id)
                 .Select(g => g.FirstOrDefault())
@@ -99,7 +99,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
                 var items = await db.INMUEBLE
                     .Include(e => e.OBRA.USUARIO)
-                    .Where(o => o.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                    .Where(o => o.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                     .Where(a => a.OBRA_obra_id == obraId)
                     .OrderBy(a => a.inmueble_id)
                     .ToListAsync();
@@ -125,7 +125,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
 
-                var aCTIVIDAD = db.ACTIVIDAD.Include(a => a.OBRA).Where(o => o.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol));
+                var aCTIVIDAD = db.ACTIVIDAD.Include(a => a.OBRA).Where(o => o.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id));
                 return View(await aCTIVIDAD.ToListAsync());
             }
             else
@@ -151,7 +151,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
                 var itemsGroupedByActivity = await db.ITEM_VERIF
                 .Include(i => i.ACTIVIDAD.OBRA.USUARIO)
-                  .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                  .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                 .OrderBy(e => e.ACTIVIDAD_actividad_id)
                 .GroupBy(e => e.ACTIVIDAD_actividad_id)
                 .Select(g => g.FirstOrDefault())
@@ -183,7 +183,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var items = await db.ITEM_VERIF
                     .Where(a => a.ACTIVIDAD_actividad_id == actividadId)
                     .Include(i => i.ACTIVIDAD.OBRA.USUARIO)
-                    .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                    .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                     .OrderBy(a => a.label)
                     .ToListAsync();
 

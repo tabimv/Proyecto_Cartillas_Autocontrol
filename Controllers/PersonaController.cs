@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class PersonaController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         // GET: Persona
         public async Task<ActionResult> Index()
@@ -111,10 +111,25 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             PERSONA pERSONA = await db.PERSONA.FindAsync(id);
+
+            if (pERSONA == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Verificar si existen relaciones con claves foráneas
+            if (db.PERSONA.Any(t => t.rut == id))
+            {
+                ViewBag.ErrorMessage = "No se puede eliminar esta persona debido a  que esta relacionado a otras entidades.";
+                return View("Delete", pERSONA); // Mostrar vista de eliminación con el mensaje de error
+            }
+
             db.PERSONA.Remove(pERSONA);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

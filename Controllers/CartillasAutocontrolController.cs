@@ -20,7 +20,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     public class CartillasAutocontrolController : Controller
     {
 
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         public async Task<ActionResult> ListaCartillasPorActividad()
         {
@@ -29,61 +29,78 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         }
         public async Task<ActionResult> VerCartilla(int id)
         {
-            // 1. Obtener la actividad específica a partir del parámetro id
-            var actividad = await db.ACTIVIDAD.SingleOrDefaultAsync(a => a.actividad_id == id);
+                // 1. Obtener la actividad específica a partir del parámetro id
+                var actividad = await db.ACTIVIDAD.SingleOrDefaultAsync(a => a.actividad_id == id);
 
-            if (actividad == null)
-            {
-                return HttpNotFound(); // Otra acción adecuada en caso de que la actividad no se encuentre.
-            }
+                if (actividad == null)
+                {
+                    return HttpNotFound(); // Otra acción adecuada en caso de que la actividad no se encuentre.
+                }
 
-            // 2. Obtener todos los elementos de verificación relacionados con esa actividad
-            var elementosVerificacion = await db.DETALLE_CARTILLA
-                .Include(dc => dc.ITEM_VERIF)
-                .Include(dc => dc.CARTILLA.ACTIVIDAD)
-                .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
-                .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
+                // 2. Obtener todos los elementos de verificación relacionados con esa actividad
+                var elementosVerificacion = await db.DETALLE_CARTILLA
+                    .Include(dc => dc.ITEM_VERIF)
+                    .Include(dc => dc.CARTILLA.ACTIVIDAD)
+                    .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
+                    .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
 
-            var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
-            ViewBag.Responsables = ReponsablesObra;
+                var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
+                ViewBag.Responsables = ReponsablesObra;
 
-            // 3. Pasar estos datos a la vista
-            ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
-            return View(elementosVerificacion);
+                var Firmas = await db.RESPONSABLE.Include(r => r.PERSONA).Where(r => r.PERSONA.USUARIO.Any(u => u.OBRA_obra_id == actividad.OBRA_obra_id)).ToListAsync();
+                ViewBag.FirmasAutomatizadas = Firmas;
+
+                // 3. Pasar estos datos a la vista
+                ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
+                return View(elementosVerificacion);
+            
         }
 
         public async Task<ActionResult> GeneratePDF(int id)
         {
-            // 1. Obtener la actividad específica a partir del parámetro id
-            var actividad = await db.ACTIVIDAD.SingleOrDefaultAsync(a => a.actividad_id == id);
-
-            if (actividad == null)
+            if (Session["UsuarioAutenticado"] != null)
             {
-                return HttpNotFound(); // Otra acción adecuada en caso de que la actividad no se encuentre.
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                // 1. Obtener la actividad específica a partir del parámetro id
+                var actividad = await db.ACTIVIDAD.SingleOrDefaultAsync(a => a.actividad_id == id);
+
+                if (actividad == null)
+                {
+                    return HttpNotFound(); // Otra acción adecuada en caso de que la actividad no se encuentre.
+                }
+
+                // 2. Obtener todos los elementos de verificación relacionados con esa actividad
+                var elementosVerificacion = await db.DETALLE_CARTILLA
+                    .Include(dc => dc.ITEM_VERIF)
+                    .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
+                    .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
+
+                var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
+                ViewBag.Responsables = ReponsablesObra;
+
+                // 3. Pasar estos datos a la vista
+                ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
+
+                var Firmas = await db.RESPONSABLE.Include(r => r.PERSONA).Where(r => r.PERSONA.USUARIO.Any(u => u.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id)).ToListAsync();
+                ViewBag.FirmasAutomatizadas = Firmas;
+
+                var pdf = new Rotativa.ViewAsPdf("GeneratePDF", elementosVerificacion)
+                {
+                    FileName = "CartillaDeControl.pdf", // Nombre del archivo PDF resultante
+                    PageSize = Rotativa.Options.Size.B4,
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+
+                };
+
+                return pdf;
             }
-
-            // 2. Obtener todos los elementos de verificación relacionados con esa actividad
-            var elementosVerificacion = await db.DETALLE_CARTILLA
-                .Include(dc => dc.ITEM_VERIF)
-                .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
-                .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
-
-            var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
-            ViewBag.Responsables = ReponsablesObra;
-
-            // 3. Pasar estos datos a la vista
-            ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
-
-
-            var pdf = new Rotativa.ViewAsPdf("GeneratePDF", elementosVerificacion)
+            else
             {
-                FileName = "CartillaDeControl.pdf", // Nombre del archivo PDF resultante
-                PageSize = Rotativa.Options.Size.B4,
-                PageOrientation = Rotativa.Options.Orientation.Landscape,
-
-            };
-
-            return pdf;
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
         }
 
 

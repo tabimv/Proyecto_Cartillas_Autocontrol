@@ -38,6 +38,7 @@ else
                     <thead>
                         <tr>
                             <th></th>
+                            <th> Obra Asociada </th>
                             <th> Actividad Asociada </th>
                             <th> Nombre Actividad </th>
                             <th style="white-space: nowrap;">Lista de Ítems de Verificación</th>
@@ -50,6 +51,7 @@ else
                             {
                                 <tr>
                                     <td></td>
+                                    <td> @Html.DisplayFor(modelItem => item.ACTIVIDAD.OBRA.nombre_obra) </td>
                                     <td> @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad) </td>
                                     <td> @Html.DisplayFor(modelItem => item.ACTIVIDAD.nombre_actividad) </td>
                                     <td>
@@ -65,7 +67,7 @@ else
                                             <span style="display: none;">Visualizar Lista</span>
                                         </a>
                                     </td>
-                                 
+
                                 </tr>
                             }
                             lastActivityId = item.ACTIVIDAD_actividad_id;

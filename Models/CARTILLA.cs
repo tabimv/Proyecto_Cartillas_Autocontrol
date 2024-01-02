@@ -26,6 +26,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fecha { get; set; }
         public string observaciones { get; set; }
+        public string ruta_pdf { get; set; }
         public int OBRA_obra_id { get; set; }
         public int ACTIVIDAD_actividad_id { get; set; }
         public int ESTADO_FINAL_estado_final_id { get; set; }

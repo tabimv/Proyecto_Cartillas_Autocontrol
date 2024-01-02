@@ -15,7 +15,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ActividadOTECController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         public async Task<ActionResult> Index()
         {
@@ -26,7 +26,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
                 var aCTIVIDAD = db.ACTIVIDAD.Include(a => a.OBRA)
                                .Include(e => e.OBRA.USUARIO)
-                    .Where(o => o.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol));
+                    .Where(o => o.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id));
                 return View(await aCTIVIDAD.ToListAsync());
             }
             else
@@ -42,7 +42,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
                 var obrasAsociadas = db.OBRA
-                    .Where(o => o.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                    .Where(o => o.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                     .ToList();
 
                 ViewBag.ObrasAsociadas = new SelectList(obrasAsociadas, "obra_id", "nombre_obra");
@@ -74,7 +74,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 }
 
                 var obrasAsociadas = db.OBRA
-                   .Where(o => o.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                   .Where(o => o.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                    .ToList();
 
                 ViewBag.ObrasAsociadas = new SelectList(obrasAsociadas, "obra_id", "nombre_obra");
@@ -103,7 +103,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     return HttpNotFound();
                 }
                 var obrasAsociadas = db.OBRA
-                  .Where(o => o.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                  .Where(o => o.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                   .ToList();
 
                 ViewBag.ObrasAsociadas = new SelectList(obrasAsociadas, "obra_id", "nombre_obra");
@@ -134,7 +134,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 }
 
                 var obrasAsociadas = db.OBRA
-                     .Where(o => o.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                     .Where(o => o.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                      .ToList();
 
                 ViewBag.ObrasAsociadas = new SelectList(obrasAsociadas, "obra_id", "nombre_obra");

@@ -4,36 +4,36 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5b190f93498547f2a14ff073c4136461" Name="Diagram1">
-        <EntityTypeShape EntityType="ObraManzanoDicModel.ACTIVIDAD" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.CARTILLA" Width="1.5" PointX="9.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.COMUNA" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.DETALLE_CARTILLA" Width="1.5" PointX="12" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.ESTADO_FINAL" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.INMUEBLE" Width="1.5" PointX="7.5" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.ITEM_VERIF" Width="1.5" PointX="9.75" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.OBRA" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.PERFIL" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.PERSONA" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.REGION" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.RESPONSABLE" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ObraManzanoDicModel.USUARIO" Width="1.5" PointX="7.5" PointY="14" IsExpanded="true" />
-        <AssociationConnector Association="ObraManzanoDicModel.ACTIVIDAD_OBRA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.CARTILLA_ACTIVIDAD_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.ITEM_VERIF_ACTIVIDAD_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.CARTILLA_ESTADO_FINAL_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.CARTILLA_OBRA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.DETALLE_CARTILLA_CARTILLA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.COMUNA_REGION_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.OBRA_COMUNA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.DETALLE_CARTILLA_INMUEBLE_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.DETALLE_CARTILLA_ITEM_VERIF_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.INMUEBLE_OBRA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.RESPONSABLE_OBRA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.USUARIO_OBRA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.USUARIO_PERFIL_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.RESPONSABLE_PERSONA_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="ObraManzanoDicModel.USUARIO_PERSONA_FK" ManuallyRouted="false" />
+      <Diagram DiagramId="aa53efef5a2e471c9741565493fa3de8" Name="Diagram1">
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.ACTIVIDAD" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.CARTILLA" Width="1.5" PointX="9.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.COMUNA" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.DETALLE_CARTILLA" Width="1.5" PointX="12" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.ESTADO_FINAL" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.INMUEBLE" Width="1.5" PointX="7.5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.ITEM_VERIF" Width="1.5" PointX="9.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.OBRA" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.PERFIL" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.PERSONA" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.REGION" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.RESPONSABLE" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObraManzanoFinalModel.USUARIO" Width="1.5" PointX="7.5" PointY="14" IsExpanded="true" />
+        <AssociationConnector Association="ObraManzanoFinalModel.ACTIVIDAD_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.CARTILLA_ACTIVIDAD_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.ITEM_VERIF_ACTIVIDAD_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.CARTILLA_ESTADO_FINAL_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.CARTILLA_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.DETALLE_CARTILLA_CARTILLA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.COMUNA_REGION_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.OBRA_COMUNA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.DETALLE_CARTILLA_INMUEBLE_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.DETALLE_CARTILLA_ITEM_VERIF_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.INMUEBLE_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.RESPONSABLE_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.USUARIO_OBRA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.USUARIO_PERFIL_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.RESPONSABLE_PERSONA_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="ObraManzanoFinalModel.USUARIO_PERSONA_FK" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -18,7 +18,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ItemVerifController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         // GET: ItemVerif
         public async Task<ActionResult> Index()

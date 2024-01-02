@@ -13,10 +13,10 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ObraManzanoDicEntities : DbContext
+    public partial class ObraManzanoFinal : DbContext
     {
-        public ObraManzanoDicEntities()
-            : base("name=ObraManzanoDicEntities")
+        public ObraManzanoFinal()
+            : base("name=ObraManzanoFinal")
         {
         }
     

@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class UsuarioController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         // GET: Usuario
         public async Task<ActionResult> Index()
@@ -65,9 +65,17 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.USUARIO.Add(uSUARIO);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                // Check if the combination of foreign keys already exists
+                if (db.USUARIO.Any(u => u.PERSONA_rut == uSUARIO.PERSONA_rut))
+                {
+                    ModelState.AddModelError("PERSONA_rut", "Esta persona ya está asociada a un usuario.");
+                }
+                else
+                {
+                    db.USUARIO.Add(uSUARIO);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", uSUARIO.OBRA_obra_id);
@@ -87,6 +95,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             return View(uSUARIO);
         }
+
+
+       
+
 
         // GET: Usuario/Edit/5
         public async Task<ActionResult> Edit(int? id)

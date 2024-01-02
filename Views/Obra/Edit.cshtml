@@ -39,8 +39,14 @@ else
 
                     </div>
                     <div class="form-group">
+                        @Html.LabelFor(model => model.COMUNA.REGION.region_id, "Región: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.DropDownList("REGION_region_id", ViewBag.RegionList as SelectList, "Seleccione una región", htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una región" })
+                        @Html.ValidationMessageFor(model => model.COMUNA.REGION.region_id, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.COMUNA_comuna_id, "Comuna: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownList("COMUNA_comuna_id", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("COMUNA_comuna_id", null, "Seleccione una comuna",htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.COMUNA_comuna_id, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
@@ -61,7 +67,29 @@ else
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+    <script>
+        $(function () {
+            // Manejar el evento de cambio en el menú desplegable de la región
+            $('#REGION_region_id').change(function () {
+                var regionId = $(this).val(); // Obtener el valor seleccionado de la región
+                // Realizar una solicitud AJAX para obtener las comunas correspondientes a la región seleccionada
+                $.ajax({
+                    url: '/Obra/GetComunasByRegion', // URL de la acción en el controlador que devuelve las comunas por región
+                    type: 'GET',
+                    data: { regionId: regionId }, // Enviar el ID de la región seleccionada
+                    success: function (data) {
+                        // Actualizar el menú desplegable de la comuna con las comunas correspondientes
+                        var comunaDropdown = $('#COMUNA_comuna_id');
+                        comunaDropdown.empty(); // Limpiar el menú desplegable
+                        // Agregar las nuevas opciones al menú desplegable de la comuna
+                        $.each(data, function (index, item) {
+                            comunaDropdown.append($('<option></option>').text(item.Text).val(item.Value));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 }
 
 else

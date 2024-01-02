@@ -186,6 +186,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\ActividadOTECController.cs" />
+    <Compile Include="Controllers\AdjuntarDocumentoController.cs" />
     <Compile Include="Controllers\CartillaController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolController.cs" />
     <Compile Include="Controllers\CartillasAutocontrolFiltradoController.cs" />
@@ -367,6 +368,8 @@
     <Content Include="Views\VistaConsulta\ItemDetails.cshtml" />
     <Content Include="Views\Perfil\PerfilConsulta.cshtml" />
     <Content Include="Views\Contacto\Contacto.cshtml" />
+    <Content Include="Views\AdjuntarDocumento\GestionarDocumento.cshtml" />
+    <Content Include="Views\AdjuntarDocumento\GestionarDocumentoFiltrado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -376,6 +379,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\documento\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

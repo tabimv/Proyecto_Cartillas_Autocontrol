@@ -12,7 +12,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class VistaPerfilITOController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
         // GET: VistaPerfilITO
        
         public async Task<ActionResult> Index()
@@ -24,7 +24,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 var cARTILLA = db.CARTILLA.Include(c => c.ACTIVIDAD).Include(c => c.ESTADO_FINAL).Include(c => c.OBRA)
                                .Include(c => c.OBRA.USUARIO)
-                               .Where(c => c.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol));
+                               .Where(c => c.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id));
                 return View(await cARTILLA.ToListAsync());
             }
             else
@@ -68,7 +68,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoDicEntities())
+                    using (var dbContext = new ObraManzanoFinal())
                     {
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;

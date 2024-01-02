@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ObraController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         // GET: OBRA
         public async Task<ActionResult> Index()
@@ -41,6 +41,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         public ActionResult Create()
         {
             ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna");
+            ViewBag.RegionList = new SelectList(db.REGION, "region_id", "nombre_region");
             return View();
         }
 
@@ -62,6 +63,21 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(oBRA);
         }
 
+        public JsonResult GetComunasByRegion(int regionId)
+        {
+            var comunas = db.COMUNA.Where(c => c.REGION.region_id == regionId)
+                                  .Select(c => new
+                                  {
+                                      Value = c.comuna_id,
+                                      Text = c.nombre_comuna
+                                  })
+                                  .ToList();
+
+            return Json(comunas, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         // GET: OBRA/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -75,6 +91,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
             ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna", oBRA.COMUNA_comuna_id);
+            ViewBag.RegionList = new SelectList(db.REGION, "region_id", "nombre_region");
             return View(oBRA);
         }
 
@@ -92,6 +109,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.COMUNA_comuna_id = new SelectList(db.COMUNA, "comuna_id", "nombre_comuna", oBRA.COMUNA_comuna_id);
+               ViewBag.RegionList = new SelectList(db.REGION, "region_id", "nombre_region");
             return View(oBRA);
         }
 
@@ -122,7 +140,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
 
-            bool tieneOtrasRelaciones = db.OBRA.Any(o => o.obra_id != id && o.COMUNA_comuna_id != oBRA.COMUNA_comuna_id);
+            bool tieneOtrasRelaciones = db.OBRA.Any(o => o.COMUNA_comuna_id != oBRA.COMUNA_comuna_id && o.COMUNA.REGION.region_id != oBRA.COMUNA.REGION.region_id);
             bool tieneActividadesRelacionadas = db.ACTIVIDAD.Any(a => a.OBRA_obra_id == id);
 
 

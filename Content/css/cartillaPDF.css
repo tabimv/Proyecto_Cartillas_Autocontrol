@@ -106,6 +106,11 @@ th, td {
     border: 2px solid black;
     padding: 8px;
     text-align: left;
+    font-size: 10px;
+}
+
+.material-icons {
+    font-size: 15px;
 }
 
 tr:nth-child(even) {

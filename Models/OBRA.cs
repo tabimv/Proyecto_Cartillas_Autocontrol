@@ -11,7 +11,8 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OBRA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,8 +26,13 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         }
     
         public int obra_id { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese el nombre de la obra")]
         public string nombre_obra { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese la dirección")]
         public string direccion { get; set; }
+
         public int COMUNA_comuna_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -26,24 +26,25 @@ else
             <div class="form-container">
                 <h2>Crear Usuario</h2>
                 @Html.AntiForgeryToken()
-            <div class="form-group">
-                @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("PERSONA_rut", null, "Seleccione una persona", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
-            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("PERSONA_rut", null, "Seleccione una persona", htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una Persona Asociada" })
+                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+                </div>
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.contraseña, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.PasswordFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.PasswordFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                     @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.PERFIL_perfil_id, "Tipo Perfil: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("PERFIL_perfil_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownList("PERFIL_perfil_id", null, "Seleccione un tipo de perfil", htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione un tipo de perfil" })
                     @Html.ValidationMessageFor(model => model.PERFIL_perfil_id, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownList("OBRA_obra_id", null, "Seleccione una Obra", htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una Obra  Asociada" })
                     @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">

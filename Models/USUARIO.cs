@@ -11,13 +11,21 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class USUARIO
     {
         public int usuario_id { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese la contraseña")]
         public string contraseña { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione un Tipo de Perfil")]
         public int PERFIL_perfil_id { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione una Obra")]
         public int OBRA_obra_id { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione una Persona Asociada")]
         public string PERSONA_rut { get; set; }
     
         public virtual OBRA OBRA { get; set; }

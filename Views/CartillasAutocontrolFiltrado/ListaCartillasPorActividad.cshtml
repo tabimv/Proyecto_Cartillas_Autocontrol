@@ -44,10 +44,11 @@ else
                         <tr>
                             <th style="white-space: nowrap;"> ID de Cartilla</th>
                             <th> Fecha</th>
+                            <th style="white-space: nowrap;"> Obra</th>
                             <th style="white-space: nowrap;"> Código Actividad</th>
                             <th style="white-space: nowrap;"> Actividad</th>
-                            <th style="white-space: nowrap;"> Obra</th>
-                            <th> Estado (Abierto/Cerrado) </th>
+
+                            <th> Estado (Activo/Bloqueado) </th>
                             <th> Estado Final </th>
                             <th>Acciones</th>
                         </tr>
@@ -67,17 +68,17 @@ else
                                     <tr>
                                         <td>@item.CARTILLA.cartilla_id</td>
                                         <td>@item.CARTILLA.fecha.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.CARTILLA.OBRA.nombre_obra</td>
                                         <td>@item.CARTILLA.ACTIVIDAD.codigo_actividad</td>
                                         <td>@item.CARTILLA.ACTIVIDAD.nombre_actividad</td>
-                                        <td>@item.CARTILLA.OBRA.nombre_obra</td>
                                         <td>
-                                            @if (item.CARTILLA.ACTIVIDAD.estado == "C")
+                                            @if (item.CARTILLA.ACTIVIDAD.estado == "B")
                                             {
-                                                <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Cerrado">&#xE897;</i>
+                                                <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
                                             }
                                             else if (item.CARTILLA.ACTIVIDAD.estado == "A")
                                             {
-                                                <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Abierto">&#xE898;</i>
+                                                <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Activo">&#xE898;</i>
                                             }
                                         </td>
                                         <td>@item.CARTILLA.ESTADO_FINAL.descripcion</td>
@@ -97,6 +98,22 @@ else
                                                 <i class="material-icons" data-toggle="tooltip" title="Enviar al Correo">email</i>
                                                 <span style="display: none;">VerCartilla</span>
                                             </a>
+
+                                            @if (item.CARTILLA.ACTIVIDAD.estado == "B")
+                                            {
+                                                <!-- Nuevo enlace para "Gestionar Documento" con ícono de documento -->
+                                                <a href="@Url.Action("GestionarDocumentoFiltrado", "AdjuntarDocumento", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Gestionar Documento">description</i>
+                                                    <span style="display: none;">GestionarDocumento</span>
+                                                </a>
+                                            }
+                                            else if (item.CARTILLA.ACTIVIDAD.estado == "A")
+                                            {
+                                                <a href="" style="color:#aba9a9">
+                                                    <i class="material-icons" data-toggle="tooltip" title="No se puede adjuntar documentos en Estado Activo">description</i>
+                                                    <span style="display: none;">GestionarDocumento</span>
+                                                </a>
+                                            }
                                         </td>
 
 

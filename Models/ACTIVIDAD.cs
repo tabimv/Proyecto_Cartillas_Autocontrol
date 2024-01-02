@@ -11,7 +11,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class ACTIVIDAD
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,8 +22,12 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         }
     
         public int actividad_id { get; set; }
+        [Required(ErrorMessage = "Por favor, ingrese un código")]
         public string codigo_actividad { get; set; }
+
+        [Required(ErrorMessage = "Por favor, ingrese un nombre")]
         public string nombre_actividad { get; set; }
+
         public string estado { get; set; }
         public int OBRA_obra_id { get; set; }
     

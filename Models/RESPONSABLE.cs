@@ -11,12 +11,19 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class RESPONSABLE
     {
         public int responsable_id { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione un cargo")]
         public string cargo { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione una obra")]
         public int OBRA_obra_id { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione una persona ")]
         public string PERSONA_rut { get; set; }
     
         public virtual OBRA OBRA { get; set; }

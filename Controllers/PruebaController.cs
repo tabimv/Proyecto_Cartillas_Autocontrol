@@ -15,7 +15,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     public class PruebaController : Controller
     {
 
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         public ActionResult CrearCartilla()
         {
@@ -26,7 +26,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
 
             // Realiza una consulta a tu base de datos para obtener el valor deseado
-            using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+            using (var dbContext = new ObraManzanoFinal())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
             {
                 // Supongamos que tienes una entidad llamada Configuracion con una propiedad ItemVerifId
                 viewModel.ActividadesList = dbContext.ACTIVIDAD.ToList();
@@ -48,7 +48,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoDicEntities())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
+                    using (var dbContext = new ObraManzanoFinal())  // Reemplaza 'TuDbContext' con el nombre de tu contexto de base de datos
                     {
                         // Verificar si ya existe una cartilla con las mismas combinaciones de FK y un estado final diferente de 1
                         bool existeCartilla = dbContext.CARTILLA.Any(c =>
@@ -156,7 +156,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             try
             {
-                using (var context = new ObraManzanoDicEntities())
+                using (var context = new ObraManzanoFinal())
                 {
                     var query = from iv in context.ITEM_VERIF
                                 join a in context.ACTIVIDAD on iv.ACTIVIDAD_actividad_id equals a.actividad_id
@@ -215,7 +215,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 try
                 {
-                    using (var dbContext = new ObraManzanoDicEntities())
+                    using (var dbContext = new ObraManzanoFinal())
                     {
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
@@ -274,7 +274,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         [HttpGet]
         public ActionResult ConfirmarEliminarCartilla(int id)
         {
-            using (var dbContext = new ObraManzanoDicEntities())
+            using (var dbContext = new ObraManzanoFinal())
             {
                 var cartilla = dbContext.CARTILLA.Include(c => c.DETALLE_CARTILLA).Include(c => c.ACTIVIDAD).Include(c => c.OBRA).Include(c => c.ESTADO_FINAL).FirstOrDefault(c => c.cartilla_id == id);
                 if (cartilla != null)

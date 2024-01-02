@@ -24,30 +24,30 @@ else
             <div class="form-container">
                 <h2>Crear Persona</h2>
                 @Html.AntiForgeryToken()
-                <div class="form-group">
-                    @Html.LabelFor(model => model.rut, "Rut: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.TextBoxFor(model => model.rut, new { @class = "form-control", placeholder = "Rut sin puntos con guión", onchange = "validarRut(this.value)" })
-                    @Html.ValidationMessageFor(model => model.rut, "", new { @class = "text-danger" })
-                    <div id="mensajeErrorRut" class="text-danger"></div>
-                </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.rut, "Rut: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(model => model.rut, new { @class = "form-control", placeholder = "Rut sin puntos con guión", onchange = "validarRut(this.value)", required = "required" })
+                @Html.ValidationMessageFor(model => model.rut, "", new { @class = "text-danger" })
+                <div id="mensajeErrorRut" class="text-danger"></div>
+            </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" }, required = "required" })
                     @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.apeliido_paterno, "Apellido Paterno", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.apeliido_paterno, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.apeliido_paterno, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                     @Html.ValidationMessageFor(model => model.apeliido_paterno, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.apellido_materno, "Apellido Materno", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.apellido_materno, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.apellido_materno, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                     @Html.ValidationMessageFor(model => model.apellido_materno, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.correo, "Correo Electrónico", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                     @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">

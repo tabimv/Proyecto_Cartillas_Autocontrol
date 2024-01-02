@@ -18,7 +18,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ItemVerifOTECController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         public async Task<ActionResult> ItemLista()
         {
@@ -29,7 +29,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
                 var itemsGroupedByActivity = await db.ITEM_VERIF
                 .Include(i => i.ACTIVIDAD.OBRA.USUARIO)
-                  .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                  .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                 .OrderBy(e => e.ACTIVIDAD_actividad_id)
                 .GroupBy(e => e.ACTIVIDAD_actividad_id)
                 .Select(g => g.FirstOrDefault())
@@ -61,7 +61,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var items = await db.ITEM_VERIF
                     .Where(a => a.ACTIVIDAD_actividad_id == actividadId)
                     .Include(i => i.ACTIVIDAD.OBRA.USUARIO)
-                    .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                    .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                     .OrderBy(a => a.label)
                     .ToListAsync();
 
@@ -163,7 +163,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
                 var obrasAsociadas = db.ACTIVIDAD
                     .Include(a => a.OBRA.USUARIO)
-                    .Where(a => a.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol))
+                    .Where(a => a.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
                     .Where(a => a.estado == "A")
                     .ToList();
 
@@ -252,7 +252,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 }
 
                 var actividades = db.ACTIVIDAD.Include(a => a.OBRA.RESPONSABLE)
-                  .Where(a => a.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol)).ToList(); // Obtén la lista de actividades desde tu base de datos
+                  .Where(a => a.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id)).ToList(); // Obtén la lista de actividades desde tu base de datos
 
                 // Crear una lista de objetos anónimos con los campos que necesitas
                 var listaActividades = actividades.Select(a => new
@@ -292,7 +292,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 }
 
                 var actividades = db.ACTIVIDAD.Include(a => a.OBRA.USUARIO)
-                    .Where(a => a.OBRA.USUARIO.Any(r => r.PERFIL.rol == usuarioAutenticado.PERFIL.rol)).ToList(); // Obtén la lista de actividades desde tu base de datos
+                    .Where(a => a.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id)).ToList(); // Obtén la lista de actividades desde tu base de datos
 
                 // Crear una lista de objetos anónimos con los campos que necesitas
                 var listaActividades = actividades.Select(a => new

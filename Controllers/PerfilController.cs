@@ -14,7 +14,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class PerfilController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
         // GET: Perfil
         public ActionResult PerfilAdmin()
         {

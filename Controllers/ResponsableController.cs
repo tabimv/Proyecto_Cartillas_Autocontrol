@@ -13,7 +13,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
     public class ResponsableController : Controller
     {
-        private ObraManzanoDicEntities db = new ObraManzanoDicEntities();
+        private ObraManzanoFinal db = new ObraManzanoFinal();
 
         // GET: Responsable
         public async Task<ActionResult> Index()
@@ -53,6 +53,12 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "responsable_id,cargo,OBRA_obra_id,PERSONA_rut")] RESPONSABLE rESPONSABLE)
         {
+            // Verificar si ya existe un registro con las mismas claves foráneas
+            if (db.RESPONSABLE.Any(r => r.OBRA_obra_id == rESPONSABLE.OBRA_obra_id && r.PERSONA_rut == rESPONSABLE.PERSONA_rut))
+            {
+                ModelState.AddModelError("", "Ya existe un responsable con estos atributos asociados.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.RESPONSABLE.Add(rESPONSABLE);

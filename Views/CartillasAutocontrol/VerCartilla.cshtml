@@ -27,7 +27,7 @@ else
         </div>
 
         <div class="rectangulo">
-            <p><strong>Actividad: </strong> @Model[0].CARTILLA.ACTIVIDAD.nombre_actividad </p>
+            <p><strong>Actividad: </strong> @Model[0].CARTILLA.ACTIVIDAD.nombre_actividad - @Model[0].CARTILLA.ACTIVIDAD.codigo_actividad </p>
             <p><strong>Responsable de Revisión:</strong></p>
             <div class="linea-vertical"></div>
             <div class="fecha-firma">
@@ -41,8 +41,9 @@ else
 
             <!-- Información general -->
             <p><strong>OBRA:</strong> @Model[0].CARTILLA.OBRA.nombre_obra</p>
-            <p><strong>COMUNA:</strong> @Model[0].CARTILLA.OBRA.COMUNA.nombre_comuna</p>
             <p><strong>DIRECCIÓN:</strong> @Model[0].CARTILLA.OBRA.direccion</p>
+            <p><strong>COMUNA:</strong> @Model[0].CARTILLA.OBRA.COMUNA.nombre_comuna</p>
+
             @foreach (var item in ViewBag.Responsables)
             {
                 if (item.cargo == "Contratista")
@@ -109,12 +110,12 @@ else
 
             }
 
-           
+
 
             @foreach (var label in labels)
             {
                 <tr>
-             
+
                     <th>@abc[labels.IndexOf(label)]</th>
                     <th>@label</th>
 
@@ -189,33 +190,51 @@ else
             </div>
         </div>
 
-
         <div class="firmas">
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> Carlos Cardenas Mancilla </strong></p>
-                <p>Administrador de Obra</p>
-                <p>Constructora Manzano y Asoc.Ltda</p>
-            </div>
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> Marlene Delgado Caro </strong></p>
-                <p>Autocontrol de Obra</p>
-                <p>Constructora Manzano y Asoc.Ltda</p>
-            </div>
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> Boris Zambrano Orrego </strong></p>
-                <p>ITO Serviu</p>
-                <p>Serviu Región del Biobío</p>
-            </div>
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> Osvaldo Araneda Caceres </strong></p>
-                <p>Supervisor Serviu</p>
-                <p>Serviu Región del Biobío</p>
-            </div>
+            @foreach (var item in ViewBag.FirmasAutomatizadas)
+            {
+                if (item.cargo == "I.T.O")
+                {
+                    <div class="firma">
+                        <div class="linea"></div>
+                        <p><strong>  @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                        <p>Administrador de Obra</p>
+                        <p>Constructora Manzano y Asoc.Ltda</p>
+                    </div>
+                }
+                else if (item.cargo == "Autocontrol")
+                {
+                    <div class="firma">
+                        <div class="linea"></div>
+                        <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                        <p>Autocontrol de Obra</p>
+                        <p>Constructora Manzano y Asoc.Ltda</p>
+                    </div>
+                }
+                else if (item.cargo == "Director")
+                {
+                    <div class="firma">
+                        <div class="linea"></div>
+                        <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                        <p>ITO Serviu</p>
+                        <p>Serviu Región del Biobío</p>
+                    </div>
+                }
+                else if (item.cargo == "Supervisor")
+                {
+                    <div class="firma">
+                        <div class="linea"></div>
+                        <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                        <p>Supervisor Serviu</p>
+                        <p>Serviu Región del Biobío</p>
+                    </div>
+                }
+            }
         </div>
+
+
+
+
     </div>
 
 

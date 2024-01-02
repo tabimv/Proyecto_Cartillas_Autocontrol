@@ -25,9 +25,9 @@ else
                 <h2>Crear Items de Verificación Por Actividad</h2>
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.DropDownList("ActividadId", ViewBag.Actividades as SelectList, "Selecciona una actividad")
-                </div>
+            <div class="form-group">
+                @Html.DropDownList("ActividadId", ViewBag.Actividades as SelectList, "Selecciona una actividad", htmlAttributes: new { required = "required", title = "Por favor, seleccione una Actividad Asociada" })
+            </div>
                 <div class="acciones">
                     <button type="button" class="btnAgregar" id="btnAgregarRegistro">Agregar Registro</button>
                     <button type="button" class="btnEliminar" id="btnEliminarRegistro">Eliminar Último Registro</button>
@@ -44,8 +44,8 @@ else
                     </thead>
                     <tbody id="contenedorRegistros">
                         <tr class="registro">
-                            <td><input type="text" placeholder="Ej: A, B, C.." name="ItemsVerif[0].Label" /></td>
-                            <td><input type="text" name="ItemsVerif[0].ElementoVerificacion" /></td>
+                            <td><input type="text" placeholder="Ej: A, B, C.." name="ItemsVerif[0].Label" required/></td>
+                            <td><input type="text" name="ItemsVerif[0].ElementoVerificacion" required/></td>
                         </tr>
                     </tbody>
                 </table>
