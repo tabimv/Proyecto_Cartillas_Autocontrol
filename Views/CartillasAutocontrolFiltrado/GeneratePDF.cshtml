@@ -172,10 +172,12 @@ else
     </div>
 
     <table class="firmas-table">
-        @foreach (var item in ViewBag.FirmasAutomatizadas)
-        {
-            <tr>
-                @if (item.cargo == "Director")
+
+        <tr>
+            @foreach (var item in ViewBag.FirmasAutomatizadas)
+            {
+
+                if (item.cargo == "Director")
                 {
                     <td class="firma">
                         <!-- Contenido de la firma 1 -->
@@ -185,7 +187,7 @@ else
                         <p>Constructora Manzano y Asoc.Ltda</p>
                     </td>
                 }
-                @if (item.cargo == "Autocontrol")
+                if (item.cargo == "Autocontrol")
                 {
 
                     <td class="firma">
@@ -196,7 +198,7 @@ else
                         <p>Constructora Manzano y Asoc.Ltda</p>
                     </td>
                 }
-                @if (item.cargo == "I.T.O")
+                if (item.cargo == "I.T.O")
                 {
                     <td class="firma">
                         <!-- Contenido de la firma 3 -->
@@ -206,7 +208,7 @@ else
                         <p>Serviu Región del Biobío</p>
                     </td>
                 }
-                @if (item.cargo == "Supervisor")
+                if (item.cargo == "Supervisor")
                 {
                     <td class="firma">
                         <!-- Contenido de la firma 4 -->
@@ -216,9 +218,10 @@ else
                         <p>Serviu Región del Biobío</p>
                     </td>
                 }
-                </tr>
-        }
-        </table>
+            }
+        </tr>
+
+    </table>
 }
 else
 {

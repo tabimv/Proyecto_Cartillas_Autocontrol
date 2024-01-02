@@ -193,7 +193,7 @@ else
         <div class="firmas">
             @foreach (var item in ViewBag.FirmasAutomatizadas)
             {
-                if (item.cargo == "I.T.O")
+                if (item.cargo == "Director")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -211,7 +211,7 @@ else
                         <p>Constructora Manzano y Asoc.Ltda</p>
                     </div>
                 }
-                else if (item.cargo == "Director")
+                else if (item.cargo == "I.T.O")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -231,9 +231,6 @@ else
                 }
             }
         </div>
-
-
-
 
     </div>
 

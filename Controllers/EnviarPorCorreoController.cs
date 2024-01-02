@@ -43,7 +43,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             ViewBag.Responsables = ReponsablesObra;
             ViewBag.Actividad = actividad;
 
-           
+            var Firmas = db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToList();
+            ViewBag.FirmasAutomatizadas = Firmas;
+
+
             var pdfStream = new MemoryStream();
             var pdf = new ViewAsPdf("GeneratePDF", elementosVerificacion)
             {

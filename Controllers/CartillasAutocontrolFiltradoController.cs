@@ -63,7 +63,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
                 ViewBag.Responsables = ReponsablesObra;
 
-                var Firmas = await db.RESPONSABLE.Include(r => r.PERSONA).Where(r => r.PERSONA.USUARIO.Any(u => u.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id)).ToListAsync();
+                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToListAsync();
                 ViewBag.FirmasAutomatizadas = Firmas;
 
                 // 3. Pasar estos datos a la vista
@@ -107,7 +107,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // 3. Pasar estos datos a la vista
                 ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
 
-                var Firmas = await db.RESPONSABLE.Include(r => r.PERSONA).Where(r => r.PERSONA.USUARIO.Any(u => u.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id)).ToListAsync();
+                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToListAsync();
                 ViewBag.FirmasAutomatizadas = Firmas;
 
                 var pdf = new Rotativa.ViewAsPdf("GeneratePDF", elementosVerificacion)

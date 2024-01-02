@@ -57,7 +57,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
         public ActionResult Crear()
         {
-            ViewBag.Obras = new SelectList(db.OBRA.ToList(), "obra_id", "nombre_obra");
+            // Obtén la lista completa de obras desde la base de datos
+            var todasLasObras = db.OBRA.ToList();
+
+            // Filtra las obras que no tienen el nombre "Oficina Central"
+            var obrasFiltradas = todasLasObras.Where(o => o.nombre_obra != "Oficina Central").ToList();
+
+            // Asigna la lista filtrada a ViewBag.Obras
+            ViewBag.Obras = new SelectList(obrasFiltradas, "obra_id", "nombre_obra");
             return View();
         }
 
@@ -98,7 +105,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 ModelState.AddModelError(string.Empty, "Ocurrió un error al guardar los registros: " + ex.Message);
             }
 
-            ViewBag.Obras = new SelectList(db.OBRA.ToList(), "obra_id", "nombre_obra");
+            // Obtén la lista completa de obras desde la base de datos
+            var todasLasObras = db.OBRA.ToList();
+
+            // Filtra las obras que no tienen el nombre "Oficina Central"
+            var obrasFiltradas = todasLasObras.Where(o => o.nombre_obra != "Oficina Central").ToList();
+
+            // Asigna la lista filtrada a ViewBag.Obras
+            ViewBag.Obras = new SelectList(obrasFiltradas, "obra_id", "nombre_obra");
             return View("Crear");
         }
 

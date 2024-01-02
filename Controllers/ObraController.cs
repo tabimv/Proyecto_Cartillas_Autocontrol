@@ -140,11 +140,11 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
 
-            bool tieneOtrasRelaciones = db.OBRA.Any(o => o.COMUNA_comuna_id != oBRA.COMUNA_comuna_id && o.COMUNA.REGION.region_id != oBRA.COMUNA.REGION.region_id);
+            bool tieneOtrasRelaciones = db.OBRA.Any(o => o.COMUNA_comuna_id != oBRA.COMUNA_comuna_id);
             bool tieneActividadesRelacionadas = db.ACTIVIDAD.Any(a => a.OBRA_obra_id == id);
 
 
-            if (!tieneOtrasRelaciones && !tieneActividadesRelacionadas)
+            if (tieneOtrasRelaciones && !tieneActividadesRelacionadas)
             {
                 // Si la obra tiene relación con COMUNA, se permite la eliminación
                 db.OBRA.Remove(oBRA);

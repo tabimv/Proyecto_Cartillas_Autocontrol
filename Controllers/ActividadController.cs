@@ -40,7 +40,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // GET: Actividad/Create
         public ActionResult Create()
         {
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
+            // Obtén la lista completa de obras desde la base de datos
+            var todasLasObras = db.OBRA.ToList();
+
+            // Filtra las obras que no tienen el nombre "Oficina Central"
+            var obrasFiltradas = todasLasObras.Where(o => o.nombre_obra != "Oficina Central").ToList();
+
+            // Asigna la lista filtrada a ViewBag.Obras
+            ViewBag.OBRA_obra_id = new SelectList(obrasFiltradas, "obra_id", "nombre_obra");
             return View();
         }
 
@@ -57,8 +64,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            // Obtén la lista completa de obras desde la base de datos
+            var todasLasObras = db.OBRA.ToList();
 
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", aCTIVIDAD.OBRA_obra_id);
+            // Filtra las obras que no tienen el nombre "Oficina Central"
+            var obrasFiltradas = todasLasObras.Where(o => o.nombre_obra != "Oficina Central").ToList();
+
+            // Asigna la lista filtrada a ViewBag.Obras
+            ViewBag.OBRA_obra_id = new SelectList(obrasFiltradas, "obra_id", "nombre_obra");
             return View(aCTIVIDAD);
         }
 
@@ -74,7 +87,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", aCTIVIDAD.OBRA_obra_id);
+            // Obtén la lista completa de obras desde la base de datos
+            var todasLasObras = db.OBRA.ToList();
+
+            // Filtra las obras que no tienen el nombre "Oficina Central"
+            var obrasFiltradas = todasLasObras.Where(o => o.nombre_obra != "Oficina Central").ToList();
+
+            // Asigna la lista filtrada a ViewBag.Obras
+            ViewBag.OBRA_obra_id = new SelectList(obrasFiltradas, "obra_id", "nombre_obra");
             return View(aCTIVIDAD);
         }
 
@@ -91,7 +111,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", aCTIVIDAD.OBRA_obra_id);
+            // Obtén la lista completa de obras desde la base de datos
+            var todasLasObras = db.OBRA.ToList();
+
+            // Filtra las obras que no tienen el nombre "Oficina Central"
+            var obrasFiltradas = todasLasObras.Where(o => o.nombre_obra != "Oficina Central").ToList();
+
+            // Asigna la lista filtrada a ViewBag.Obras
+            ViewBag.OBRA_obra_id = new SelectList(obrasFiltradas, "obra_id", "nombre_obra");
             return View(aCTIVIDAD);
         }
 
@@ -122,19 +149,27 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
 
-            // Verificar si existen relaciones con claves foráneas
-            if (db.ACTIVIDAD.Any(t => t.actividad_id == id))
+            // Verificar si existen otras relaciones, excluyendo la relación con la obra
+            bool tieneOtrasRelaciones = db.ACTIVIDAD.Any(o => o.OBRA_obra_id != aCTIVIDAD.OBRA_obra_id);
+            bool tieneActividadesRelacionadas = db.CARTILLA.Any(a => a.ACTIVIDAD_actividad_id == id);
+
+            if (tieneOtrasRelaciones && !tieneActividadesRelacionadas)
             {
-                ViewBag.ErrorMessage = "No se puede eliminar esta Actividad debido a  que esta relacionado a otras Entidades.";
+                // Si la obra tiene relación con Obra, se permite la eliminación
+                db.ACTIVIDAD.Remove(aCTIVIDAD);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No se puede eliminar esta Actividad porque está relacionada con otras entidades.";
                 return View("Delete", aCTIVIDAD); // Mostrar vista de eliminación con el mensaje de error
             }
-
-            db.ACTIVIDAD.Remove(aCTIVIDAD);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-
-
         }
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

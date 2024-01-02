@@ -181,10 +181,10 @@ else
             </div>
         </div>
 
-        @foreach (var item in ViewBag.FirmasAutomatizadas)
-        {
-            <div class="firmas">
-                @if (item.cargo == "Director")
+        <div class="firmas">
+            @foreach (var item in ViewBag.FirmasAutomatizadas)
+            {
+                if (item.cargo == "Director")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -193,7 +193,7 @@ else
                         <p>Constructora Manzano y Asoc.Ltda</p>
                     </div>
                 }
-                @if (item.cargo == "Autocontrol")
+                else if (item.cargo == "Autocontrol")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -202,7 +202,7 @@ else
                         <p>Constructora Manzano y Asoc.Ltda</p>
                     </div>
                 }
-                @if (item.cargo == "I.T.O")
+                else if (item.cargo == "I.T.O")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -211,7 +211,7 @@ else
                         <p>Serviu Región del Biobío</p>
                     </div>
                 }
-                @if (item.cargo == "Supervisor")
+                else if (item.cargo == "Supervisor")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -220,9 +220,10 @@ else
                         <p>Serviu Región del Biobío</p>
                     </div>
                 }
-                </div>
-        }
+            }
         </div>
+
+    </div>
 }
 else
 {

@@ -47,19 +47,20 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
                 ViewBag.Responsables = ReponsablesObra;
 
-                var Firmas = await db.RESPONSABLE.Include(r => r.PERSONA).Where(r => r.PERSONA.USUARIO.Any(u => u.OBRA_obra_id == actividad.OBRA_obra_id)).ToListAsync();
+                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToListAsync();
                 ViewBag.FirmasAutomatizadas = Firmas;
 
-                // 3. Pasar estos datos a la vista
-                ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
-                return View(elementosVerificacion);
+        
+
+
+            // 3. Pasar estos datos a la vista
+            ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
+            return View(elementosVerificacion);
             
         }
 
         public async Task<ActionResult> GeneratePDF(int id)
         {
-            if (Session["UsuarioAutenticado"] != null)
-            {
                 var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
@@ -83,7 +84,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // 3. Pasar estos datos a la vista
                 ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
 
-                var Firmas = await db.RESPONSABLE.Include(r => r.PERSONA).Where(r => r.PERSONA.USUARIO.Any(u => u.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id)).ToListAsync();
+                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToListAsync();
                 ViewBag.FirmasAutomatizadas = Firmas;
 
                 var pdf = new Rotativa.ViewAsPdf("GeneratePDF", elementosVerificacion)
@@ -95,12 +96,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 };
 
                 return pdf;
-            }
-            else
-            {
-                // Maneja el caso en el que el usuario no esté autenticado correctamente
-                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
-            }
+          
         }
 
 
