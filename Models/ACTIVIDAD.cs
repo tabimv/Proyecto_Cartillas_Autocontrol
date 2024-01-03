@@ -23,6 +23,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     
         public int actividad_id { get; set; }
         [Required(ErrorMessage = "Por favor, ingrese un código")]
+        [MaxLength(15, ErrorMessage = "El código de la actividad no puede tener más de 15 caracteres")]
         public string codigo_actividad { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese un nombre")]

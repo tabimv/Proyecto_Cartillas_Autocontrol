@@ -26,34 +26,35 @@ else
                 <h2>Editar Responsable de Obra</h2>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.responsable_id)
-            <div class="form-group">
-                @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("cargo", new List<SelectListItem>
-                {
-                  new SelectListItem { Text = "Contratista", Value = "Contratista" },
-                  new SelectListItem { Text = "EGIS", Value = "EGIS" },
-                  new SelectListItem { Text = "Director", Value = "Director" },
-                  new SelectListItem { Text = "Autocontrol", Value = "Autocontrol" },
-                  new SelectListItem { Text = "Supervisor", Value = "Supervisor" },
-                  new SelectListItem { Text = "I.T.O", Value = "I.T.O" },
-                }, "Seleccione un cargo", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
-            </div>
+                <div class="form-group">
+                    @Model.PERSONA.nombre   @Model.PERSONA.apeliido_paterno   @Model.PERSONA.apeliido_paterno
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("cargo", new List<SelectListItem>
+                    {
+                      new SelectListItem { Text = "Contratista", Value = "Contratista" },
+                      new SelectListItem { Text = "EGIS", Value = "EGIS" },
+                      new SelectListItem { Text = "Director", Value = "Director" },
+                      new SelectListItem { Text = "Autocontrol", Value = "Autocontrol" },
+                      new SelectListItem { Text = "Supervisor", Value = "Supervisor" },
+                      new SelectListItem { Text = "I.T.O", Value = "I.T.O" },
+                    }, "Seleccione un cargo", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
-                </div>
+
+
+
                 <div class="form-group">
                     <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
                 </div>
                 <div>
-                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                    <a style="padding: 10px 38%;" href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
                 </div>
             </div>
         </div>

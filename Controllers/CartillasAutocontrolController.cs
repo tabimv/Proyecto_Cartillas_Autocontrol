@@ -44,10 +44,12 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
                     .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
 
-                var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
+                var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA)
+                .Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id))
+                .ToListAsync();
                 ViewBag.Responsables = ReponsablesObra;
 
-                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToListAsync();
+                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id)).ToListAsync();
                 ViewBag.FirmasAutomatizadas = Firmas;
 
         
@@ -78,13 +80,16 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
                     .ToListAsync(); // Utiliza ToListAsync() para cargar los datos de la base de datos de forma asincrónica.
 
-                var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA).ToListAsync();
-                ViewBag.Responsables = ReponsablesObra;
+                var ReponsablesObra = await db.RESPONSABLE.Include(r => r.PERSONA)
+                     .Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id))
+                     .ToListAsync();
+
+            ViewBag.Responsables = ReponsablesObra;
 
                 // 3. Pasar estos datos a la vista
                 ViewBag.Actividad = actividad; // Esto es opcional, pero te permite acceder a los datos de la actividad en la vista.
 
-                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToListAsync();
+                var Firmas = await db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id)).ToListAsync();
                 ViewBag.FirmasAutomatizadas = Firmas;
 
                 var pdf = new Rotativa.ViewAsPdf("GeneratePDF", elementosVerificacion)

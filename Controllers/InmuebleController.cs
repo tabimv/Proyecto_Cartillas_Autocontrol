@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
 using ClosedXML.Excel;
+using System.Text.RegularExpressions;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -77,13 +79,23 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             var items = await db.INMUEBLE
                 .Where(a => a.OBRA_obra_id == obraId)
-                .OrderBy(a => a.inmueble_id)
                 .ToListAsync();
+
+            items = items.OrderBy(a => int.Parse(Regex.Match(a.codigo_inmueble, @"\d+").Value)).ToList();
 
 
             ViewBag.ObraSeleccionado = obraSeleccionado;
 
             return View(items);
+
+            
+        }
+
+        private int TryParseInt(string input)
+        {
+            int result;
+            int.TryParse(Regex.Match(input, @"\d+").Value, out result);
+            return result;
         }
 
 
@@ -190,6 +202,8 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             // Obtener todos los registros asociados a la actividad
             var registros = await db.INMUEBLE.Where(item => item.OBRA_obra_id == obraId).ToListAsync();
+
+            registros = registros.OrderBy(a => int.Parse(Regex.Match(a.codigo_inmueble, @"\d+").Value)).ToList();
 
             if (registros == null || registros.Count == 0)
             {

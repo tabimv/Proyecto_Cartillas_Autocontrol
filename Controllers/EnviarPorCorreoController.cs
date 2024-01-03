@@ -18,6 +18,7 @@ using iTextSharp.text.pdf;
 using Aspose.Pdf;
 using Aspose.Pdf.Facades;
 using Ionic.Zip;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -39,11 +40,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
                 .ToList();
 
-            var ReponsablesObra = db.RESPONSABLE.Include(r => r.PERSONA).ToList();
+            var ReponsablesObra = db.RESPONSABLE.Include(r => r.PERSONA)
+                  .Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id))
+                     .ToList();
+
             ViewBag.Responsables = ReponsablesObra;
             ViewBag.Actividad = actividad;
 
-            var Firmas = db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == c.OBRA_obra_id)).ToList();
+            var Firmas = db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id)).ToList();
             ViewBag.FirmasAutomatizadas = Firmas;
 
 
@@ -64,10 +68,11 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         }
 
 
-    
+
 
         public ActionResult EnviarPDFPorCorreo(int id)
         {
+
             var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
             string correoDestinatario = usuarioAutenticado.PERSONA.correo;
 
@@ -112,7 +117,29 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // Puedes agregar aquí el código para manejar este caso según tus necesidades.
             }
 
-            return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+            if (usuarioAutenticado.PERFIL.rol.Equals("Administrador"))
+            {
+                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+            }
+            else if (usuarioAutenticado.PERFIL.rol.Equals("OTEC"))
+            {
+                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+            }
+            else if (usuarioAutenticado.PERFIL.rol.Equals("ITO"))
+            {
+                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+            }
+            else if (usuarioAutenticado.PERFIL.rol.Equals("Consulta"))
+            {
+                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+        
+
         }
 
         // Método para obtener el nombre de la actividad y de la obra por ID

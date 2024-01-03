@@ -180,36 +180,19 @@ textarea {
 
 
 
+/* En tu archivo cartilla.css o en línea */
+
+/* Estilos para la tabla en dispositivos más pequeños */
 @media only screen and (max-width: 768px) {
-    .encabezado {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .encabezado-titulo {
-        position: static;
-        margin: 10px 0;
-        text-align: center;
-    }
-
-
-    .fecha-firma {
-        position: static;
-        width: 100%;
-        text-align: center;
-        margin-top: 10px;
-    }
-
     table.default {
         width: 100%;
-        margin-top: 40%; /* Adjust as needed */
+        margin-top: 40%; /* Ajusta según sea necesario */
         margin-bottom: 8%;
     }
 
     .rectangulo {
         width: 100%;
-        margin: -230px 0; /* Adjust as needed */
+        margin: -230px 0; /* Ajusta según sea necesario */
     }
 
     .observaciones {
