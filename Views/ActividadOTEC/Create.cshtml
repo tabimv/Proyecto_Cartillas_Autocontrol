@@ -42,7 +42,6 @@ else
                         @Html.DropDownListFor(model => model.estado, new List<SelectListItem>
                         {
                             new SelectListItem { Text = "Activo", Value = "A" },
-                            new SelectListItem { Text = "Bloqueado", Value = "B" }
                         }, "Selecciona un estado", new { @class = "form-control", required = "required", title = "Por favor, seleccione un estado" })
                         @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                     </div>

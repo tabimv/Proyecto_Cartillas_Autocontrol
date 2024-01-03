@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
 using Proyecto_Cartilla_Autocontrol.Models;
+using ClosedXML.Excel;
 
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
@@ -35,6 +36,56 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
             }
         }
+
+
+        public ActionResult ExportToExcel()
+        {
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                var actividades = db.ACTIVIDAD.Include(r => r.OBRA)
+                    .Where(o => o.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Responsables");
+                    worksheet.Cell(1, 1).Value = "Código Actividad";
+                    worksheet.Cell(1, 2).Value = "Nombre Actividad";
+                    worksheet.Cell(1, 3).Value = "Estado (Activo/Bloqueado)";
+                    worksheet.Cell(1, 4).Value = "Obra Asociada";
+
+
+                    int row = 2;
+                    foreach (var actividad in actividades)
+                    {
+                        worksheet.Cell(row, 1).Value = actividad.codigo_actividad;
+                        worksheet.Cell(row, 2).Value = actividad.nombre_actividad;
+                        worksheet.Cell(row, 3).Value = actividad.estado;
+                        worksheet.Cell(row, 4).Value = actividad.OBRA.nombre_obra;
+
+
+                        row++;
+                    }
+
+                    var stream = new System.IO.MemoryStream();
+                    workbook.SaveAs(stream);
+
+                    var fileName = "Actividades.xlsx";
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    return File(stream.ToArray(), contentType, fileName);
+                }
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
+        }
+
 
         public ActionResult Create()
         {

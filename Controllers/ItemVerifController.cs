@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Microsoft.Win32;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -25,6 +26,40 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             var iTEM_VERIF = db.ITEM_VERIF.Include(i => i.ACTIVIDAD).OrderBy(i => i.label).ThenBy(i => i.ACTIVIDAD_actividad_id);
             return View(await iTEM_VERIF.ToListAsync());
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            var items = db.ITEM_VERIF.Include(r => r.ACTIVIDAD).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Items");
+                worksheet.Cell(1, 1).Value = "Label";
+                worksheet.Cell(1, 2).Value = "Elemento Verificación";
+                worksheet.Cell(1, 3).Value = "Actividad Asociada";
+       
+
+
+                int row = 2;
+                foreach (var item in items)
+                {
+                    worksheet.Cell(row, 1).Value = item.label;
+                    worksheet.Cell(row, 2).Value = item.elemento_verificacion;
+                    worksheet.Cell(row, 3).Value = item.ACTIVIDAD.nombre_actividad;
+
+
+                    row++;
+                }
+
+                var stream = new System.IO.MemoryStream();
+                workbook.SaveAs(stream);
+
+                var fileName = "ItemsVerificación.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream.ToArray(), contentType, fileName);
+            }
         }
 
         public async Task<ActionResult> ItemLista()

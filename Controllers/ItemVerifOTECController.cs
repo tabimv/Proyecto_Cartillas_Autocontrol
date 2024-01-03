@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Microsoft.Win32;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -37,6 +38,53 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
 
                 return View(itemsGroupedByActivity);
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                var items = db.ITEM_VERIF.Include(r => r.ACTIVIDAD)
+                    .Where(i => i.ACTIVIDAD.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Items");
+                    worksheet.Cell(1, 1).Value = "Label";
+                    worksheet.Cell(1, 2).Value = "Elemento Verificación";
+                    worksheet.Cell(1, 3).Value = "Actividad Asociada";
+
+
+
+                    int row = 2;
+                    foreach (var item in items)
+                    {
+                        worksheet.Cell(row, 1).Value = item.label;
+                        worksheet.Cell(row, 2).Value = item.elemento_verificacion;
+                        worksheet.Cell(row, 3).Value = item.ACTIVIDAD.nombre_actividad;
+
+
+                        row++;
+                    }
+
+                    var stream = new System.IO.MemoryStream();
+                    workbook.SaveAs(stream);
+
+                    var fileName = "ItemsVerificación.xlsx";
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    return File(stream.ToArray(), contentType, fileName);
+                }
             }
             else
             {

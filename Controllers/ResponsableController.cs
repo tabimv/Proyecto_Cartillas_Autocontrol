@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
+using ClosedXML.Excel;
+
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -20,6 +22,41 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             var rESPONSABLE = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.PERSONA);
             return View(await rESPONSABLE.ToListAsync());
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            var responsables = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.PERSONA).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Responsables");
+                worksheet.Cell(1, 1).Value = "Rut Responsable de Obra";
+                worksheet.Cell(1, 2).Value = "Nombre Responsable";
+                worksheet.Cell(1, 3).Value = "Cargo";
+                worksheet.Cell(1, 4).Value = "Obra Asociada";
+             
+
+                int row = 2;
+                foreach (var responsable in responsables)
+                {
+                    worksheet.Cell(row, 1).Value = responsable.PERSONA_rut;
+                    worksheet.Cell(row, 2).Value = $"{responsable.PERSONA.nombre} {responsable.PERSONA.apeliido_paterno} {responsable.PERSONA.apellido_materno}";
+                    worksheet.Cell(row, 3).Value = responsable.cargo;
+                    worksheet.Cell(row, 4).Value = responsable.OBRA.nombre_obra;
+                 
+
+                    row++;
+                }
+
+                var stream = new System.IO.MemoryStream();
+                workbook.SaveAs(stream);
+
+                var fileName = "Responsables.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream.ToArray(), contentType, fileName);
+            }
         }
 
         // GET: Responsable/Details/5

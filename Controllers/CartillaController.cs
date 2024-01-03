@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
 using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
 using System.Data.SqlClient;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -24,6 +25,44 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(await cARTILLA.ToListAsync());
         }
 
+        public ActionResult ExportToExcel()
+        {
+            var cartillas = db.CARTILLA.Include(r => r.DETALLE_CARTILLA).Include(r => r.ACTIVIDAD).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Cartillas");
+                worksheet.Cell(1, 1).Value = "ID Cartilla";
+                worksheet.Cell(1, 2).Value = "Fecha de creación";
+                worksheet.Cell(1, 3).Value = "Obra Asociada";
+                worksheet.Cell(1, 4).Value = "Actividad Asociada";
+                worksheet.Cell(1, 5).Value = "Estado (Activo/Bloqueado)";
+                worksheet.Cell(1, 6).Value = "Estado Final";
+
+
+                int row = 2;
+                foreach (var cartilla in cartillas)
+                {
+                    worksheet.Cell(row, 1).Value = cartilla.cartilla_id;
+                    worksheet.Cell(row, 2).Value = cartilla.fecha;
+                    worksheet.Cell(row, 3).Value = cartilla.OBRA.nombre_obra;
+                    worksheet.Cell(row, 4).Value = $"{cartilla.ACTIVIDAD.codigo_actividad} {cartilla.ACTIVIDAD.nombre_actividad}";
+                    worksheet.Cell(row, 5).Value = cartilla.ACTIVIDAD.estado;
+                    worksheet.Cell(row, 6).Value = cartilla.ESTADO_FINAL.descripcion;
+
+
+                    row++;
+                }
+
+                var stream = new System.IO.MemoryStream();
+                workbook.SaveAs(stream);
+
+                var fileName = "CartillasAutocontrol.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream.ToArray(), contentType, fileName);
+            }
+        }
 
         public ActionResult CrearCartilla()
         {
@@ -41,7 +80,10 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
                 viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
                 viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
-                viewModel.ObraList = dbContext.OBRA.ToList();
+                viewModel.ObraList = dbContext.OBRA
+                .Where(obra => obra.nombre_obra != "Oficina Central")
+                .ToList();
+
             }
 
             return View(viewModel);
@@ -71,7 +113,9 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                             viewModel.ElementosVerificacion = dbContext.ITEM_VERIF.ToList();
                             viewModel.InmuebleList = dbContext.INMUEBLE.ToList();
                             viewModel.EstadoFinalList = dbContext.ESTADO_FINAL.ToList();
-                            viewModel.ObraList = dbContext.OBRA.ToList();
+                            viewModel.ObraList = dbContext.OBRA
+                           .Where(obra => obra.nombre_obra != "Oficina Central")
+                           .ToList();
 
                             return View(viewModel);
                         }

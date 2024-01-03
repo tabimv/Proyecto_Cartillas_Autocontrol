@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
+using ClosedXML.Excel;
+
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -40,6 +42,56 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         }
 
 
+
+
+        public ActionResult ExportToExcel()
+        {
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                var obras = db.OBRA.Include(o => o.COMUNA)
+                    .Where(o => o.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Obras");
+
+                    worksheet.Cell(1, 1).Value = "Nombre Obra";
+                    worksheet.Cell(1, 2).Value = "Dirección";
+                    worksheet.Cell(1, 3).Value = "Nombre Comuna";
+
+                    int row = 2;
+                    foreach (var obra in obras)
+                    {
+                        worksheet.Cell(row, 1).Value = obra.nombre_obra;
+                        worksheet.Cell(row, 2).Value = obra.direccion;
+                        worksheet.Cell(row, 3).Value = obra.COMUNA.nombre_comuna;
+                        row++;
+                    }
+
+                    var stream = new System.IO.MemoryStream();
+                    workbook.SaveAs(stream);
+
+                    var fileName = "Obras.xlsx";
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    return File(stream.ToArray(), contentType, fileName);
+                }
+
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
+        }
+
+
+      
+
         public async Task<ActionResult> Responsable()
         {
             // Comprueba si el usuario está autenticado
@@ -57,6 +109,54 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
             }
 
+        }
+
+        public ActionResult ExportToExcelResponsable()
+        {
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                var responsables = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.PERSONA)
+                    .Where(r => r.OBRA.USUARIO.Any(u => u.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Responsables");
+                    worksheet.Cell(1, 1).Value = "Rut Responsable de Obra";
+                    worksheet.Cell(1, 2).Value = "Nombre Responsable";
+                    worksheet.Cell(1, 3).Value = "Cargo";
+                    worksheet.Cell(1, 4).Value = "Obra Asociada";
+
+
+                    int row = 2;
+                    foreach (var responsable in responsables)
+                    {
+                        worksheet.Cell(row, 1).Value = responsable.PERSONA_rut;
+                        worksheet.Cell(row, 2).Value = $"{responsable.PERSONA.nombre} {responsable.PERSONA.apeliido_paterno} {responsable.PERSONA.apellido_materno}";
+                        worksheet.Cell(row, 3).Value = responsable.cargo;
+                        worksheet.Cell(row, 4).Value = responsable.OBRA.nombre_obra;
+
+
+                        row++;
+                    }
+
+                    var stream = new System.IO.MemoryStream();
+                    workbook.SaveAs(stream);
+
+                    var fileName = "Responsables.xlsx";
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    return File(stream.ToArray(), contentType, fileName);
+                }
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
         }
 
         public async Task<ActionResult> InmuebleLista()
@@ -116,6 +216,50 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
         }
 
+
+        public ActionResult ExportToExcelInmueble()
+        {
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                var inmuebles = db.INMUEBLE.Include(o => o.OBRA)
+                     .Where(o => o.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Inmuebles");
+
+                    worksheet.Cell(1, 1).Value = "Código Inmueble";
+                    worksheet.Cell(1, 2).Value = "Tipo de Inmueble";
+                    worksheet.Cell(1, 3).Value = "Obra Asociada";
+
+                    int row = 2;
+                    foreach (var inmueble in inmuebles)
+                    {
+                        worksheet.Cell(row, 1).Value = inmueble.codigo_inmueble;
+                        worksheet.Cell(row, 2).Value = inmueble.tipo_inmueble;
+                        worksheet.Cell(row, 3).Value = inmueble.OBRA.nombre_obra;
+                        row++;
+                    }
+
+                    var stream = new System.IO.MemoryStream();
+                    workbook.SaveAs(stream);
+
+                    var fileName = "Inmuebles.xlsx";
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    return File(stream.ToArray(), contentType, fileName);
+                }
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
+        }
 
         public async Task<ActionResult> Actividad()
         {

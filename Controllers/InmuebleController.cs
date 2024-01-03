@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -20,6 +21,37 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             var iNMUEBLE = db.INMUEBLE.Include(i => i.OBRA);
             return View(await iNMUEBLE.ToListAsync());
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            var inmuebles = db.INMUEBLE.Include(o => o.OBRA).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Inmuebles");
+
+                worksheet.Cell(1, 1).Value = "Código Inmueble";
+                worksheet.Cell(1, 2).Value = "Tipo de Inmueble";
+                worksheet.Cell(1, 3).Value = "Obra Asociada";
+
+                int row = 2;
+                foreach (var inmueble in inmuebles)
+                {
+                    worksheet.Cell(row, 1).Value = inmueble.codigo_inmueble;
+                    worksheet.Cell(row, 2).Value = inmueble.tipo_inmueble;
+                    worksheet.Cell(row, 3).Value = inmueble.OBRA.nombre_obra;
+                    row++;
+                }
+
+                var stream = new System.IO.MemoryStream();
+                workbook.SaveAs(stream);
+
+                var fileName = "Inmuebles.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream.ToArray(), contentType, fileName);
+            }
         }
 
         public async Task<ActionResult> InmuebleLista()

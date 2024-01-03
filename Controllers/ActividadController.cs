@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -20,6 +21,41 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             var aCTIVIDAD = db.ACTIVIDAD.Include(a => a.OBRA);
             return View(await aCTIVIDAD.ToListAsync());
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            var actividades = db.ACTIVIDAD.Include(r => r.OBRA).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Responsables");
+                worksheet.Cell(1, 1).Value = "Código Actividad";
+                worksheet.Cell(1, 2).Value = "Nombre Actividad";
+                worksheet.Cell(1, 3).Value = "Estado (Activo/Bloqueado)";
+                worksheet.Cell(1, 4).Value = "Obra Asociada";
+
+
+                int row = 2;
+                foreach (var actividad in actividades)
+                {
+                    worksheet.Cell(row, 1).Value = actividad.codigo_actividad;
+                    worksheet.Cell(row, 2).Value = actividad.nombre_actividad;
+                    worksheet.Cell(row, 3).Value = actividad.estado;
+                    worksheet.Cell(row, 4).Value = actividad.OBRA.nombre_obra;
+
+
+                    row++;
+                }
+
+                var stream = new System.IO.MemoryStream();
+                workbook.SaveAs(stream);
+
+                var fileName = "Actividades.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream.ToArray(), contentType, fileName);
+            }
         }
 
         // GET: Actividad/Details/5

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using Proyecto_Cartilla_Autocontrol.Models;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
@@ -22,8 +23,39 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(await oBRA.ToListAsync());
         }
 
-        // GET: OBRA/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult ExportToExcel()
+        {
+            var obras = db.OBRA.Include(o => o.COMUNA).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Obras");
+
+                worksheet.Cell(1, 1).Value = "Nombre Obra";
+                worksheet.Cell(1, 2).Value = "Dirección";
+                worksheet.Cell(1, 3).Value = "Nombre Comuna";
+
+                int row = 2;
+                foreach (var obra in obras)
+                {
+                    worksheet.Cell(row, 1).Value = obra.nombre_obra;
+                    worksheet.Cell(row, 2).Value = obra.direccion;
+                    worksheet.Cell(row, 3).Value = obra.COMUNA.nombre_comuna;
+                    row++;
+                }
+
+                var stream = new System.IO.MemoryStream();
+                workbook.SaveAs(stream);
+
+                var fileName = "Obras.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream.ToArray(), contentType, fileName);
+            }
+        }
+
+            // GET: OBRA/Details/5
+            public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {

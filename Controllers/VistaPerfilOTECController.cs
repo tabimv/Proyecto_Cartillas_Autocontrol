@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
 using Proyecto_Cartilla_Autocontrol.Models;
+using ClosedXML.Excel;
 
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
@@ -35,6 +36,59 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
             }
         }
+
+        public ActionResult ExportToExcel()
+        {
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                var cartillas = db.CARTILLA.Include(r => r.DETALLE_CARTILLA).Include(r => r.ACTIVIDAD)
+                    .Where(c => c.OBRA.USUARIO.Any(r => r.OBRA_obra_id == usuarioAutenticado.OBRA_obra_id))
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Cartillas");
+                    worksheet.Cell(1, 1).Value = "ID Cartilla";
+                    worksheet.Cell(1, 2).Value = "Fecha de creación";
+                    worksheet.Cell(1, 3).Value = "Obra Asociada";
+                    worksheet.Cell(1, 4).Value = "Actividad Asociada";
+                    worksheet.Cell(1, 5).Value = "Estado (Activo/Bloqueado)";
+                    worksheet.Cell(1, 6).Value = "Estado Final";
+
+
+                    int row = 2;
+                    foreach (var cartilla in cartillas)
+                    {
+                        worksheet.Cell(row, 1).Value = cartilla.cartilla_id;
+                        worksheet.Cell(row, 2).Value = cartilla.fecha;
+                        worksheet.Cell(row, 3).Value = cartilla.OBRA.nombre_obra;
+                        worksheet.Cell(row, 4).Value = $"{cartilla.ACTIVIDAD.codigo_actividad} {cartilla.ACTIVIDAD.nombre_actividad}";
+                        worksheet.Cell(row, 5).Value = cartilla.ACTIVIDAD.estado;
+                        worksheet.Cell(row, 6).Value = cartilla.ESTADO_FINAL.descripcion;
+
+
+                        row++;
+                    }
+
+                    var stream = new System.IO.MemoryStream();
+                    workbook.SaveAs(stream);
+
+                    var fileName = "CartillasAutocontrol.xlsx";
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                    return File(stream.ToArray(), contentType, fileName);
+                }
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
+        }
+
 
         public ActionResult EditarCartilla(int id)
         {
