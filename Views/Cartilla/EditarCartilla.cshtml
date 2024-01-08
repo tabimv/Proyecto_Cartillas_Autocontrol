@@ -71,11 +71,15 @@ else
                             <tr>
                                 <th>Item Verificación</th>
                                 <th style="text-align: center;">
-                                    VB OTEC
+                                    VB SUPV
+                                    @Html.CheckBox("selectAllSUPV", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+                                <th style="text-align: center;">
+                                    VB AC
                                     @Html.CheckBox("selectAllOTEC", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
                                 </th>
                                 <th style="text-align: center;">
-                                    VB ITO
+                                    VB F.T.O
                                     @Html.CheckBox("selectAllITO", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
                                 </th>
 
@@ -97,6 +101,11 @@ else
                                         @Html.DisplayFor(model => model.DetalleCartillas[i].ITEM_VERIF.elemento_verificacion)
                                     </td>
 
+                                    <td class="column-supv editable">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, true, new { @class = "approval-checkbox" }) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, false, new { @class = "approval-checkbox" }) No
+                                    </td>
                                     <td class="column-otec editable">
                                         @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_otec, true, new { @class = "approval-checkbox" }) Sí
                                         <br />
@@ -217,6 +226,22 @@ else
                 // Evitar eliminar todos los registros
                 if ($registros.length > 1) {
                     $registros.last().remove();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#selectAllSUPV').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Seleccionar o deseleccionar todos los radio buttons de la columna VB ITO
+                $('td.column-supv :radio').prop('checked', isChecked);
+
+                // Si está seleccionado, establecer todos los valores en true
+                if (isChecked) {
+                    $('td.column-supv :radio[value="True"]').prop('checked', true);
                 }
             });
         });

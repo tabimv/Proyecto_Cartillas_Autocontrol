@@ -31,10 +31,10 @@ else
                   {
                       new SelectListItem { Text = "Contratista", Value = "Contratista" },
                       new SelectListItem { Text = "EGIS", Value = "EGIS" },
-                      new SelectListItem { Text = "Director", Value = "Director" },
+                      new SelectListItem { Text = "Administrador de Obra", Value = "Administrador de Obra" },
                       new SelectListItem { Text = "Autocontrol", Value = "Autocontrol" },
-                      new SelectListItem { Text = "Supervisor", Value = "Supervisor" },
-                      new SelectListItem { Text = "I.T.O", Value = "I.T.O" },
+                      new SelectListItem { Text = "F.T.O 1", Value = "F.T.O 1" },
+                      new SelectListItem { Text = "F.T.O 2", Value = "F.T.O 2" },
                   }, "Seleccione un cargo", new { @class = "form-control" })
 
                 @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger", required = "required", title = "Por favor, seleccione un cargo" })

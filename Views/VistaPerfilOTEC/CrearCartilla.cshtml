@@ -80,8 +80,9 @@ else
                         <thead>
                             <tr>
                                 <th style="width: 100%;">Item Verificación</th>
-                                <th>VB OTEC</th>
-                                <th>VB ITO</th>
+                                <th>VB SUPV</th>
+                                <th>VB AC</th>
+                                <th>VB F.T.O</th>
                                 <th>Inmueble ID</th>
                             </tr>
                         </thead>
@@ -98,6 +99,7 @@ else
                                         @Html.ValidationMessageFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id, "", new { @class = "text-danger" })
                                     </td>
 
+                                    <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_supv, new { @disabled = "disabled" })  </td>
                                     <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_otec, new { @disabled = "disabled" })  </td>
                                     <td> @Html.CheckBoxFor(model => model.DetalleCartillas[i].estado_ito, new { @disabled = "disabled" })  </td>
                                     <td>

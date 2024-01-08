@@ -55,7 +55,21 @@ else
                                 <td>  @Html.DisplayFor(modelItem => item.PERSONA.nombre)  @Html.DisplayFor(modelItem => item.PERSONA.apeliido_paterno)  @Html.DisplayFor(modelItem => item.PERSONA.apellido_materno)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.PERSONA.correo) </td>
                  
-                                <td>  @Html.DisplayFor(modelItem => item.PERFIL.rol) </td>
+                                <td>
+                                    @if (item.PERFIL.rol == "OTEC")
+                                    {
+                                        <text>Autocontrol</text>
+                                    }
+                                    else if (item.PERFIL.rol == "ITO")
+                                    {
+                                        <text>F.T.O</text>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.PERFIL.rol)
+                                    }
+                                </td>
+
                                 <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->

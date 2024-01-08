@@ -12,14 +12,15 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     public partial class USUARIO
     {
         public int usuario_id { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese la contraseña")]
         public string contraseña { get; set; }
-
         [Required(ErrorMessage = "Por favor, seleccione un Tipo de Perfil")]
+
         public int PERFIL_perfil_id { get; set; }
 
         [Required(ErrorMessage = "Por favor, seleccione una Obra")]

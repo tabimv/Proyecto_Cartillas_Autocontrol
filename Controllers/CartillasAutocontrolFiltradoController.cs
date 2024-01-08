@@ -13,6 +13,7 @@ using Rotativa;
 using Rotativa.Options;
 using System.Net.Mail;
 using System.IO;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {

@@ -47,9 +47,6 @@ else
 
                     @Html.HiddenFor(model => model.Cartilla.fecha)
 
-                    @Html.HiddenFor(model => model.Cartilla.observaciones)
-
-
                     @Html.HiddenFor(model => model.Cartilla.OBRA_obra_id)
 
                     @Html.HiddenFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
@@ -59,6 +56,13 @@ else
                         <p> <strong> Actividad:  </strong>  @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
                         <p> <strong> Obra:  </strong>  @Html.DisplayFor(model => model.Cartilla.OBRA.nombre_obra)</p>
                         <p> <strong> Estado Final:  </strong>  @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado Final", new { @class = "form-control" }) </p>
+
+                        <div>
+                            <label for="Observaciones"><strong>Observaciones</strong></label>
+                            @Html.TextAreaFor(model => model.Cartilla.observaciones, new { rows = 3, cols = 73, @class = "form-control" })
+                        </div>
+
+
                     </div>
 
 
@@ -70,11 +74,15 @@ else
                             <tr>
                                 <th>Item Verificación</th>
                                 <th style="text-align: center;">
-                                    VB OTEC
+                                    VB SUPV
+                                    @Html.CheckBox("selectAllSUPV", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+                                <th style="text-align: center;">
+                                    VB AC
                                     @Html.CheckBox("selectAllOTEC", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
                                 </th>
                                 <th style="white-space: nowrap;">
-                                    VB ITO
+                                    VB F.T.O
                                 </th>
 
 
@@ -91,10 +99,17 @@ else
                                     @Html.HiddenFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id)
                                     @Html.HiddenFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id)
 
-                                 
+
+
 
                                     <td>
                                         @Html.DisplayFor(model => model.DetalleCartillas[i].ITEM_VERIF.elemento_verificacion)
+                                    </td>
+
+                                    <td class="column-supv">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, true) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, false) No
                                     </td>
 
                                     <td class="column-otec">
@@ -105,18 +120,18 @@ else
                                     <td>
                                         @if (Model.DetalleCartillas[i].estado_ito)
                                         {
-                                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="Estado ITO: Aprobado">&#xE876;</i>
+                                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="Estado F.T.O: Aprobado">&#xE876;</i>
                                             <span style="display: none;">Sí</span>
                                         }
                                         else
                                         {
-                                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="Estado ITO: Rechazado">&#xE5CD;</i>
+                                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="Estado F.T.O: Rechazado">&#xE5CD;</i>
                                             <span style="display: none;">No</span>
                                         }
                                     </td>
 
 
-
+                                    
 
                                     <td>@Html.DisplayFor(model => model.DetalleCartillas[i].INMUEBLE.codigo_inmueble) </td>
 
@@ -178,6 +193,21 @@ else
                 // Evitar eliminar todos los registros
                 if ($registros.length > 1) {
                     $registros.last().remove();
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#selectAllSUPV').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Seleccionar o deseleccionar todos los radio buttons de la columna VB ITO
+                $('td.column-supv :radio').prop('checked', isChecked);
+
+                // Si está seleccionado, establecer todos los valores en true
+                if (isChecked) {
+                    $('td.column-supv :radio[value="True"]').prop('checked', true);
                 }
             });
         });

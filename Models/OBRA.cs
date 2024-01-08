@@ -32,7 +32,6 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 
         [Required(ErrorMessage = "Por favor, ingrese la dirección")]
         public string direccion { get; set; }
-
         public int COMUNA_comuna_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

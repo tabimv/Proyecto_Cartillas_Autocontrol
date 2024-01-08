@@ -77,7 +77,7 @@ section p {
     height: 100%;
     position: absolute;
     top: 0;
-    left: 70%;
+    left: 60%;
 }
 
 /* Estilos para "Fecha:" y "Firma:" */
@@ -85,7 +85,7 @@ section p {
     position: absolute;
     top: 5%;
     width: 50%; /* Ajusta el ancho para la parte derecha del rectángulo */
-    left: 72%;
+    left: 62%;
 }
 
 

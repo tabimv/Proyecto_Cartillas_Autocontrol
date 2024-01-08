@@ -56,7 +56,7 @@ section p {
 .rectangulo {
     top: 70px;
     width: 550px;
-    height: 130px;
+    height: 155px;
     border: 2px solid black;
     padding: 10px;
     position: absolute;
@@ -71,7 +71,7 @@ section p {
     height: 100%;
     position: absolute;
     top: 0;
-    left: 70%;
+    left: 60%;
 }
 
 /* Estilos para "Fecha:" y "Firma:" */
@@ -79,7 +79,7 @@ section p {
     position: absolute;
     top: 5%;
     width: 50%; /* Ajusta el ancho para la parte derecha del rectángulo */
-    left: 72%;
+    left: 62%;
 }
 
 
@@ -158,6 +158,27 @@ textarea {
     padding: 0 !important;
     outline: none !important;
     box-shadow: none !important;
+}
+
+
+.firmas-table {
+    border-collapse: collapse;
+    width: 100%; /* O ajusta según tus necesidades */
+}
+
+    .firmas-table td {
+        padding: 5px; /* Ajusta el espaciado interno según sea necesario */
+    }
+
+.firma {
+    display: inline-block;
+    text-align: center;
+    margin: 0 10px; /* Ajusta el margen entre firmas según sea necesario */
+}
+
+.linea {
+    border-top: 1px solid black;
+    margin-bottom: 5px;
 }
 
 .firma {

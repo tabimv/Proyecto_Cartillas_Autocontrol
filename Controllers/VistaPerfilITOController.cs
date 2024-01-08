@@ -73,30 +73,19 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         // Actualizar la información de la Cartilla en la base de datos
                         dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
 
-                         // Verificar si el estado final es "Aprobado" (id 1)
-                        if (viewModel.Cartilla.ESTADO_FINAL.descripcion == "Aprobada")
-                        {
-                            // Verificar si al menos un campo de aprobación está en falso
-                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false))
-                            {
-                                TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobada. Debido a que no todos los valores se encuentra aprobados.";
-                                return RedirectToAction("Index");
-                            }
-                        }
-
                         // Actualizar o agregar los detalles de la Cartilla en la base de datos
                         foreach (var detalleCartilla in viewModel.DetalleCartillas)
                         {
-                            if (detalleCartilla.detalle_cartilla_id == 0)
+                            // Obtener el detalle de la base de datos para poder modificar solo estado_ito
+                            var existingDetalle = dbContext.DETALLE_CARTILLA.FirstOrDefault(d => d.detalle_cartilla_id == detalleCartilla.detalle_cartilla_id);
+
+                            if (existingDetalle != null)
                             {
-                                // Nuevo detalle de Cartilla, agregarlo
-                                detalleCartilla.CARTILLA_cartilla_id = viewModel.Cartilla.cartilla_id;
-                                dbContext.DETALLE_CARTILLA.Add(detalleCartilla);
-                            }
-                            else
-                            {
-                                // Detalle de Cartilla existente, marcar como modificado
-                                dbContext.Entry(detalleCartilla).State = EntityState.Modified;
+                                // Modificar solo el campo estado_ito, sin afectar estado_otec
+                                existingDetalle.estado_ito = detalleCartilla.estado_ito;
+                                dbContext.Entry(existingDetalle).State = EntityState.Modified;
+
+
                             }
                         }
 
@@ -109,6 +98,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                             }
                         }
 
+                        dbContext.Entry(viewModel.Cartilla).State = EntityState.Modified;
                         // Guardar los cambios en la base de datos
                         dbContext.SaveChanges();
 

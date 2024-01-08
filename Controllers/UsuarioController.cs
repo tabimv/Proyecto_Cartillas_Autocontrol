@@ -41,7 +41,31 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         public ActionResult Create()
         {
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
-            ViewBag.PERFIL_perfil_id = new SelectList(db.PERFIL, "perfil_id", "rol");
+
+            var perfiles = db.PERFIL.ToList();
+
+            // Modificar las opciones de los perfiles según tu lógica
+            foreach (var perfil in perfiles)
+            {
+                if (perfil.rol == "Administrador")
+                {
+                    perfil.rol = "Administrador";
+                }
+                else if (perfil.rol == "Consulta")
+                {
+                    perfil.rol = "Consulta";
+                }
+                else if (perfil.rol == "OTEC")
+                {
+                    perfil.rol = "Autocontrol";
+                }
+                else if (perfil.rol == "ITO")
+                {
+                    perfil.rol = "F.T.O";
+                }
+            }
+
+            ViewBag.PERFIL_perfil_id = new SelectList(perfiles, "perfil_id", "rol");
 
             var personas = db.PERSONA.ToList(); // Obtén la lista de actividades desde tu base de datos
 
@@ -79,8 +103,31 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", uSUARIO.OBRA_obra_id);
-            ViewBag.PERFIL_perfil_id = new SelectList(db.PERFIL, "perfil_id", "rol", uSUARIO.PERFIL_perfil_id);
-      
+            var perfiles = db.PERFIL.ToList();
+
+            // Modificar las opciones de los perfiles según tu lógica
+            foreach (var perfil in perfiles)
+            {
+                if (perfil.rol == "Administrador")
+                {
+                    perfil.rol = "Administrador";
+                }
+                else if (perfil.rol == "Consulta")
+                {
+                    perfil.rol = "Consulta";
+                }
+                else if (perfil.rol == "OTEC")
+                {
+                    perfil.rol = "Autocontrol";
+                }
+                else if (perfil.rol == "ITO")
+                {
+                    perfil.rol = "F.T.O";
+                }
+            }
+
+            ViewBag.PERFIL_perfil_id = new SelectList(perfiles, "perfil_id", "rol");
+
 
             var personas = db.PERSONA.ToList(); // Obtén la lista de actividades desde tu base de datos
 
@@ -113,7 +160,30 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", uSUARIO.OBRA_obra_id);
-            ViewBag.PERFIL_perfil_id = new SelectList(db.PERFIL, "perfil_id", "rol", uSUARIO.PERFIL_perfil_id);
+            var perfiles = db.PERFIL.ToList();
+
+            // Modificar las opciones de los perfiles según tu lógica
+            foreach (var perfil in perfiles)
+            {
+                if (perfil.rol == "Administrador")
+                {
+                    perfil.rol = "Administrador";
+                }
+                else if (perfil.rol == "Consulta")
+                {
+                    perfil.rol = "Consulta";
+                }
+                else if (perfil.rol == "OTEC")
+                {
+                    perfil.rol = "Autocontrol";
+                }
+                else if (perfil.rol == "ITO")
+                {
+                    perfil.rol = "F.T.O";
+                }
+            }
+
+            ViewBag.PERFIL_perfil_id = new SelectList(perfiles, "perfil_id", "rol");
 
             var personas = db.PERSONA.ToList(); // Obtén la lista de actividades desde tu base de datos
 
@@ -143,7 +213,30 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", uSUARIO.OBRA_obra_id);
-            ViewBag.PERFIL_perfil_id = new SelectList(db.PERFIL, "perfil_id", "rol", uSUARIO.PERFIL_perfil_id);
+            var perfiles = db.PERFIL.ToList();
+
+            // Modificar las opciones de los perfiles según tu lógica
+            foreach (var perfil in perfiles)
+            {
+                if (perfil.rol == "Administrador")
+                {
+                    perfil.rol = "Administrador";
+                }
+                else if (perfil.rol == "Consulta")
+                {
+                    perfil.rol = "Consulta";
+                }
+                else if (perfil.rol == "OTEC")
+                {
+                    perfil.rol = "Autocontrol";
+                }
+                else if (perfil.rol == "ITO")
+                {
+                    perfil.rol = "F.T.O";
+                }
+            }
+
+            ViewBag.PERFIL_perfil_id = new SelectList(perfiles, "perfil_id", "rol");
             var personas = db.PERSONA.ToList(); // Obtén la lista de actividades desde tu base de datos
 
             // Crear una lista de objetos anónimos con los campos que necesitas
@@ -183,13 +276,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             if (uSUARIO == null)
             {
                 return HttpNotFound();
-            }
-
-            // Verificar si existen relaciones con claves foráneas
-            if (db.USUARIO.Any(t => t.usuario_id == id))
-            {
-                ViewBag.ErrorMessage = "No se puede eliminar este Usuario debido a  que esta relacionado a otras Entidades.";
-                return View("Delete", uSUARIO); // Mostrar vista de eliminación con el mensaje de error
             }
 
             db.USUARIO.Remove(uSUARIO);

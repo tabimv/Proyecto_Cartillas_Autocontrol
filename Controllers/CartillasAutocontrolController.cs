@@ -14,6 +14,7 @@ using Rotativa.Options;
 using System.Net.Mail;
 using System.IO;
 using System.Runtime.Remoting.Contexts;
+using ClosedXML.Excel;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -177,6 +178,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             return View("Edit", detalleCartilla);
         }
+
 
     }
 }

@@ -117,13 +117,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return HttpNotFound();
             }
 
-            // Verificar si existen relaciones con claves foráneas
-            if (db.PERSONA.Any(t => t.rut == id))
-            {
-                ViewBag.ErrorMessage = "No se puede eliminar esta persona debido a  que esta relacionado a otras entidades.";
-                return View("Delete", pERSONA); // Mostrar vista de eliminación con el mensaje de error
-            }
-
             db.PERSONA.Remove(pERSONA);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

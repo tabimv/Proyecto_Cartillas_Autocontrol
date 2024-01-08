@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
-  
+
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -27,13 +27,16 @@ else
         </div>
 
         <div class="rectangulo">
-            <p><strong>Actividad: </strong> @Model[0].CARTILLA.ACTIVIDAD.nombre_actividad </p>
+            <p class="line-break">
+                <strong>Actividad:</strong> @Model[0].CARTILLA.ACTIVIDAD.nombre_actividad
+            </p>
             <p><strong>Código Actividad: </strong> @Model[0].CARTILLA.ACTIVIDAD.codigo_actividad</p>
             <p><strong>Responsable de Revisión:</strong></p>
             <div class="linea-vertical"></div>
             <div class="fecha-firma">
 
-                <p><strong>Fecha:</strong>  @Model[0].CARTILLA.fecha.ToString("dd-MM-yyyy")</p>
+                <p><strong>Fecha Inicio: </strong>  @Model[0].CARTILLA.fecha.ToString("dd-MM-yyyy")</p>
+                <p><strong>Fecha Cierre: </strong> </p>
                 <p><strong>Estado: </strong>@Model[0].CARTILLA.ESTADO_FINAL.descripcion </p>
             </div>
         </div>
@@ -44,6 +47,7 @@ else
             <p><strong>OBRA:</strong> @Model[0].CARTILLA.OBRA.nombre_obra</p>
             <p><strong>DIRECCIÓN:</strong> @Model[0].CARTILLA.OBRA.direccion</p>
             <p><strong>COMUNA:</strong> @Model[0].CARTILLA.OBRA.COMUNA.nombre_comuna</p>
+            <p><strong>CONSTRUCTORA:</strong> Constructora Manzano y Asociados Ltda </p>
 
             @foreach (var item in ViewBag.Responsables)
             {
@@ -57,9 +61,9 @@ else
                     <p><strong>EGIS: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
                 }
 
-                if (item.cargo == "Director")
+                if (item.cargo == "Administrador de Obra")
                 {
-                    <p><strong>DIRECTOR DE OBRA: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                    <p><strong>ADMINISTRADOR DE OBRA: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
                 }
 
                 if (item.cargo == "Autocontrol")
@@ -67,18 +71,19 @@ else
                     <p><strong>AUTOCONTROL: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno</p>
                 }
 
-                if (item.cargo == "Supervisor")
+                if (item.cargo == "F.T.O 1")
                 {
-                    <p><strong>SUPERVISOR: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                    <p><strong>F.T.O SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
                 }
 
-                if (item.cargo == "I.T.O")
+                if (item.cargo == "F.T.O 2")
                 {
-                    <p><strong>I.T.O: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
+                    <p><strong>F.T.O SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
                 }
 
             }
         </section>
+
         <table class="default">
             <colgroup>
                 <col span="2">
@@ -92,7 +97,7 @@ else
                 @foreach (var inmuebleGroup in groupedByInmueble)
                 {
                     var codigoInmueble = inmuebleGroup.First().INMUEBLE.codigo_inmueble;
-                    <th colspan="2" style="max-width: 2%; white-space: nowrap;">N ° VIV: @Html.DisplayFor(modelItem => codigoInmueble) </th>
+                    <th colspan="3" style="max-width: 2%; white-space: nowrap;">N ° VIV: @Html.DisplayFor(modelItem => codigoInmueble) </th>
                 }
             </tr>
             <tr>
@@ -100,8 +105,10 @@ else
                 <th style="width: 28%;">Elementos de Verificación</th>
                 @foreach (var inmuebleGroup in groupedByInmueble)
                 {
-                    <th>ITO</th>
-                    <th>OTEC</th>
+                    <th>SUPV</th>
+                    <th>AC</th>
+                    <th>F.T.O</th>
+
 
                 }
             </tr>
@@ -131,33 +138,47 @@ else
 
                         if (detalles.Any())
                         {
-
                             <td>
-                                @if (detalles.First().estado_ito)
+                                @if (detalles.First().estado_supv)
                                 {
-                                    <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB ITO: Aprobado">&#xE876;</i>
+                                    <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB Supervisor: Aprobado">&#xE876;</i>
                                     <span style="display: none;">Sí</span>
                                 }
                                 else
                                 {
-                                    <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB ITO: Rechazado">&#xE5CD;</i>
+                                    <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB Supervisor: Rechazado">&#xE5CD;</i>
                                     <span style="display: none;">No</span>
                                 }
                             </td>
-
 
                             <td>
                                 @if (detalles.First().estado_otec)
                                 {
-                                    <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB OTEC: Aprobado">&#xE876;</i>
+                                    <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB Autocontrol: Aprobado">&#xE876;</i>
                                     <span style="display: none;">Sí</span>
                                 }
                                 else
                                 {
-                                    <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB OTEC: Rechazado">&#xE5CD;</i>
+                                    <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB Autocontrol: Rechazado">&#xE5CD;</i>
                                     <span style="display: none;">No</span>
                                 }
                             </td>
+
+                            <td>
+                                @if (detalles.First().estado_ito)
+                                {
+                                    <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB F.T.O: Aprobado">&#xE876;</i>
+                                    <span style="display: none;">Sí</span>
+                                }
+                                else
+                                {
+                                    <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB F.T.O: Rechazado">&#xE5CD;</i>
+                                    <span style="display: none;">No</span>
+                                }
+                            </td>
+
+
+
 
 
                         }
@@ -194,7 +215,7 @@ else
         <div class="firmas">
             @foreach (var item in ViewBag.FirmasAutomatizadas)
             {
-                if (item.cargo == "Director")
+                if (item.cargo == "Administrador de Obra")
                 {
                     <div class="firma">
                         <div class="linea"></div>
@@ -211,30 +232,45 @@ else
                         <p>Autocontrol de Obra</p>
                         <p>Constructora Manzano y Asoc.Ltda</p>
                     </div>
+
                 }
-                else if (item.cargo == "I.T.O")
+                else if (item.cargo == "F.T.O 1")
                 {
                     <div class="firma">
                         <div class="linea"></div>
                         <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
-                        <p>ITO Serviu</p>
+                        <p>F.T.O Serviu</p>
                         <p>Serviu Región del Biobío</p>
                     </div>
                 }
-                else if (item.cargo == "Supervisor")
+                else if (item.cargo == "F.T.O 2")
                 {
                     <div class="firma">
                         <div class="linea"></div>
                         <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
-                        <p>Supervisor Serviu</p>
+                        <p>F.T.O Serviu</p>
                         <p>Serviu Región del Biobío</p>
                     </div>
                 }
+
             }
         </div>
 
     </div>
 
+
+    <script>
+       // Agrega un salto de línea después de 4 palabras
+       document.addEventListener("DOMContentLoaded", function () {
+         var paragraph = document.querySelector('.line-break');
+         var words = paragraph.innerText.split(' ');
+         if (words.length > 4) {
+           var firstLine = words.slice(0, 4).join(' ');
+           var secondLine = words.slice(4).join(' ');
+           paragraph.innerHTML = `<strong>Actividad:</strong> ${firstLine}<br>${secondLine}`;
+         }
+       });
+    </script>
 
 
 }

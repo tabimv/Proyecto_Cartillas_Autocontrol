@@ -39,93 +39,107 @@ else
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th style="white-space: nowrap;"> ID de Cartilla</th>
-                            <th> Fecha</th>
-                            <th style="white-space: nowrap;"> Obra</th>
-                            <th style="white-space: nowrap;"> Código Actividad</th>
-                            <th style="white-space: nowrap;"> Actividad</th>
 
-                            <th> Estado (Activo/Bloqueado) </th>
-                            <th> Estado Final </th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                @if (Model.Any())
+                {
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="white-space: nowrap;"> ID de Cartilla</th>
+                                <th> Fecha</th>
+                                <th style="white-space: nowrap;"> Obra</th>
+                                <th style="white-space: nowrap;"> Código Actividad</th>
+                                <th style="white-space: nowrap;"> Actividad</th>
+
+                                <th> Estado (Activo/Bloqueado) </th>
+                                <th> Estado Final </th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
 
-                        @if (Model.Any())
-                        {
-                            int currentActivityId = -1; // Variable para llevar el seguimiento de la actividad actual
-
-                            foreach (var item in Model)
+                            @if (Model.Any())
                             {
-                                if (item.CARTILLA.ACTIVIDAD.actividad_id != currentActivityId)
+                                int currentActivityId = -1; // Variable para llevar el seguimiento de la actividad actual
+
+                                foreach (var item in Model)
                                 {
-                                    // Iniciar una nueva fila para la actividad
-                                    <tr>
-                                        <td>@item.CARTILLA.cartilla_id</td>
-                                        <td>@item.CARTILLA.fecha.ToString("dd-MM-yyyy")</td>
-                                        <td>@item.CARTILLA.OBRA.nombre_obra</td>
-                                        <td>@item.CARTILLA.ACTIVIDAD.codigo_actividad</td>
-                                        <td>@item.CARTILLA.ACTIVIDAD.nombre_actividad</td>
-                                        <td>
-                                            @if (item.CARTILLA.ACTIVIDAD.estado == "B")
-                                            {
-                                                <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
-                                            }
-                                            else if (item.CARTILLA.ACTIVIDAD.estado == "A")
-                                            {
-                                                <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Activo">&#xE898;</i>
-                                            }
-                                        </td>
-                                        <td>@item.CARTILLA.ESTADO_FINAL.descripcion</td>
-                                        <td style="white-space: nowrap;">
-                                            <!-- Opciones de edición/ver para la actividad -->
-                                            <a href="#" class="VerCartilla" data-url="@Url.Action("VerCartilla", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
-                                                <i class="material-icons" data-toggle="tooltip" title="Ver Cartilla">&#xE417;</i>
-                                                <span style="display: none;">VerCartilla</span>
-                                            </a>
-
-                                            <a href="#" class="VerCartilla" data-url="@Url.Action("GeneratePDF", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
-                                                <i class="material-icons" data-toggle="tooltip" title="Descargar Cartilla">&#xE2C4;</i>
-                                                <span style="display: none;">VerCartilla</span>
-                                            </a>
-
-                                            <a href="#" class="VerCartilla" data-url="@Url.Action("EnviarPDFPorCorreo", "EnviarPorCorreo", new { id = item.CARTILLA.ACTIVIDAD_actividad_id  })">
-                                                <i class="material-icons" data-toggle="tooltip" title="Enviar al Correo">email</i>
-                                                <span style="display: none;">VerCartilla</span>
-                                            </a>
-
-                                            @if (item.CARTILLA.ACTIVIDAD.estado == "B")
-                                            {
-                                                <!-- Nuevo enlace para "Gestionar Documento" con ícono de documento -->
-                                                <a href="@Url.Action("GestionarDocumentoFiltrado", "AdjuntarDocumento", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
-                                                    <i class="material-icons" data-toggle="tooltip" title="Gestionar Documento">description</i>
-                                                    <span style="display: none;">GestionarDocumento</span>
+                                    if (item.CARTILLA.ACTIVIDAD.actividad_id != currentActivityId)
+                                    {
+                                        // Iniciar una nueva fila para la actividad
+                                        <tr>
+                                            <td>@item.CARTILLA.cartilla_id</td>
+                                            <td>@item.CARTILLA.fecha.ToString("dd-MM-yyyy")</td>
+                                            <td>@item.CARTILLA.OBRA.nombre_obra</td>
+                                            <td>@item.CARTILLA.ACTIVIDAD.codigo_actividad</td>
+                                            <td>@item.CARTILLA.ACTIVIDAD.nombre_actividad</td>
+                                            <td>
+                                                @if (item.CARTILLA.ACTIVIDAD.estado == "B")
+                                                {
+                                                    <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
+                                                }
+                                                else if (item.CARTILLA.ACTIVIDAD.estado == "A")
+                                                {
+                                                    <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Activo">&#xE898;</i>
+                                                }
+                                            </td>
+                                            <td>@item.CARTILLA.ESTADO_FINAL.descripcion</td>
+                                            <td style="white-space: nowrap;">
+                                                <!-- Opciones de edición/ver para la actividad -->
+                                                <a href="#" class="VerCartilla" data-url="@Url.Action("VerCartilla", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Ver Cartilla">&#xE417;</i>
+                                                    <span style="display: none;">VerCartilla</span>
                                                 </a>
-                                            }
-                                            else if (item.CARTILLA.ACTIVIDAD.estado == "A")
-                                            {
-                                                <a href="" style="color:#aba9a9">
-                                                    <i class="material-icons" data-toggle="tooltip" title="No se puede adjuntar documentos en Estado Activo">description</i>
-                                                    <span style="display: none;">GestionarDocumento</span>
+
+                                                <a href="#" class="VerCartilla" data-url="@Url.Action("GeneratePDF", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Descargar Cartilla">&#xE2C4;</i>
+                                                    <span style="display: none;">VerCartilla</span>
                                                 </a>
-                                            }
-                                        </td>
+
+                                                <a href="#" class="VerCartilla" data-url="@Url.Action("EnviarPDFPorCorreo", "EnviarPorCorreo", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Enviar al Correo">email</i>
+                                                    <span style="display: none;">VerCartilla</span>
+                                                </a>
+
+                                                @if (item.CARTILLA.ACTIVIDAD.estado == "B")
+                                                {
+                                                    <!-- Nuevo enlace para "Gestionar Documento" con ícono de documento -->
+                                                    <a href="@Url.Action("GestionarDocumentoFiltrado", "AdjuntarDocumento", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
+                                                        <i class="material-icons" data-toggle="tooltip" title="Gestionar Documento">description</i>
+                                                        <span style="display: none;">GestionarDocumento</span>
+                                                    </a>
+                                                }
+                                                else if (item.CARTILLA.ACTIVIDAD.estado == "A")
+                                                {
+                                                    <a href="" style="color:#aba9a9">
+                                                        <i class="material-icons" data-toggle="tooltip" title="No se puede adjuntar documentos en Estado Activo">description</i>
+                                                        <span style="display: none;">GestionarDocumento</span>
+                                                    </a>
+                                                }
+                                            </td>
 
 
 
-                                    </tr>
-                                    currentActivityId = item.CARTILLA.ACTIVIDAD.actividad_id; // Actualizar la actividad actual
+                                        </tr>
+                                        currentActivityId = item.CARTILLA.ACTIVIDAD.actividad_id; // Actualizar la actividad actual
+                                    }
+
                                 }
-
                             }
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <table class="table table-striped table-hover" id="cartillaTable">
+                        <tbody>
+                            <tr>
+                                <td colspan="8" class="text-center">No hay Cartillas de Autocontrol disponibles</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
             </div>
         </div>
     </div>

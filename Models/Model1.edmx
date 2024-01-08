@@ -4,13 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ObraManzanoFinalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ObraManzanoEneroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACTIVIDAD">
           <Key>
             <PropertyRef Name="actividad_id" />
           </Key>
           <Property Name="actividad_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codigo_actividad" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="codigo_actividad" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="nombre_actividad" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
@@ -42,6 +42,7 @@
           <Property Name="detalle_cartilla_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="estado_otec" Type="bit" Nullable="false" />
           <Property Name="estado_ito" Type="bit" Nullable="false" />
+          <Property Name="estado_supv" Type="bit" Nullable="false" />
           <Property Name="ITEM_VERIF_item_verif_id" Type="int" Nullable="false" />
           <Property Name="CARTILLA_cartilla_id" Type="int" Nullable="false" />
           <Property Name="INMUEBLE_inmueble_id" Type="int" Nullable="false" />
@@ -316,7 +317,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ObraManzanoFinalModelStoreContainer">
+        <EntityContainer Name="ObraManzanoEneroModelStoreContainer">
           <EntitySet Name="ACTIVIDAD" EntityType="Self.ACTIVIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CARTILLA" EntityType="Self.CARTILLA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="dbo" store:Type="Tables" />
@@ -399,13 +400,13 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ObraManzanoFinalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ObraManzanoEneroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ACTIVIDAD">
           <Key>
             <PropertyRef Name="actividad_id" />
           </Key>
           <Property Name="actividad_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo_actividad" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codigo_actividad" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombre_actividad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
@@ -446,6 +447,7 @@
           <Property Name="detalle_cartilla_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="estado_otec" Type="Boolean" Nullable="false" />
           <Property Name="estado_ito" Type="Boolean" Nullable="false" />
+          <Property Name="estado_supv" Type="Boolean" Nullable="false" />
           <Property Name="ITEM_VERIF_item_verif_id" Type="Int32" Nullable="false" />
           <Property Name="CARTILLA_cartilla_id" Type="Int32" Nullable="false" />
           <Property Name="INMUEBLE_inmueble_id" Type="Int32" Nullable="false" />
@@ -827,9 +829,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ObraManzanoFinalModelStoreContainer" CdmEntityContainer="ObraManzanoFinal">
+        <EntityContainerMapping StorageEntityContainer="ObraManzanoEneroModelStoreContainer" CdmEntityContainer="ObraManzanoFinal">
           <EntitySetMapping Name="ACTIVIDAD">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.ACTIVIDAD">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.ACTIVIDAD">
               <MappingFragment StoreEntitySet="ACTIVIDAD">
                 <ScalarProperty Name="actividad_id" ColumnName="actividad_id" />
                 <ScalarProperty Name="codigo_actividad" ColumnName="codigo_actividad" />
@@ -840,7 +842,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CARTILLA">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.CARTILLA">
               <MappingFragment StoreEntitySet="CARTILLA">
                 <ScalarProperty Name="cartilla_id" ColumnName="cartilla_id" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -853,7 +855,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="COMUNA">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.COMUNA">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.COMUNA">
               <MappingFragment StoreEntitySet="COMUNA">
                 <ScalarProperty Name="comuna_id" ColumnName="comuna_id" />
                 <ScalarProperty Name="nombre_comuna" ColumnName="nombre_comuna" />
@@ -862,11 +864,12 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLE_CARTILLA">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.DETALLE_CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.DETALLE_CARTILLA">
               <MappingFragment StoreEntitySet="DETALLE_CARTILLA">
                 <ScalarProperty Name="detalle_cartilla_id" ColumnName="detalle_cartilla_id" />
                 <ScalarProperty Name="estado_otec" ColumnName="estado_otec" />
                 <ScalarProperty Name="estado_ito" ColumnName="estado_ito" />
+                <ScalarProperty Name="estado_supv" ColumnName="estado_supv" />
                 <ScalarProperty Name="ITEM_VERIF_item_verif_id" ColumnName="ITEM_VERIF_item_verif_id" />
                 <ScalarProperty Name="CARTILLA_cartilla_id" ColumnName="CARTILLA_cartilla_id" />
                 <ScalarProperty Name="INMUEBLE_inmueble_id" ColumnName="INMUEBLE_inmueble_id" />
@@ -874,7 +877,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ESTADO_FINAL">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.ESTADO_FINAL">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.ESTADO_FINAL">
               <MappingFragment StoreEntitySet="ESTADO_FINAL">
                 <ScalarProperty Name="estado_final_id" ColumnName="estado_final_id" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -883,7 +886,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="INMUEBLE">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.INMUEBLE">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.INMUEBLE">
               <MappingFragment StoreEntitySet="INMUEBLE">
                 <ScalarProperty Name="inmueble_id" ColumnName="inmueble_id" />
                 <ScalarProperty Name="codigo_inmueble" ColumnName="codigo_inmueble" />
@@ -893,7 +896,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ITEM_VERIF">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.ITEM_VERIF">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.ITEM_VERIF">
               <MappingFragment StoreEntitySet="ITEM_VERIF">
                 <ScalarProperty Name="item_verif_id" ColumnName="item_verif_id" />
                 <ScalarProperty Name="elemento_verificacion" ColumnName="elemento_verificacion" />
@@ -903,7 +906,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OBRA">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.OBRA">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.OBRA">
               <MappingFragment StoreEntitySet="OBRA">
                 <ScalarProperty Name="obra_id" ColumnName="obra_id" />
                 <ScalarProperty Name="nombre_obra" ColumnName="nombre_obra" />
@@ -913,7 +916,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PERFIL">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.PERFIL">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.PERFIL">
               <MappingFragment StoreEntitySet="PERFIL">
                 <ScalarProperty Name="perfil_id" ColumnName="perfil_id" />
                 <ScalarProperty Name="rol" ColumnName="rol" />
@@ -921,7 +924,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PERSONA">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.PERSONA">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.PERSONA">
               <MappingFragment StoreEntitySet="PERSONA">
                 <ScalarProperty Name="rut" ColumnName="rut" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -932,7 +935,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="REGION">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.REGION">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.REGION">
               <MappingFragment StoreEntitySet="REGION">
                 <ScalarProperty Name="region_id" ColumnName="region_id" />
                 <ScalarProperty Name="nombre_region" ColumnName="nombre_region" />
@@ -940,7 +943,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RESPONSABLE">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.RESPONSABLE">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.RESPONSABLE">
               <MappingFragment StoreEntitySet="RESPONSABLE">
                 <ScalarProperty Name="responsable_id" ColumnName="responsable_id" />
                 <ScalarProperty Name="cargo" ColumnName="cargo" />
@@ -950,7 +953,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="USUARIO">
-            <EntityTypeMapping TypeName="ObraManzanoFinalModel.USUARIO">
+            <EntityTypeMapping TypeName="ObraManzanoEneroModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIO">
                 <ScalarProperty Name="usuario_id" ColumnName="usuario_id" />
                 <ScalarProperty Name="contraseña" ColumnName="contraseña" />

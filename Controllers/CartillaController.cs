@@ -130,6 +130,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         {
                             detalleCartilla.CARTILLA_cartilla_id = viewModel.Cartilla.cartilla_id;
                             dbContext.DETALLE_CARTILLA.Add(detalleCartilla);
+                            detalleCartilla.estado_supv = false;
                             detalleCartilla.estado_ito = false;
                             detalleCartilla.estado_otec = false;
                         }
@@ -277,7 +278,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         if (viewModel.Cartilla.ESTADO_FINAL_estado_final_id == 1)
                         {
                             // Verificar si al menos un campo de aprobación está en falso
-                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false))
+                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false || detalle.estado_supv == false))
                             {
                                 TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobado. Debido a que no todos los valores se encuentra aprobados.";
                                 return RedirectToAction("Index", "Cartilla");

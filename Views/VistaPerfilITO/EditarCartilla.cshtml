@@ -43,9 +43,6 @@ else
 
                     @Html.HiddenFor(model => model.Cartilla.fecha)
 
-                    @Html.HiddenFor(model => model.Cartilla.observaciones)
-
-
                     @Html.HiddenFor(model => model.Cartilla.OBRA_obra_id)
 
                     @Html.HiddenFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
@@ -55,6 +52,10 @@ else
                         <p> <strong> Actividad:  </strong>  @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
                         <p> <strong> Obra:  </strong>  @Html.DisplayFor(model => model.Cartilla.OBRA.nombre_obra)</p>
                         <p> <strong> Estado Final:  </strong>  @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado Final", new { @class = "form-control" }) </p>
+                        <div>
+                            <label for="Observaciones"><strong>Observaciones</strong></label>
+                            @Html.TextAreaFor(model => model.Cartilla.observaciones, new { rows = 3, cols = 73, @class = "form-control" })
+                        </div>
                     </div>
 
 
@@ -65,11 +66,15 @@ else
                             <tr>
                                 <th>Item Verificación</th>
                                 <th style="white-space: nowrap;">
-                                    VB ITO
+                                    VB F.T.O
                                     @Html.CheckBox("selectAllITO", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
                                 </th>
                                 <th style="text-align: center;">
-                                    VB OTEC
+                                    VB SUPV
+
+                                </th>
+                                <th style="text-align: center;">
+                                    VB AC
 
                                 </th>
                                 <th style="white-space: nowrap;">N° VIV</th>
@@ -95,14 +100,26 @@ else
                                         @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_ito, false) No
                                     </td>
                                     <td>
-                                        @if (Model.DetalleCartillas[i].estado_otec)
+                                        @if (Model.DetalleCartillas[i].estado_supv)
                                         {
-                                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="Estado OTEC: Aprobado">&#xE876;</i>
+                                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="Estado Supervisor: Aprobado">&#xE876;</i>
                                             <span style="display: none;">Sí</span>
                                         }
                                         else
                                         {
-                                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="Estado OTEC: Rechazado">&#xE5CD;</i>
+                                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="Estado Supervisor: Rechazado">&#xE5CD;</i>
+                                            <span style="display: none;">No</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.DetalleCartillas[i].estado_otec)
+                                        {
+                                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="Estado Autocontrol: Aprobado">&#xE876;</i>
+                                            <span style="display: none;">Sí</span>
+                                        }
+                                        else
+                                        {
+                                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="Estado Autocontrol: Rechazado">&#xE5CD;</i>
                                             <span style="display: none;">No</span>
                                         }
                                     </td>
