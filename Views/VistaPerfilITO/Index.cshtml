@@ -60,23 +60,23 @@ else
 
                                 <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.descripcion)</td>
                                 <td>
-                                    @if (item.ACTIVIDAD.estado == "C")
+                                    @if (item.ACTIVIDAD.estado == "B")
                                     {
-                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Cerrado">&#xE897;</i>
+                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
                                     }
                                     else if (item.ACTIVIDAD.estado == "A")
                                     {
-                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Abierto">&#xE898;</i>
+                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Activo">&#xE898;</i>
                                     }
                                 </td>
 
 
 
                                 <td>
-                                    @if (item.ACTIVIDAD.estado == "C")
+                                    @if (item.ACTIVIDAD.estado == "B")
                                     {
                                         <a href="#" class="edit" data-url="#">
-                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede modificar en Estado Cerrado">&#xE254;</i>
+                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede modificar en Estado Bloqueado">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
                                         </a>
 

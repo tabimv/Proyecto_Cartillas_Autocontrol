@@ -105,7 +105,7 @@ else
                                                 @if (item.CARTILLA.ACTIVIDAD.estado == "B")
                                                 {
                                                     <!-- Nuevo enlace para "Gestionar Documento" con ícono de documento -->
-                                                    <a href="@Url.Action("GestionarDocumentoFiltrado", "AdjuntarDocumento", new { id = item.CARTILLA.ACTIVIDAD_actividad_id })">
+                                                    <a href="@Url.Action("GestionarDocumentoFiltrado", "AdjuntarDocumento", new { id = item.CARTILLA.cartilla_id })">
                                                         <i class="material-icons" data-toggle="tooltip" title="Gestionar Documento">description</i>
                                                         <span style="display: none;">GestionarDocumento</span>
                                                     </a>
