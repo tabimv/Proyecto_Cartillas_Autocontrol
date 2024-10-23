@@ -15,21 +15,29 @@ namespace Proyecto_Cartilla_Autocontrol.Models
 
     public partial class USUARIO
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public USUARIO()
+        {
+            this.ACCESO_CARTILLA = new HashSet<ACCESO_CARTILLA>();
+            this.ACCESO_OBRAS = new HashSet<ACCESO_OBRAS>();
+        }
+    
         public int usuario_id { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese la contraseña")]
         public string contraseña { get; set; }
+
         [Required(ErrorMessage = "Por favor, seleccione un Tipo de Perfil")]
-
         public int PERFIL_perfil_id { get; set; }
-
-        [Required(ErrorMessage = "Por favor, seleccione una Obra")]
-        public int OBRA_obra_id { get; set; }
 
         [Required(ErrorMessage = "Por favor, seleccione una Persona Asociada")]
         public string PERSONA_rut { get; set; }
+        public bool estado_usuario { get; set; }
     
-        public virtual OBRA OBRA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ACCESO_CARTILLA> ACCESO_CARTILLA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ACCESO_OBRAS> ACCESO_OBRAS { get; set; }
         public virtual PERFIL PERFIL { get; set; }
         public virtual PERSONA PERSONA { get; set; }
     }

@@ -46,10 +46,14 @@ else
                     <thead>
                         <tr>
                             <th></th>
+                            <th> Obra Asociada </th>
                             <th> Codigo de Actividad </th>
                             <th> Nombre de Actividad </th>
                             <th> Estado </th>
-                            <th> Obra </th>
+                            <th>
+                                Tipo de Actividad
+                            </th>
+
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -58,6 +62,7 @@ else
                         {
                             <tr>
                                 <td></td>
+                                <td> @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
                                 <td> @Html.DisplayFor(modelItem => item.codigo_actividad)</td>
                                 <td> @Html.DisplayFor(modelItem => item.nombre_actividad) </td>
                                 @if (item.estado == "B")
@@ -67,22 +72,44 @@ else
                                 else if (item.estado == "A")
                                 {
                                     <td> Activo </td>
-                                } 
-                                <td> @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                                }
+
+                                @if (item.tipo_actividad == "P")
+                                {
+                                    <td> Proyecto </td>
+                                }
+                                else if (item.tipo_actividad == "I")
+                                {
+                                    <td> Inmueble </td>
+                                }
+
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
+                                    @if (item.estado == "B")
+                                    {
+                                        <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.actividad_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Editar Actividad">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
 
 
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.actividad_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Editar Actividad">&#xE254;</i>
-                                        <span style="display: none;">Edit</span>
-                                    </a>
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.actividad_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Actividad">&#xE872;</i>
+                                        </a>
+                                    }
+                                    else if (item.estado == "A")
+                                    {
+
+                                        <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.actividad_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Editar Actividad">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
 
 
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.actividad_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar Actividad">&#xE872;</i>
-                                    </a>
-
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.actividad_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Actividad">&#xE872;</i>
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -150,6 +177,12 @@ else
                 }
             });
         });
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
     </script>
 
 }

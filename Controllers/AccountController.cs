@@ -1,16 +1,11 @@
 ﻿using Proyecto_Cartilla_Autocontrol.Models;
 using Proyecto_Cartilla_Autocontrol.Models.ViewModels;
-using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Mail;
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -41,6 +36,11 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 ModelState.AddModelError("correo", "El correo es incorrecto.");
             }
+            else if (!user.estado_usuario)
+            {
+                // Si el usuario está bloqueado (estado_usuario = false)
+                ModelState.AddModelError("", "El Usuario se encuentra en estado bloqueado.");
+            }
             else if (ModelState.IsValid) // Solo si el correo es válido, verifica la contraseña
             {
                 if (user.contraseña != model.contraseña)
@@ -51,28 +51,70 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 if (ModelState.IsValid) // Verifica nuevamente después de agregar los errores
                 {
                     // Autenticar al usuario
-                    FormsAuthentication.SetAuthCookie(model.correo, false);
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                        1,                             // Ticket version
+                        model.correo,                  // Username to be associated with this ticket
+                        DateTime.Now,                  // Date/time issued
+                        DateTime.Now.AddHours(12),     // Date/time to expire
+                        true,                          // "true" for a persistent user cookie
+                        user.PERFIL.rol,               // User-data, in this case the role
+                        FormsAuthentication.FormsCookiePath // Cookie path specified in the web.config file
+                    );
+
+                    // Encrypt the ticket
+                    string encTicket = FormsAuthentication.Encrypt(ticket);
+
+                    // Create the cookie.
+                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket)
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.Now.AddHours(12)
+                    };
+
+                    // Add the cookie to the response.
+                    Response.Cookies.Add(cookie);
 
                     // Almacena el objeto de usuario completo en sesión
                     Session["UsuarioAutenticado"] = user;
-
-                    // Obtener el nombre del tipo de perfil del usuario desde la base de datos
-                    var tipoPerfil = db.PERFIL.FirstOrDefault(tp => tp.perfil_id == user.PERFIL_perfil_id)?.rol;
 
                     // Almacenar el tipo de perfil en una variable de sesión
                     Session["Perfil"] = user.PERFIL.rol;
 
                     if (Session["Perfil"].Equals("Administrador"))
                     {
-                        return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+                        if (EsDispositivoMovil())
+                        {
+                            return RedirectToAction("EditarCartillaMovilAdmin", "RevisionMovil"); // Redirige a la vista para dispositivos móviles
+                        }
+                        else
+                        {
+                            return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+                        }
+                       
                     }
-                    else if (Session["Perfil"].Equals("OTEC"))
+                    else if (Session["Perfil"].Equals("Supervisor"))
                     {
-                        return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+                        // Detecta si el usuario está en un dispositivo móvil o no
+                        if (EsDispositivoMovil())
+                        {
+                            return RedirectToAction("EditarCartillaMovilTest", "SupervisorMovil"); // Redirige a la vista para dispositivos móviles
+                        }
+                        else
+                        {
+                            return RedirectToAction("ListaCartillasSupervisor", "CartillasAutocontrolFiltrado"); // Redirige a la vista de computadoras
+                        }
                     }
-                    else if (Session["Perfil"].Equals("ITO"))
+                    else if (Session["Perfil"].Equals("Autocontrol"))
                     {
-                        return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+                        // Detecta si el usuario está en un dispositivo móvil o no
+                        if (EsDispositivoMovil())
+                        {
+                            return RedirectToAction("EditarCartillaMovilAutocontrol", "RevisionMovil"); // Redirige a la vista para dispositivos móviles
+                        }
+                        else
+                        {
+                            return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado"); // Redirige a la vista de computadoras
+                        }
                     }
                     else if (Session["Perfil"].Equals("Consulta"))
                     {
@@ -83,7 +125,6 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             return View(model);
         }
-
 
         public ActionResult Logout()
         {
@@ -114,8 +155,14 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         }
 
 
+        public bool EsDispositivoMovil()
+        {
+            string userAgent = Request.UserAgent.ToLower();
+
+            // Detecta algunos User-Agents comunes para dispositivos móviles
+            return userAgent.Contains("mobi") || userAgent.Contains("android") || userAgent.Contains("iphone") || userAgent.Contains("ipad");
+        }
+
 
     }
-
-
 }

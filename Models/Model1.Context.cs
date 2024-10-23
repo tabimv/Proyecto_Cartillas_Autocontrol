@@ -12,6 +12,8 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ObraManzanoFinal : DbContext
     {
@@ -25,6 +27,8 @@ namespace Proyecto_Cartilla_Autocontrol.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ACCESO_CARTILLA> ACCESO_CARTILLA { get; set; }
+        public virtual DbSet<ACCESO_OBRAS> ACCESO_OBRAS { get; set; }
         public virtual DbSet<ACTIVIDAD> ACTIVIDAD { get; set; }
         public virtual DbSet<CARTILLA> CARTILLA { get; set; }
         public virtual DbSet<COMUNA> COMUNA { get; set; }
@@ -32,11 +36,66 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public virtual DbSet<ESTADO_FINAL> ESTADO_FINAL { get; set; }
         public virtual DbSet<INMUEBLE> INMUEBLE { get; set; }
         public virtual DbSet<ITEM_VERIF> ITEM_VERIF { get; set; }
+        public virtual DbSet<LOTE_INMUEBLE> LOTE_INMUEBLE { get; set; }
         public virtual DbSet<OBRA> OBRA { get; set; }
         public virtual DbSet<PERFIL> PERFIL { get; set; }
         public virtual DbSet<PERSONA> PERSONA { get; set; }
         public virtual DbSet<REGION> REGION { get; set; }
         public virtual DbSet<RESPONSABLE> RESPONSABLE { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
+        public virtual DbSet<VistaExcel> VistaExcel { get; set; }
+        public virtual DbSet<vw_DetalleCartilla> vw_DetalleCartilla { get; set; }
+    
+        public virtual int CrearCartillaYDetalleCartilla(Nullable<int> obra_id, Nullable<int> actividad_id, string observaciones, string observaciones_priv)
+        {
+            var obra_idParameter = obra_id.HasValue ?
+                new ObjectParameter("obra_id", obra_id) :
+                new ObjectParameter("obra_id", typeof(int));
+    
+            var actividad_idParameter = actividad_id.HasValue ?
+                new ObjectParameter("actividad_id", actividad_id) :
+                new ObjectParameter("actividad_id", typeof(int));
+    
+            var observacionesParameter = observaciones != null ?
+                new ObjectParameter("observaciones", observaciones) :
+                new ObjectParameter("observaciones", typeof(string));
+    
+            var observaciones_privParameter = observaciones_priv != null ?
+                new ObjectParameter("observaciones_priv", observaciones_priv) :
+                new ObjectParameter("observaciones_priv", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CrearCartillaYDetalleCartilla", obra_idParameter, actividad_idParameter, observacionesParameter, observaciones_privParameter);
+        }
+    
+        public virtual int sp_AdicionarInmueblesFaltantes(Nullable<int> lOTE_INMUEBLE_lote_id, Nullable<int> oBRA_obra_id)
+        {
+            var lOTE_INMUEBLE_lote_idParameter = lOTE_INMUEBLE_lote_id.HasValue ?
+                new ObjectParameter("LOTE_INMUEBLE_lote_id", lOTE_INMUEBLE_lote_id) :
+                new ObjectParameter("LOTE_INMUEBLE_lote_id", typeof(int));
+    
+            var oBRA_obra_idParameter = oBRA_obra_id.HasValue ?
+                new ObjectParameter("OBRA_obra_id", oBRA_obra_id) :
+                new ObjectParameter("OBRA_obra_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AdicionarInmueblesFaltantes", lOTE_INMUEBLE_lote_idParameter, oBRA_obra_idParameter);
+        }
+    
+        public virtual int SPU_RESUMEN_CARTILLA(Nullable<int> obra)
+        {
+            var obraParameter = obra.HasValue ?
+                new ObjectParameter("obra", obra) :
+                new ObjectParameter("obra", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SPU_RESUMEN_CARTILLA", obraParameter);
+        }
+    
+        public virtual int SPU_RESUMEN_SUPERV(Nullable<int> obra)
+        {
+            var obraParameter = obra.HasValue ?
+                new ObjectParameter("obra", obra) :
+                new ObjectParameter("obra", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SPU_RESUMEN_SUPERV", obraParameter);
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
     public partial class RESPONSABLE
     {
         public int responsable_id { get; set; }

@@ -81,7 +81,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                             detalleCartilla.CARTILLA_cartilla_id = viewModel.Cartilla.cartilla_id;
                             dbContext.DETALLE_CARTILLA.Add(detalleCartilla);
                             detalleCartilla.estado_ito = false;
-                            detalleCartilla.estado_otec = false;
+                            detalleCartilla.estado_autocontrol = false;
                         }
 
                         // Guardar los cambios en DETALLE_CARTILLA
@@ -145,7 +145,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         public ActionResult GetInmuebleByObra(int obraID)
         {
             // Realiza la lógica para obtener los elementos de verificación por la actividad seleccionada
-            var elementos = db.INMUEBLE.Where(iv => iv.OBRA_obra_id == obraID).ToList();
+            var elementos = db.INMUEBLE.Where(iv => iv.LOTE_INMUEBLE.OBRA_obra_id == obraID).ToList();
 
             // Devuelve los elementos de verificación en formato JSON
             var jsonData = elementos.Select(i => new { value = i.inmueble_id, text = i.inmueble_id }).ToList();
@@ -161,7 +161,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     var query = from iv in context.ITEM_VERIF
                                 join a in context.ACTIVIDAD on iv.ACTIVIDAD_actividad_id equals a.actividad_id
                                 join o in context.OBRA on a.OBRA_obra_id equals o.obra_id
-                                join i in context.INMUEBLE on o.obra_id equals i.OBRA_obra_id
+                                join i in context.INMUEBLE on o.obra_id equals i.LOTE_INMUEBLE.OBRA_obra_id
                                 where iv.ACTIVIDAD_actividad_id == actividadId
                                 select new
                                 {
@@ -224,7 +224,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         if (viewModel.Cartilla.ESTADO_FINAL_estado_final_id == 1)
                         {
                             // Verificar si al menos un campo de aprobación está en falso
-                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_otec == false || detalle.estado_ito == false))
+                            if (viewModel.DetalleCartillas.Any(detalle => detalle.estado_autocontrol == false || detalle.estado_ito == false))
                             {
                                 TempData["ErrorMessage"] = "La Cartilla no puede tener Estado Final igual a Aprobado. Debido a que no todos los valores se encuentra aprobados.";
                                 return RedirectToAction("Index", "Cartilla");

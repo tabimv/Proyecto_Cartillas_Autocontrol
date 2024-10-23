@@ -1,7 +1,7 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.USUARIO
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Usuario";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -20,7 +20,7 @@ else
     <div class="container-delete">
         <div class="form-container-delete">
             <h2> Eliminar  Usuario </h2>
-            <h3>¿Estás seguro que quieres eliminar este Usuario?</h3>
+            <h3>¿Estás seguro que quieres eliminar este Usuario y sus permisos de acceso a Obras?</h3>
             <div>
                 <hr />
                 <dl class="dl-horizontal">
@@ -41,20 +41,34 @@ else
                     </dd>
 
                     <dt>
-                        Obra:
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
-                    </dd>
-                    <dt>
                         Tipo Perfil:
                     </dt>
 
                     <dd>
                         @Html.DisplayFor(model => model.PERFIL.rol)
                     </dd>
-                
+
+                    <dt>
+                        Permisos de accesos a Obras:
+                    </dt>
+
+                    @if (ViewBag.ObrasSeleccionadas != null && ((List<Proyecto_Cartilla_Autocontrol.Models.OBRA>)ViewBag.ObrasSeleccionadas).Any())
+                    {
+                        foreach (var obra in (List<Proyecto_Cartilla_Autocontrol.Models.OBRA>)ViewBag.ObrasSeleccionadas)
+                        {
+                            <dd>
+                                @obra.nombre_obra
+                            </dd>
+                        }
+                    }
+
+                    else
+                    {
+                <dd>
+                    El Usuario no tiene acceso a ninguna Obra
+                </dd>
+                    }
+                  
 
                 </dl>
 
@@ -76,7 +90,12 @@ else
             </div>
         </div>
     </div>
-
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

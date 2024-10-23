@@ -27,6 +27,8 @@ else
                 <form>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.obra_id)
+
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.nombre_obra, "Nombre Obra", htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.nombre_obra, new { htmlAttributes = new { @class = "form-control" } })
@@ -44,16 +46,76 @@ else
                         @Html.ValidationMessageFor(model => model.COMUNA.REGION.region_id, "", new { @class = "text-danger" })
                     </div>
 
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.COMUNA_comuna_id, "Comuna: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownList("COMUNA_comuna_id", null, "Seleccione una comuna",htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("COMUNA_comuna_id", null, "Seleccione una comuna", htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.COMUNA_comuna_id, "", new { @class = "text-danger" })
                     </div>
+
                     <div class="form-group">
+                        @Html.LabelFor(model => model.entidad_patrocinante, "Entidad Patrocinante:", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.entidad_patrocinante, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.entidad_patrocinante, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    @if ((bool)ViewBag.TieneRelaciones)
+                    {
+                        <p style="color: red; text-align: justify-all;">No se puede editar el tipo de proyecto. <br /> Por favor, borre los inmuebles asociados para realizar cambios.</p>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipo_proyecto, "Tipo de Proyecto: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.tipo_proyecto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.tipo_proyecto, "", new { @class = "text-danger", required = "required", title = "Por favor, seleccione un tipo de proyecto" })
+                        </div>
+
+                        <div class="form-group" id="totalDeptosGroup">
+                            @Html.LabelFor(model => model.total_deptos, "Total de Departamentos", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.TextBoxFor(model => model.total_deptos, "{0:N0}", new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.total_deptos, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group" id="totalVivGroup">
+                            @Html.LabelFor(model => model.total_viv, "Total de Viviendas", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.TextBoxFor(model => model.total_viv, "{0:N0}", new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.total_viv, "", new { @class = "text-danger" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipo_proyecto, "Tipo de Proyecto: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("tipo_proyecto", new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "Edificio", Value = "Edificio" },
+                                new SelectListItem { Text = "Vivienda", Value = "Vivienda" },
+
+                            }, "Seleccione un tipo de proyecto", new { @class = "form-control", id = "tipoProyecto" })
+                            @Html.ValidationMessageFor(model => model.tipo_proyecto, "", new { @class = "text-danger", required = "required", title = "Por favor, seleccione un tipo de proyecto" })
+                        </div>
+
+                        <div class="form-group" id="totalDeptosGroup">
+                            @Html.LabelFor(model => model.total_deptos, "Total de Departamentos", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.TextBoxFor(model => model.total_deptos, "{0:N0}", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.total_deptos, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group" id="totalVivGroup">
+                            @Html.LabelFor(model => model.total_viv, "Total de Viviendas", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.TextBoxFor(model => model.total_viv, "{0:N0}", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.total_viv, "", new { @class = "text-danger" })
+                        </div>
+                    }
+
+
+                    <div class="form-group">
+
                         <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
+
                     </div>
                     <div>
-                        <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                        <a style="width: 100%;" href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
                     </div>
                 </form>
             </div>
@@ -90,6 +152,41 @@ else
             });
         });
     </script>
+
+    <script>
+        $(function () {
+            // Ocultar los campos de total_deptos y total_viv al principio
+            $('#totalDeptosGroup').hide();
+            $('#totalVivGroup').hide();
+
+            // Manejar el evento de cambio en el menú desplegable de tipo_proyecto
+            $('#tipoProyecto').change(function () {
+                var selectedValue = $(this).val();
+
+                // Mostrar u ocultar los campos total_deptos y total_viv según el tipo de proyecto seleccionado
+                if (selectedValue === "Edificio") {
+                    $('#totalDeptosGroup').show();
+                    $('#totalVivGroup').hide();
+                } else if (selectedValue === "Vivienda") {
+                    $('#totalDeptosGroup').hide();
+                    $('#totalVivGroup').show();
+                } else {
+                    $('#totalDeptosGroup').hide();
+                    $('#totalVivGroup').hide();
+                }
+            });
+
+            // Llamar al evento change para que se ejecute al cargar la página
+            $('#tipoProyecto').change();
+        });
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+
 }
 
 else
@@ -101,5 +198,3 @@ else
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
 }
-
-

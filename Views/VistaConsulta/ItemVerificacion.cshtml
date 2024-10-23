@@ -8,16 +8,16 @@
 {
     Layout = "~/Views/Shared/_Layout_Consulta.cshtml";
 }
-else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "ITO")
+else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Supervisor")
 {
-    Layout = "~/Views/Shared/_Layout_ITO.cshtml";
+    Layout = "~/Views/Shared/_Layout_Supervisor.cshtml";
 }
 else
 {
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "ITO"))
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "Supervisor"))
 {
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
@@ -32,7 +32,7 @@ else
                         <div class="col-sm-6">
                             <h2><b>Item de Verificación</b></h2>
                         </div>
-                       
+
                     </div>
                 </div>
                 <table id="cartillaTable" class="table table-striped table-hover">
@@ -40,7 +40,7 @@ else
                         <tr>
                             <th> Label </th>
                             <th> Item de Verificación </th>
-                            <th style="white-space: nowrap;" > Actividad Asociada </th>
+                            <th style="white-space: nowrap;"> Actividad Asociada </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,7 +119,12 @@ else
             });
         });
     </script>
-
+    <script>
+// Script para manejar la expiración de la sesión
+setTimeout(function () {
+    window.location.href = '@Url.Action("Login", "Account")';
+}, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

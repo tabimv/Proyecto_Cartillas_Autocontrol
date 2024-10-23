@@ -6,9 +6,11 @@
     max-width: 97%;
 }
 
-#contenido-pdf{
+#contenido-pdf {
     margin-top: 5%;
-
+    margin-left: auto; /* Centrar el contenido en la página */
+    margin-right: auto;
+    max-width: 90%; /* Ajustar el ancho máximo del contenido */
 }
 
 .encabezado-imagen {
@@ -31,12 +33,12 @@
 
 section p {
     line-height: 0.5;
-    font-size: 15px;
+    font-size: 14px;
 }
 
     section p strong {
         font-weight: bold;
-        font-size: 15px;
+        font-size: 13px;
     }
 
 .elemento {
@@ -60,16 +62,22 @@ section p {
     }
 
 .rectangulo {
-    width: 550px;
-    height: 155px;
+    width: 420px; /* Reducción del ancho del rectángulo */
+    height: 120px; /* Reducción de la altura del rectángulo */
     border: 2px solid black;
-    padding: 10px;
+    padding: 5px; /* Reducción del espacio interno */
     position: absolute;
     font-family: Arial, sans-serif;
-    bottom: 40%;
-    right: 10%; /* Ajusta la distancia desde la derecha según tus necesidades */
-    line-height: 1.5;
+    bottom: 44%;
+    right: 10%;
+    line-height: 1.2; /* Reducción del espacio entre líneas */
+    margin: 0 auto; /* Centrar el rectángulo horizontalmente */
 }
+
+    .rectangulo p {
+        margin: 5px 0; /* Reducción del espacio entre párrafos */
+        font-size: 13px; /* Reducción del tamaño de la fuente */
+    }
 
 /* Estilos para la línea vertical */
 .linea-vertical {
@@ -84,21 +92,22 @@ section p {
 .fecha-firma {
     position: absolute;
     top: 5%;
-    width: 50%; /* Ajusta el ancho para la parte derecha del rectángulo */
+    width: 50%; /* Reducción del ancho para la parte derecha del rectángulo */
     left: 62%;
 }
 
 
 table {
     border-collapse: collapse;
-    width: 80%;
+    width: 100%;
+  
   
 }
 
     /* En tu archivo cartilla.css o en línea */
     table.default {
-        margin: 0 auto; /* Esto centrará la tabla horizontalmente */
-        width: 80%; /* Ajusta el ancho de la tabla según tus necesidades */
+        margin: 0 auto; /* Centrar la tabla horizontalmente */
+        width: 90%; /* Ajustar el ancho de la tabla según el contenedor */
         margin-top: 5%;
         margin-bottom: 8%;
     }
@@ -108,7 +117,7 @@ th, td {
     border: 2px solid black;
     padding: 8px;
     text-align: left;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .material-icons {
@@ -129,18 +138,18 @@ tr:nth-child(even) {
 
 /* Estilos para el cuadro de observaciones */
 .cuadro-observaciones {
-    max-width: 600px; /* Establece el ancho máximo que desees */
+    max-width:500px; /* Establece el ancho máximo que desees */
     margin: 10% auto; /* Centra el cuadro en la página */
     border: 2px solid black; /* Borde del cuadro */
     padding: 10px;
     display: flex;
     flex-direction: column;
-    margin-top: -5%;
+    margin-top: 5%;
 }
 
 /* Estilos para el label de observaciones */
 label {
-    font-size: 18px;
+    font-size: 15px;
     height: 20px; /* Altura fija */
     width: 100%; /* Ancho fijo */
     white-space: nowrap;
@@ -194,6 +203,11 @@ textarea {
         width: 100%;
         margin: -230px 0; /* Ajusta según sea necesario */
     }
+
+        .rectangulo p {
+            margin: 5px 0; /* Reducción del espacio entre párrafos */
+            font-size: 12px; /* Reducción del tamaño de la fuente */
+        }
 
     .observaciones {
         margin: 20px 0;

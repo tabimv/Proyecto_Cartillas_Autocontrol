@@ -26,7 +26,7 @@ else
         @Html.AntiForgeryToken()
         <div class="container-formularios">
             <div class="form-container">
-                <h2>Editar Inmuebles de la Obra: <b> @Model.First().OBRA.nombre_obra </b> </h2>
+                <h2>Editar Inmuebles de la Obra: <b> @Model.First().LOTE_INMUEBLE.OBRA.nombre_obra </b> </h2>
 
 
                 <!-- Tabla para mostrar los campos -->
@@ -43,7 +43,7 @@ else
                             <tr class="detalle-cartilla">
                                 <td>
                                     @Html.EditorFor(model => Model[i].inmueble_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
-                                    @Html.EditorFor(model => Model[i].OBRA_obra_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                                    @Html.EditorFor(model => Model[i].LOTE_INMUEBLE.OBRA_obra_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
 
                                     @Html.EditorFor(model => Model[i].codigo_inmueble, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => Model[i].codigo_inmueble, "", new { @class = "text-danger" })

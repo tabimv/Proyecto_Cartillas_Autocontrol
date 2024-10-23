@@ -24,18 +24,32 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
         public List<INMUEBLE> InmuebleList { get; set; }
         public List<OBRA> ObraList { get; set; }
         public List<ESTADO_FINAL> EstadoFinalList { get; set; }
+        public List<LOTE_INMUEBLE> LoteInmuebleList { get; set; }
 
+
+        // Propiedad para almacenar el ID de la obra seleccionada
+        public int SelectedObraId { get; set; }
+        public int SelectedLoteInmuebleId { get; set; }
         // Propiedades para manejar los campos booleanos en las vistas
+
+        // Propiedad para almacenar la abreviatura del lote de inmueble seleccionado
+        public string SelectedLoteInmuebleAbreviatura { get; set; }
         public bool EstadoIto { get; set; }
         public bool EstadoOtec { get; set; }
 
+        public int LoteId { get; set; }
+        public int InmuebleId { get; set; }
+
     }
 
+   
     public class CartillaViewModel
     {
         public int CartillaId { get; set; }
         public DateTime Fecha { get; set; }
         public string Observaciones { get; set; }
+
+        public string Observaciones_priv { get; set; }
         public int ObraId { get; set; }
         public int ActividadId { get; set; }
         public int EstadoFinalId { get; set; }
@@ -60,5 +74,14 @@ namespace Proyecto_Cartilla_Autocontrol.Models.ViewModels
         [Display(Name = "Inmueble ID")]
         public string InmuebleId { get; set; }
     }
+
+
+    public class CrearCartillaViewModel
+    {
+        public IEnumerable<OBRA> Obras { get; set; }
+        public IEnumerable<ACTIVIDAD> Actividades { get; set; }
+    }
+
+  
 
 }

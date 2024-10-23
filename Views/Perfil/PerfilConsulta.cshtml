@@ -32,7 +32,13 @@ else
                     <h2>@usuario.PERSONA.nombre @usuario.PERSONA.apeliido_paterno</h2>
                     <p><strong> Tipo de Perfil: </strong>  @usuario.PERFIL.rol </p>
                     <p><strong> Correo:  </strong>@usuario.PERSONA.correo </p>
-                    <p><strong> Obra Asociada: </strong>  @usuario.OBRA.nombre_obra </p>
+                    <p><strong> Obras que tienes Acceso: </strong></p>
+                    <ul>
+                        @foreach (var obra in ViewBag.ObrasAcceso)
+                        {
+                            <li>@obra.nombre_obra</li>
+                        }
+                    </ul>
                 </div>
             }
             <br />
@@ -42,8 +48,13 @@ else
             </a>
         </div>
     </div>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
-
 else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">

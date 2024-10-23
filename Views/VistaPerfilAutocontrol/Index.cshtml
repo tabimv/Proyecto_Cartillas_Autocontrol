@@ -1,0 +1,294 @@
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.CARTILLA>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
+{
+    Layout = "~/Views/Shared/_Layout_Autocontrol.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
+{
+
+    <link rel="stylesheet" href="~/Content/css/CRUD.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Gestión de <b>Cartillas de Autocontrol</b></h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="@Url.Action("CrearCartillaAutocontrol")" class="btn btn-success">
+                                <i class="material-icons">&#xE147;</i>
+                                Crear Nueva Cartilla
+                            </a>
+
+                            <a style="background-color: #165030; color: #ffffff; transition: background-color 0.3s;" href="@Url.Action("ExportToExcel")" class="btn btn" onmouseover="this.style.backgroundColor='#0F7840'" onmouseout="this.style.backgroundColor='#165030'">
+                                <i class="material-icons">&#xE24D;</i>
+                                Exportar a Excel
+                            </a>
+
+                            <a id="editarCartillaBtn2"
+                               href="@Url.Action("EditarCartillaMovilAutocontrol", "RevisionMovil")" class="btn btn-warning">
+                                <i class="material-icons">edit</i>
+                                Revisión Cartilla
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <table id="cartillaTable" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+
+                            <th style="white-space: nowrap;">Cartilla ID</th>
+                            <th> Fecha </th>
+                            <th> Obra </th>
+                            <th> Código Actividad </th>
+                            <th> Actividad </th>
+                            <th> Estado Final </th>
+                            <th> Estado </th>
+                            <th>Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>  @Html.DisplayFor(modelItem => item.cartilla_id) </td>
+                                <td>  @item.fecha.ToString("dd-MM-yyyy") </td>
+                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)</td>
+                                <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.nombre_actividad)</td>
+
+                                <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.descripcion)</td>
+                                <td>
+                                    @if (item.ACTIVIDAD.estado == "B")
+                                    {
+                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
+                                    }
+                                    else if (item.ACTIVIDAD.estado == "A")
+                                    {
+                                        <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Activo">&#xE898;</i>
+                                    }
+                                </td>
+                                <td style=" white-space: nowrap;">
+                                    @if (item.ACTIVIDAD.estado == "B")
+                                    {
+
+                                        <a href="#" class="edit" data-url="@Url.Action("ConsultaRevision", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Consulta de Revisión">&#xE8FD;</i>
+                                            <span style="display: none;">Consulta</span>
+                                        </a>
+
+                                        <a href="#" class="edit editar-cartilla" data-url="@Url.Action("EditarCartilla", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Revisión Cartilla">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
+
+                                        <a href="#" class="delete delete-cartilla" data-id="@item.cartilla_id" data-url="@Url.Action("ConfirmarEliminarCartilla", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
+                                        </a>
+
+                                    }
+                                    else if (item.ACTIVIDAD.estado == "A")
+                                    {
+
+                                        <a href="#" class="edit" data-url="@Url.Action("AsignarCartillaSupervisor", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Asignar Cartilla a Supervisor" style="color: #585858;">touch_app</i>
+                                            <span style="display: none;">Consulta</span>
+                                        </a>
+
+                                        <a href="#" class="edit" data-url="@Url.Action("ConsultaRevision", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Consulta de Revisión">&#xE8FD;</i>
+                                            <span style="display: none;">Consulta</span>
+                                        </a>
+
+                                        <a href="#" class="edit editar-cartilla" data-url="@Url.Action("EditarCartilla", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Revisión Cartilla">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
+
+                                        <a href="#" class="delete delete-cartilla" data-id="@item.cartilla_id" data-url="@Url.Action("ConfirmarEliminarCartilla", "VistaPerfilAutocontrol", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
+                                        </a>
+                                    }
+
+
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+    if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+      $(document).ready(function () {
+          alert('@TempData["ErrorMessage"]');
+      });
+        </script>
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Utiliza una clase en lugar de un ID para seleccionar los elementos
+            $(".delete-cartilla").on("click", function (e) {
+                e.preventDefault();
+
+                // Obtén la URL desde el atributo data-url del botón
+                var url = $(this).data("url");
+
+                // Redirigir a la vista ConfirmarEliminarCartilla
+                window.location.href = url;
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $("#eliminarCartilla").click(function () {
+                var id = $(this).data("id");
+                $.post("/VistaPerfilAutocontrol/ConfirmarEliminarCartilla/" + id, function () {
+                    // Manejar la respuesta si es necesario
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".edit").click(function (e) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+                var url = $(this).data("url"); // Obtener la URL de data-url
+
+                // Redirigir a la vista "Edit"
+                window.location.href = url;
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#cartillaTable').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Verificar el ancho de la pantalla
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+
+            // Seleccionar todos los elementos con la clase 'editar-cartilla'
+            var editarCartillaLinks = document.querySelectorAll('.editar-cartilla');
+
+            // Ocultar si el ancho es menor o igual a 768px (móviles y tabletas)
+            if (screenWidth <= 768) {
+                editarCartillaLinks.forEach(function (link) {
+                    link.style.display = 'none';
+                });
+            } else {
+                editarCartillaLinks.forEach(function (link) {
+                    link.style.display = 'inline-block';
+                });
+            }
+
+            // Si la ventana cambia de tamaño, ocultar o mostrar el enlace según corresponda
+            window.addEventListener('resize', function () {
+                screenWidth = window.innerWidth || document.documentElement.clientWidth;
+                if (screenWidth <= 768) {
+                    editarCartillaLinks.forEach(function (link) {
+                        link.style.display = 'none';
+                    });
+                } else {
+                    editarCartillaLinks.forEach(function (link) {
+                        link.style.display = 'inline-block';
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Función que oculta o muestra el botón basado en el tamaño de la pantalla
+        function mostrarBotonEnMovil2() {
+            var anchoPantalla = window.innerWidth;
+            var boton2 = document.getElementById("editarCartillaBtn2");
+
+            // Definir el ancho máximo para dispositivos móviles y tabletas (768px es un valor común)
+            if (anchoPantalla <= 768) {
+                // Si el ancho de la pantalla es menor o igual a 768px (móvil o tableta), mostramos el botón
+                boton2.style.display = 'block';
+            } else {
+                // Si es mayor, ocultamos el botón (escritorio)
+                boton2.style.display = 'none';
+            }
+        }
+
+        // Ejecutar la función al cargar la página
+        mostrarBotonEnMovil2();
+
+        // Ejecutar la función cuando el tamaño de la pantalla cambia (redimensionar)
+        window.onresize = mostrarBotonEnMovil2;
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Autocontrol</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}
+
+

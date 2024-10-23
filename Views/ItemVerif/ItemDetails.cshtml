@@ -27,7 +27,7 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Lista Items de Verificación de la Actividad: <b> @actividadSeleccionada.nombre_actividad </b></h2>
+                            <h2>Lista Items de Verificación de la Actividad: <b class="small-text"> @actividadSeleccionada.nombre_actividad </b></h2>
                         </div>
                         <div class="col-sm-6">
                             <a href="@Url.Action("ItemLista", "ItemVerif")" class="btn btn-success">
@@ -57,18 +57,30 @@ else
                                 <td> @Html.DisplayFor(modelItem => item.elemento_verificacion) </td>
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
+                                    @if (item.ACTIVIDAD.estado == "B")
+                                    {
+                                        <a href="#" class="edit" data-url="#">
+                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="Los Items no se puede modificar con la Actividad en estado Bloqueado">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
+
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
+                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Items no se puede Eliminar con la Actividad en estado Bloqueado">&#xE872;</i>
+                                        </a>
+                                    }
+                                    else if (item.ACTIVIDAD.estado == "A")
+                                    {
+
+                                        <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.item_verif_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Editar Elemento Verificación">&#xE254;</i>
+                                            <span style="display: none;">Edit</span>
+                                        </a>
 
 
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.item_verif_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Editar Elemento Verificación">&#xE254;</i>
-                                        <span style="display: none;">Edit</span>
-                                    </a>
-
-
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.item_verif_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar Elemento Verificación">&#xE872;</i>
-                                    </a>
-
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.item_verif_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Elemento Verificación">&#xE872;</i>
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -138,7 +150,12 @@ else
             });
         });
     </script>
-
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

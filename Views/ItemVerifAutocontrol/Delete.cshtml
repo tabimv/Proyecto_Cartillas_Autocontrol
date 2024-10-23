@@ -1,0 +1,85 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ITEM_VERIF
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
+{
+    Layout = "~/Views/Shared/_Layout_Autocontrol.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
+
+    <div class="container-delete">
+        <div class="form-container-delete">
+            <h2> Eliminar Item Verificación </h2>
+            <h3>¿Estás seguro que quieres eliminar este Ítem de Verificación?</h3>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        Actividad Asociada:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad) - @Html.DisplayFor(model => model.ACTIVIDAD.nombre_actividad)
+                    </dd>
+
+                    <dt>
+                        Label:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.label)
+                    </dd>
+
+                    <dt>
+                        Ítem Verificación:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.elemento_verificacion)
+                    </dd>
+
+
+
+                </dl>
+
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver a la Lista", "ItemDetails", new { actividadId = Model.ACTIVIDAD_actividad_id }, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Autocontrol</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

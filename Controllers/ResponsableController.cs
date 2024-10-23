@@ -20,9 +20,30 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // GET: Responsable
         public async Task<ActionResult> Index()
         {
-            var rESPONSABLE = db.RESPONSABLE.Include(r => r.OBRA).Include(r => r.PERSONA);
-            return View(await rESPONSABLE.ToListAsync());
+            // Comprueba si el usuario está autenticado
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                // Filtra las obras a las que el usuario autenticado tiene acceso a través de ACCESO_OBRAS
+                var obrasAcceso = db.ACCESO_OBRAS
+                                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                                    .Select(a => a.obra_id)
+                                    .ToList();
+
+                var rESPONSABLE = db.RESPONSABLE.Include(r => r.PERSONA)
+                    .Include(r => r.OBRA)
+                    .Where(r => obrasAcceso.Contains(r.OBRA_obra_id));
+                return View(await rESPONSABLE.ToListAsync());
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
         }
+
 
         public ActionResult ExportToExcel()
         {
@@ -74,84 +95,238 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             return View(rESPONSABLE);
         }
 
+        [HttpGet]
+        public JsonResult GetPersonasDisponibles(int obraId)
+        {
+            var asociados = db.RESPONSABLE
+                .Where(r => r.OBRA_obra_id == obraId)
+                .Select(r => r.PERSONA_rut)
+                .ToList();
+
+            var personasDisponibles = db.PERSONA
+                .Where(p => !asociados.Contains(p.rut))
+                .Select(p => new
+                {
+                    rut = p.rut,
+                    nombreCompleto = p.nombre + " " + p.apeliido_paterno + " " + p.apellido_materno
+                })
+                .ToList();
+
+            return Json(personasDisponibles, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        public ActionResult GetCargosDisponibles(int obraId)
+        {
+            // Suponiendo que tienes una forma de obtener los responsables asignados para una obra
+            var responsables = db.RESPONSABLE.Where(r => r.OBRA_obra_id == obraId).ToList();
+
+            var cargosAsignados = responsables.Select(r => r.cargo).ToList();
+
+            var cargosDisponibles = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Administrador de Obra", Value = "Administrador de Obra" },
+        new SelectListItem { Text = "Autocontrol", Value = "Autocontrol" },
+        new SelectListItem { Text = "F.T.O 1", Value = "F.T.O 1" },
+        new SelectListItem { Text = "F.T.O 2", Value = "F.T.O 2" },
+        new SelectListItem { Text = "Supervisor Serviu", Value = "Supervisor Serviu" },
+    }.Where(c => !cargosAsignados.Contains(c.Value)).ToList();
+
+            return Json(cargosDisponibles, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Responsable/Create
         public ActionResult Create()
         {
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra");
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA, "rut", "nombre");
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno }), "rut", "nombreCompleto");
-            return View();
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                // Obtén las IDs de las obras a las que el usuario autenticado tiene acceso
+                var obrasAcceso =  db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.obra_id)
+                    .ToList();
+
+                var obras = db.OBRA.Where(a => obrasAcceso.Contains(a.obra_id)).ToList();
+                ViewBag.OBRA_obra_id = new SelectList(obras, "obra_id", "nombre_obra");
+
+                // Obtener todas las personas
+                var personasDisponibles = db.PERSONA
+                    .Select(p => new
+                    {
+                        rut = p.rut,
+                        nombreCompleto = p.nombre + " " + p.apeliido_paterno + " " + p.apellido_materno
+                    })
+                    .ToList();
+
+                ViewBag.PERSONA_rut = new SelectList(personasDisponibles, "rut", "nombreCompleto");
+
+                return View();
+            }
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
         }
 
         // POST: Responsable/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "responsable_id,cargo,OBRA_obra_id,PERSONA_rut")] RESPONSABLE rESPONSABLE)
         {
-            // Verificar si ya existe un registro con las mismas claves foráneas
-            if (db.RESPONSABLE.Any(r => r.OBRA_obra_id == rESPONSABLE.OBRA_obra_id && r.PERSONA_rut == rESPONSABLE.PERSONA_rut))
+            if (Session["UsuarioAutenticado"] != null)
             {
-                ModelState.AddModelError("", "Ya existe un responsable con estos atributos asociados.");
-            }
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
-            if (ModelState.IsValid)
+                // Obtén las IDs de las obras a las que el usuario autenticado tiene acceso
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.obra_id)
+                    .ToList();
+
+                // Verificar si ya existe un registro con las mismas claves foráneas
+                if (db.RESPONSABLE.Any(r => r.OBRA_obra_id == rESPONSABLE.OBRA_obra_id && r.PERSONA_rut == rESPONSABLE.PERSONA_rut))
+                {
+                    ModelState.AddModelError("PERSONA_rut", "Ya existe un responsable con este rut para la obra seleccionada.");
+                }
+                // Verificar si ya existe un registro con las mismas claves foráneas
+                if (db.RESPONSABLE.Any(r => r.OBRA_obra_id == rESPONSABLE.OBRA_obra_id && r.cargo == rESPONSABLE.cargo))
+                {
+                    ModelState.AddModelError("cargo", "Ya existe un responsable con este cargo para la obra seleccionada.");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    db.RESPONSABLE.Add(rESPONSABLE);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+
+                var obras = db.OBRA.Where(a => obrasAcceso.Contains(a.obra_id)).ToList();
+                ViewBag.OBRA_obra_id = new SelectList(obras, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
+
+                var personasDisponibles = db.PERSONA
+                    .Select(p => new
+                    {
+                        rut = p.rut,
+                        nombreCompleto = p.nombre + " " + p.apeliido_paterno + " " + p.apellido_materno
+                    })
+                    .ToList();
+
+                ViewBag.PERSONA_rut = new SelectList(personasDisponibles, "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
+
+                return View(rESPONSABLE);
+            }
+            else
             {
-                db.RESPONSABLE.Add(rESPONSABLE);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
             }
-
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
-            ViewBag.PERSONA_rut = new SelectList(db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno }), "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
-
-            return View(rESPONSABLE);
         }
 
-        // GET: Responsable/Edit/5
+
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (Session["UsuarioAutenticado"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                // Obtén las IDs de las obras a las que el usuario autenticado tiene acceso
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.obra_id)
+                    .ToList();
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                // Usa Include para cargar la propiedad PERSONA
+                var rESPONSABLE = await db.RESPONSABLE
+                    .Include(r => r.PERSONA) // Asegúrate de incluir la propiedad PERSONA
+                    .FirstOrDefaultAsync(r => r.responsable_id == id);
+
+                if (rESPONSABLE == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // Obtén la lista de personas
+                var personList = db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno });
+                ViewBag.PERSONA_rut = new SelectList(personList, "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
+
+                var obras = db.OBRA.Where(a => obrasAcceso.Contains(a.obra_id)).ToList();
+                ViewBag.OBRA_obra_id = new SelectList(obras, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
+
+                return View(rESPONSABLE);
             }
-            RESPONSABLE rESPONSABLE = await db.RESPONSABLE.FindAsync(id);
-            if (rESPONSABLE == null)
+            else
             {
-                return HttpNotFound();
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
             }
-
-            // Obtén la lista de personas
-            var personList = db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno });
-            // Establece ViewBag.PERSONA_rut con SelectList y el valor seleccionado
-            ViewBag.PERSONA_rut = new SelectList(personList, "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
-
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
-   
-            return View(rESPONSABLE);
         }
 
-        // POST: Responsable/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "responsable_id,cargo,OBRA_obra_id,PERSONA_rut")] RESPONSABLE rESPONSABLE)
         {
-            if (ModelState.IsValid)
+            if (Session["UsuarioAutenticado"] != null)
             {
-                db.Entry(rESPONSABLE).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+                ViewBag.UsuarioAutenticado = usuarioAutenticado;
+
+                // Obtén las IDs de las obras a las que el usuario autenticado tiene acceso
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.obra_id)
+                    .ToList();
+
+                if (ModelState.IsValid)
+                {
+                    // Validación para verificar si el cargo ya está registrado para la obra seleccionada
+                    var existingResponsable = await db.RESPONSABLE
+                        .FirstOrDefaultAsync(r => r.OBRA_obra_id == rESPONSABLE.OBRA_obra_id && r.cargo == rESPONSABLE.cargo && r.responsable_id != rESPONSABLE.responsable_id);
+
+                    if (existingResponsable != null)
+                    {
+                        // Agregar un error de validación al modelo si el cargo ya está registrado
+                        ModelState.AddModelError("cargo", "El cargo ya está registrado para la obra seleccionada.");
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                        db.Entry(rESPONSABLE).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                var obras = db.OBRA.Where(a => obrasAcceso.Contains(a.obra_id)).ToList();
+                ViewBag.OBRA_obra_id = new SelectList(obras, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
+
+                var personList = db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno });
+                ViewBag.PERSONA_rut = new SelectList(personList, "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
+
+                return View(rESPONSABLE);
+
             }
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", rESPONSABLE.OBRA_obra_id);
-            // Obtén la lista de personas
-            var personList = db.PERSONA.Select(p => new { rut = p.rut, nombreCompleto = p.nombre + " " + p.apeliido_paterno });
-            // Establece ViewBag.PERSONA_rut con SelectList y el valor seleccionado
-            ViewBag.PERSONA_rut = new SelectList(personList, "rut", "nombreCompleto", rESPONSABLE.PERSONA_rut);
-            return View(rESPONSABLE);
+            else
+            {
+                // Maneja el caso en el que el usuario no esté autenticado correctamente
+                return RedirectToAction("Login", "Account"); // Redirige a la página de inicio de sesión u otra página adecuada
+            }
         }
+
 
         // GET: Responsable/Delete/5
         public async Task<ActionResult> Delete(int? id)

@@ -24,31 +24,20 @@ else
                 <h3>¿Estás seguro que quieres eliminar todos los Items de Verificación asociados a la Actividad: <b>@Model.nombre_actividad</b>?</h3>
                 <input type="hidden" name="actividadId" value="@Model.actividad_id" />
                 <div>
-
-
-
                     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                     {
                         <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
                     }
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-
-                        <div class="form-actions no-color">
-                            @Html.ActionLink("Volver", "ItemLista", null, new { @class = "btn btn-sm btn-custom-link" }) |
-                            <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
-                        </div>
-                    }
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver", "ItemLista", null, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
                 </div>
             </div>
         </div>
-
     }
-
 }
-
 else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
@@ -58,4 +47,3 @@ else
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
 }
-

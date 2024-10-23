@@ -25,13 +25,18 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
                 var informacionUsuarios = db.USUARIO
-                  .Include(u => u.PERFIL)
-                  .Include(u => u.PERSONA)
-                  .Include(u => u.OBRA)
-                  .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
-                  .ToList();
+                    .Include(u => u.PERFIL)
+                    .Include(u => u.PERSONA)
+                    .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
+                    .ToList();
+
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.OBRA)
+                    .ToList();
 
                 ViewBag.InformacionUsuarios = informacionUsuarios;
+                ViewBag.ObrasAcceso = obrasAcceso;
             }
             else
             {
@@ -40,8 +45,9 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
             return View();
         }
+       
 
-        public ActionResult PerfilOtec()
+        public ActionResult PerfilAutocontrol()
         {
             if (Session["UsuarioAutenticado"] != null)
             {
@@ -50,13 +56,18 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
                 var informacionUsuarios = db.USUARIO
-                  .Include(u => u.PERFIL)
-                  .Include(u => u.PERSONA)
-                  .Include(u => u.OBRA)
-                  .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
-                  .ToList();
+                    .Include(u => u.PERFIL)
+                    .Include(u => u.PERSONA)
+                    .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
+                    .ToList();
+
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.OBRA)
+                    .ToList();
 
                 ViewBag.InformacionUsuarios = informacionUsuarios;
+                ViewBag.ObrasAcceso = obrasAcceso;
             }
             else
             {
@@ -65,8 +76,9 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
             return View();
         }
+      
 
-        public ActionResult PerfilIto()
+        public ActionResult PerfilSupervisor()
         {
             if (Session["UsuarioAutenticado"] != null)
             {
@@ -75,13 +87,18 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
                 var informacionUsuarios = db.USUARIO
-                  .Include(u => u.PERFIL)
-                  .Include(u => u.PERSONA)
-                  .Include(u => u.OBRA)
-                  .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
-                  .ToList();
+                    .Include(u => u.PERFIL)
+                    .Include(u => u.PERSONA)
+                    .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
+                    .ToList();
+
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.OBRA)
+                    .ToList();
 
                 ViewBag.InformacionUsuarios = informacionUsuarios;
+                ViewBag.ObrasAcceso = obrasAcceso;
             }
             else
             {
@@ -100,13 +117,18 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 ViewBag.UsuarioAutenticado = usuarioAutenticado;
 
                 var informacionUsuarios = db.USUARIO
-                  .Include(u => u.PERFIL)
-                  .Include(u => u.PERSONA)
-                  .Include(u => u.OBRA)
-                  .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
-                  .ToList();
+                    .Include(u => u.PERFIL)
+                    .Include(u => u.PERSONA)
+                    .Where(u => u.PERSONA_rut == usuarioAutenticado.PERSONA_rut) // Filtra la información solo para el usuario autenticado
+                    .ToList();
+
+                var obrasAcceso = db.ACCESO_OBRAS
+                    .Where(a => a.usuario_id == usuarioAutenticado.usuario_id)
+                    .Select(a => a.OBRA)
+                    .ToList();
 
                 ViewBag.InformacionUsuarios = informacionUsuarios;
+                ViewBag.ObrasAcceso = obrasAcceso;
             }
             else
             {
@@ -115,6 +137,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
             return View();
         }
+       
 
     }
 }

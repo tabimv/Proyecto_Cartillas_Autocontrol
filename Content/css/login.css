@@ -7,7 +7,7 @@ body {
 
 /* Estilo del logotipo */
 .logo {
-    margin: 0 0 0 -5%; /* Ajuste del margen solo a la izquierda */
+    margin: 0 0 0 -1%; /* Ajuste del margen solo a la izquierda */
     display: block;
 }
 
@@ -53,13 +53,25 @@ body {
 .login-title {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
-    font-size: 45px;
+    font-size: 42px;
     line-height: 77px;
     letter-spacing: -1.1%;
     color: white;
     text-align: center;
     margin-bottom: 7%;
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); /* Efecto de sombra en 3D */
+}
+
+
+/* Estilos para el título del formulario de inicio de sesión */
+.login-title-uno {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 35px;
+    color: white;
+    text-align: center;
+    text-shadow: 3px 1px 0px rgba(84, 84, 84, 0.5);
+    margin-bottom: -2%;
+    white-space: nowrap; /* Evitar el salto de línea */
 }
 
 /* Estilos para los botones */
@@ -187,6 +199,10 @@ body::-webkit-scrollbar-track {
         margin-top: 20px; /* Añade un margen superior para separarlo del contenido */
     }
 
+    .login-title {
+        font-size: 30px;
+    }
+
     /* Ajusta el estilo del contenedor del login */
     .login-container {
         width: 80%;
@@ -202,7 +218,32 @@ body::-webkit-scrollbar-track {
         border-radius: 10px; /* Añade bordes redondeados al contenedor */
     }
 
+    /* Estilos para el título del formulario de inicio de sesión */
+    .login-title-uno {
+        font-size: 23px;
+        margin-bottom: -8%;
+        white-space: nowrap; /* Evitar el salto de línea */
+    }
+
     .custom-title {
-        font-size: 35px;
+        display: none;
+    }
+
+    .custom-subtitle {
+        display: none;
+    }
+
+    .custom-hr {
+        display: none;
+    }
+
+    .logo {
+        margin: 0 0 0 12% !important; /* Ajuste del margen solo a la izquierda */
+        display: block;
+    }
+
+    .img-fluid {
+        max-width: 80% !important;
+        height: auto;
     }
 }

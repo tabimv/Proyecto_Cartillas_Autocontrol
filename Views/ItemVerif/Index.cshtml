@@ -41,7 +41,7 @@ else
                         <tr>
                             <th></th>
                             <th> Actividad Asociada </th>
-                            <th style="white-space: nowrap;" >Lista de Items de Verificación</th>
+                            <th style="white-space: nowrap;">Lista de Items de Verificación</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,6 +128,12 @@ else
                 }
             });
         });
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
     </script>
 
 }

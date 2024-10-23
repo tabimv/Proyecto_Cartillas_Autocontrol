@@ -1,0 +1,50 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.INMUEBLE
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>INMUEBLE</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.tipo_inmueble)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.tipo_inmueble)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.codigo_inmueble)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.codigo_inmueble)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.LOTE_INMUEBLE.tipo_bloque)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LOTE_INMUEBLE.tipo_bloque)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.inmueble_id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

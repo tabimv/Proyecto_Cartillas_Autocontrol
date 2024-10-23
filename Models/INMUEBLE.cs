@@ -21,12 +21,13 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         }
     
         public int inmueble_id { get; set; }
-        public string codigo_inmueble { get; set; }
         public string tipo_inmueble { get; set; }
-        public int OBRA_obra_id { get; set; }
+        public string codigo_inmueble { get; set; }
+        public int LOTE_INMUEBLE_lote_id { get; set; }
+        public string codigo_interno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_CARTILLA> DETALLE_CARTILLA { get; set; }
-        public virtual OBRA OBRA { get; set; }
+        public virtual LOTE_INMUEBLE LOTE_INMUEBLE { get; set; }
     }
 }

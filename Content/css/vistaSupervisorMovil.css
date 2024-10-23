@@ -1,0 +1,305 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.container-formularios {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 80vh;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 100%;
+    max-width: 110%;
+    height: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        background-color: #585858;
+        color: #ffffff;
+        padding: 10px;
+    }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        white-space: nowrap; /* Evita el salto de línea */
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        height: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 15px; /* Ajusta el tamaño de la fuente */
+    }
+
+    .form-group .text-danger {
+        color: red;
+    }
+
+    .form-group .btn-primary {
+        width: 100%;
+    }
+
+    .form-group .btn-secundary {
+        width: 100%;
+    }
+
+.btn-primary-custom {
+    width: 100%;
+    background-color: #585858;
+    border-color: #585858;
+    color: #ffffff;
+    text-align: center;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+    .btn-primary-custom:active {
+        background-color: #585858;
+        border-color: #585858;
+    }
+
+    .btn-primary-custom:hover {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+
+th {
+    font-size: 13px; /* Tamaño de fuente deseado */
+    white-space: nowrap; /* Evitar saltos de línea */
+    padding-right: 10px; /* Espacio a la derecha */
+}
+
+.btn-custom {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+    .btn-custom:hover {
+        background-color: #585858; /* Color de fondo */
+        color: #fff; /* Color de texto */
+        cursor: pointer;
+        text-decoration: none; /* Elimina el subrayado de enlace */
+        text-align: center; /* Alineación del texto al centro */
+    }
+
+#nextButton {
+    background-color: #6c757d; /* Color de fondo */
+    border-color: #6c757d; /* Color del borde */
+    color: #fff; /* Color del texto */
+    margin-bottom: 10px;
+}
+
+    #nextButton:hover {
+        background-color: #585858; /* Cambio de color de fondo al pasar el mouse */
+        border-color: #6c757d; /* Cambio de color del borde al pasar el mouse */
+    }
+/* Añade una clase para el contenedor de la tabla */
+.tabla-container {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    flex: 1; /* Esto hará que la tabla se expanda verticalmente */
+}
+
+#tabla-actividades {
+    width: 100%;
+    max-width: 100%;
+}
+
+.smaller-button {
+    font-size: smaller;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.scroll-down-button {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.scroll-down-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Estilo personalizado para el checkbox */
+.custom-checkbox input[type="checkbox"] {
+    width: 30px; /* Ajusta el tamaño del checkbox */
+    height: 30px;
+    -webkit-appearance: none; /* Elimina el estilo predeterminado del navegador */
+    -moz-appearance: none;
+    appearance: none;
+    border: 2px solid #6c757d; /* Color del borde */
+    border-radius: 4px; /* Bordes redondeados */
+    outline: none; /* Elimina el contorno al hacer clic */
+    cursor: pointer;
+    position: relative;
+}
+
+    .custom-checkbox input[type="checkbox"]:checked {
+        background-color: #007bff; /* Color de fondo cuando está seleccionado */
+    }
+
+.checkbox-container {
+    position: relative;
+    top: -5px; /* Ajusta la posición vertical */
+}
+
+
+.custom-checkbox input[type="checkbox"]:checked::before {
+    content: "\2714"; /* Símbolo de check */
+    font-size: 30px;
+    color: #fff; /* Color del check */
+    position: absolute;
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%);
+}
+
+.form-container strong {
+    font-size: 13px !important; /* Reducir el tamaño del encabezado */
+}
+
+.radio-container {
+    display: block !important;
+    margin-bottom: 5px !important; /* Espaciado opcional entre los botones de radio */
+}
+
+.radio-container {
+    font-size: 10px !important; /* Ajusta el tamaño según tus necesidades */
+}
+
+    .radio-container input[type="radio"] {
+        margin-right: 5px !important; /* Ajusta el espacio entre el botón de radio y el texto */
+    }
+
+
+.form-group-rev input,
+.form-group-rev select,
+.form-group-rev textarea {
+    padding: 5px; /* Reducir padding */
+    width: 5% !important;
+    top: 50%;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+.scroll-down-link i {
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        margin-left: 50px;
+    }
+
+    .btn-custom {
+        padding: 10px 210px; /* Espaciado vertical y horizontal */
+    }
+
+    .scroll-down-link {
+        font-size: 16px;
+    }
+
+    tr {
+        border-bottom: 1px solid black; /* Línea de separación negra */
+    }
+
+    .form-group-rev input,
+    .form-group-rev select,
+    .form-group-rev textarea {
+        font-size: 12px; /* Achicar más los elementos */
+        padding: 5px; /* Reducir padding */
+        width: 10% !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 12px; /* Achicar más los elementos */
+        padding: 5px; /* Reducir padding */
+        width: 80%;
+    }
+
+    .btn-primary-custom, .btn-custom {
+        padding: 8px 0;
+        font-size: 12px; /* Achicar más los botones */
+    }
+
+    th, td {
+        font-size: 10px; /* Achicar el texto de la tabla */
+        padding: 4px; /* Reducir el padding de las celdas */
+    }
+
+    .form-container h2 {
+        font-size: 18px; /* Reducir el tamaño del encabezado */
+    }
+
+    .form-container p {
+        font-size: 12px; /* Reducir el tamaño del encabezado */
+    }
+
+    .form-container strong {
+        font-size: 10px; /* Reducir el tamaño del encabezado */
+    }
+
+    .custom-menu-bg {
+        width: 120%; /* Ajusta el ancho del menú */
+    }
+
+    .container-formularios {
+        width: 100%;
+        padding: 0px;
+        height: 80vh;
+        margin-top: 5%;
+        margin-bottom: 5%;
+        max-width: 110%;
+        height: 100%;
+        margin-left: 5%;
+    }
+
+    .logo {
+        max-width: 75% !important;
+        max-height: 200px !important;
+        margin-left: 26% !important;
+    }
+}

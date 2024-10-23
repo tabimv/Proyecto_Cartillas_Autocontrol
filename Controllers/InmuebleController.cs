@@ -21,13 +21,13 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         // GET: Inmueble
         public async Task<ActionResult> Index()
         {
-            var iNMUEBLE = db.INMUEBLE.Include(i => i.OBRA);
+            var iNMUEBLE = db.INMUEBLE.Include(i => i.LOTE_INMUEBLE);
             return View(await iNMUEBLE.ToListAsync());
         }
 
         public ActionResult ExportToExcel()
         {
-            var inmuebles = db.INMUEBLE.Include(o => o.OBRA).ToList();
+            var inmuebles = db.INMUEBLE.Include(o => o.LOTE_INMUEBLE).ToList();
 
             using (var workbook = new XLWorkbook())
             {
@@ -42,7 +42,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 {
                     worksheet.Cell(row, 1).Value = inmueble.codigo_inmueble;
                     worksheet.Cell(row, 2).Value = inmueble.tipo_inmueble;
-                    worksheet.Cell(row, 3).Value = inmueble.OBRA.nombre_obra;
+                    worksheet.Cell(row, 3).Value = inmueble.LOTE_INMUEBLE.OBRA.nombre_obra;
                     row++;
                 }
 
@@ -60,7 +60,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             var inmuebleGroupedByObra = await db.INMUEBLE
                 .OrderBy(e => e.inmueble_id)
-                .GroupBy(e => e.OBRA_obra_id)
+                .GroupBy(e => e.LOTE_INMUEBLE.lote_id)
                 .Select(g => g.FirstOrDefault())
                 .ToListAsync();
 
@@ -69,7 +69,30 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         }
 
 
-        public async Task<ActionResult> InmuebleDetails(int obraId)
+        public async Task<ActionResult> InmuebleDetails(int loteId)
+        {
+            var loteSeleccionado = await db.LOTE_INMUEBLE.FindAsync(loteId);
+            if (loteSeleccionado == null)
+            {
+                return HttpNotFound(); // O maneja la situación de evento no encontrado de la forma que prefieras
+            }
+
+            var items = await db.INMUEBLE
+                .Include(a => a.LOTE_INMUEBLE)
+                .Where(a => a.LOTE_INMUEBLE.lote_id == loteId)
+                .ToListAsync();
+
+            items = items.OrderBy(a => int.Parse(Regex.Match(a.codigo_inmueble, @"\d+").Value)).ToList();
+
+
+            ViewBag.LoteSeleccionado = loteSeleccionado;
+
+            return View(items);
+
+            
+        }
+
+        public async Task<ActionResult> InmuebleDetailss(int obraId)
         {
             var obraSeleccionado = await db.OBRA.FindAsync(obraId);
             if (obraSeleccionado == null)
@@ -78,7 +101,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             var items = await db.INMUEBLE
-                .Where(a => a.OBRA_obra_id == obraId)
+                .Where(a => a.LOTE_INMUEBLE.OBRA_obra_id == obraId)
                 .ToListAsync();
 
             items = items.OrderBy(a => int.Parse(Regex.Match(a.codigo_inmueble, @"\d+").Value)).ToList();
@@ -88,7 +111,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             return View(items);
 
-            
+
         }
 
         private int TryParseInt(string input)
@@ -133,7 +156,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                         {
                             codigo_inmueble = form[$"Inmueble[{i}].Codigo_inmueble"],
                             tipo_inmueble = form[$"Inmueble[{i}].tipo_inmueble"],
-                            OBRA_obra_id = obraId
+                            LOTE_INMUEBLE_lote_id = obraId
                         };
 
                         db.INMUEBLE.Add(nuevoItem);
@@ -177,7 +200,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
         {
             // Encuentra y elimina todos los registros de ITEM_VERIF asociados a la actividadId
             var inmueblesAEliminar = await db.INMUEBLE
-                .Where(e => e.OBRA_obra_id == obraId)
+                .Where(e => e.LOTE_INMUEBLE_lote_id == obraId)
                 .ToListAsync();
 
             if (inmueblesAEliminar == null || !inmueblesAEliminar.Any())
@@ -201,7 +224,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             }
 
             // Obtener todos los registros asociados a la actividad
-            var registros = await db.INMUEBLE.Where(item => item.OBRA_obra_id == obraId).ToListAsync();
+            var registros = await db.INMUEBLE.Where(item => item.LOTE_INMUEBLE_lote_id == obraId).ToListAsync();
 
             registros = registros.OrderBy(a => int.Parse(Regex.Match(a.codigo_inmueble, @"\d+").Value)).ToList();
 
@@ -239,7 +262,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
 
             // Si hay errores de validación, es posible que necesites volver a cargar la lista desde la base de datos y volver a mostrar la vista
             // Esto es para asegurarse de que los cambios no confirmados no se pierdan
-            ViewBag.Obra_obra_id = registros.FirstOrDefault()?.OBRA_obra_id;
+            ViewBag.Obra_obra_id = registros.FirstOrDefault()?.LOTE_INMUEBLE;
             return View("EditarPorObra", registros);
         }
 
@@ -280,7 +303,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.OBRA_obra_id);
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.LOTE_INMUEBLE.OBRA_obra_id);
             return View(iNMUEBLE);
         }
 
@@ -296,7 +319,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.OBRA_obra_id);
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.LOTE_INMUEBLE.OBRA_obra_id);
             return View(iNMUEBLE);
         }
 
@@ -313,7 +336,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("InmuebleLista");
             }
-            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.OBRA_obra_id);
+            ViewBag.OBRA_obra_id = new SelectList(db.OBRA, "obra_id", "nombre_obra", iNMUEBLE.LOTE_INMUEBLE.OBRA_obra_id);
             return View(iNMUEBLE);
         }
 

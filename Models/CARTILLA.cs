@@ -12,12 +12,12 @@ namespace Proyecto_Cartilla_Autocontrol.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
     public partial class CARTILLA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CARTILLA()
         {
+            this.ACCESO_CARTILLA = new HashSet<ACCESO_CARTILLA>();
             this.DETALLE_CARTILLA = new HashSet<DETALLE_CARTILLA>();
         }
     
@@ -26,11 +26,16 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fecha { get; set; }
         public string observaciones { get; set; }
+        public string observaciones_priv { get; set; }
         public string ruta_pdf { get; set; }
         public int OBRA_obra_id { get; set; }
         public int ACTIVIDAD_actividad_id { get; set; }
         public int ESTADO_FINAL_estado_final_id { get; set; }
+        public Nullable<System.DateTime> fecha_modificacion { get; set; }
+        public bool enviar_correo { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ACCESO_CARTILLA> ACCESO_CARTILLA { get; set; }
         public virtual ACTIVIDAD ACTIVIDAD { get; set; }
         public virtual ESTADO_FINAL ESTADO_FINAL { get; set; }
         public virtual OBRA OBRA { get; set; }

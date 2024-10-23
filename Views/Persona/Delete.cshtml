@@ -52,7 +52,7 @@ else
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.correo)  
+                        @Html.DisplayFor(model => model.correo)
                     </dd>
 
 
@@ -76,7 +76,12 @@ else
             </div>
         </div>
     </div>
-
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

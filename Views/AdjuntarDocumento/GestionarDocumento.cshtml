@@ -17,8 +17,10 @@ else
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
 {
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
+    <link rel="stylesheet" href="~/Content/css/basurerito.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 
     <div class="container-xl">
@@ -69,29 +71,54 @@ else
 
                                         <td>
                                             <form action="@Url.Action("AdjuntarDocumento", "AdjuntarDocumento")" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
-
-                                                <label for="file" style="cursor: pointer; margin-bottom: 10px; padding: 8px 10px; background-color: #F07124; border: 2px solid #ccc; color: #ffffff; font-size: 14px; border-radius: 5px;" onmouseover="this.style.backgroundColor='#6b6b6b';" onmouseout="this.style.backgroundColor='#F07124';">Seleccionar archivo</label>
-                                                <input type="file" name="file" id="file" style="display: none;" onchange="displayFileName(this)" />
+                                                <label for="file" style="cursor: pointer; margin-bottom: 10px; padding: 8px 10px; background-color: #F07124; border: 2px solid #ccc; color: #ffffff; font-size: 14px; border-radius: 5px;" onmouseover="this.style.backgroundColor='#6b6b6b';" onmouseout="this.style.backgroundColor='#F07124';">Seleccionar archivos</label>
+                                                <input type="file" name="files" id="file" style="display: none;" multiple onchange="displayFileName(this)" />
                                                 <span id="file-selected" style="margin-bottom: 10px;">Ningún archivo seleccionado</span>
                                                 <input type="hidden" name="cartillaId" value="@item.CARTILLA.cartilla_id" />
-                                                <input type="submit" value="Adjuntar Archivo" style="margin-top: 10px; padding: 8px 10px; background-color: #808080; border: 2px solid #ccc; color: #ffffff; font-size: 14px; border-radius: 5px;" onmouseover="this.style.backgroundColor='#6b6b6b';" onmouseout="this.style.backgroundColor='#808080';" />
+                                                <input type="submit" value="Adjuntar Archivos" style="margin-top: 10px; padding: 8px 10px; background-color: #808080; border: 2px solid #ccc; color: #ffffff; font-size: 14px; border-radius: 5px;" onmouseover="this.style.backgroundColor='#6b6b6b';" onmouseout="this.style.backgroundColor='#808080';" />
                                             </form>
                                         </td>
 
 
-                                        <!-- Dentro del foreach o la sección donde se muestra la lista de cartillas y documentos -->
                                         <td>
-                                            @if (!string.IsNullOrEmpty(item.CARTILLA.ruta_pdf))
+                                            @if (ViewBag.HayArchivos == true)
                                             {
-                                                <a href="@Url.Content(item.CARTILLA.ruta_pdf)" download>
-                                                    <i style="margin-left: 50px;" title="Descargar Cartilla" class="fas fa-download"></i>
-                                                </a>
+                                                <div class="dropdown">
+                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" style="background-color:#F07124; color:white;" aria-expanded="false">
+                                                        Descargar Documentos
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        @foreach (var filePath in ViewBag.Documentos)
+                                                        {
+                                                            var fileName = Path.GetFileName(filePath);
+                                                            <li class="menu-basurero">
+                                                                <a class="dropdown-item" href="@Url.Content("~/Content/documento/" + cartillaSeleccionada.cartilla_id + "/" + fileName)" download>
+                                                                    @fileName
+                                                                </a>
+                                                                <button class="btn btn-danger btn-sm" onclick="eliminarArchivo('@fileName', '@cartillaSeleccionada.cartilla_id')" title="Eliminar archivo">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </li>
+
+
+                                                        }
+                                                    </ul>
+                                                </div>
                                             }
                                             else
                                             {
-                                                <span>No hay documento adjunto</span>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        No hay documentos Disponibles
+                                                    </button>
+                                                </div>
                                             }
                                         </td>
+
+
+
+
+
 
 
                                     </tr>
@@ -113,10 +140,11 @@ else
 
     <script>
         function displayFileName(input) {
-            var fileName = input.value.split('\\').pop();
             var fileSelectedSpan = document.getElementById('file-selected');
-            if (fileName) {
-                fileSelectedSpan.textContent = fileName;
+            var files = input.files;
+            if (files.length > 0) {
+                var fileNames = Array.from(files).map(f => f.name).join(', ');
+                fileSelectedSpan.textContent = fileNames;
             } else {
                 fileSelectedSpan.textContent = 'Ningún archivo seleccionado';
             }
@@ -203,6 +231,38 @@ else
                 ]
             });
         });
+    </script>
+    <script>
+    function eliminarArchivo(fileName, cartillaId) {
+        if (confirm("¿Estás seguro de que deseas eliminar este archivo?")) {
+            $.ajax({
+                url: '@Url.Action("EliminarDocumento", "AdjuntarDocumento")', // Controlador y acción que manejará la eliminación
+                type: 'POST',
+                data: {
+                    fileName: fileName,
+                    cartillaId: cartillaId
+                },
+                success: function (result) {
+                    if (result.success) {
+                        alert('El archivo ha sido eliminado correctamente.');
+                        location.reload(); // Recargar la página para actualizar la lista de archivos
+                    } else {
+                        alert('Error al eliminar el archivo.');
+                    }
+                },
+                error: function () {
+                    alert('Error en la petición.');
+                }
+            });
+        }
+    }
+    </script>
+
+    <script>
+// Script para manejar la expiración de la sesión
+setTimeout(function () {
+    window.location.href = '@Url.Action("Login", "Account")';
+}, 43200000); // 12 horas en milisegundos
     </script>
 }
 

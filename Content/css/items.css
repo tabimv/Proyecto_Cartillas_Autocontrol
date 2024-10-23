@@ -14,6 +14,7 @@ th {
     background-color: #f2f2f2;
 }
 
+
 .registro input[type="text"] {
     width: calc(100% - 20px); /* Ajustar el ancho del input */
     margin-bottom: 5px;

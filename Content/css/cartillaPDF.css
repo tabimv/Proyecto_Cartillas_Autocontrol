@@ -6,31 +6,31 @@
 }
 
 .encabezado-imagen {
-    max-height: 100px;
+    max-height: 200px;
     margin-bottom: 20px;
 }
 
 .encabezado-titulo {
     position: absolute;
-    font-size: 15px;
+    font-size: 25px;
     font-weight: bold;
     color: black;
-    right: 10%;
+    right: 5%;
     top: 30px;
 }
 
 .encabezado p {
-    font-size: 10px;
+    font-size: 20px;
 }
 
 section p {
     line-height: 0.5;
-    font-size: 15px;
+    font-size: 25px;
 }
 
     section p strong {
         font-weight: bold;
-        font-size: 15px;
+        font-size: 25px;
     }
 
 .elemento {
@@ -40,7 +40,7 @@ section p {
 }
 
 .texto-elemento {
-    font-size: 18px;
+    font-size: 28px;
 }
 
 /* Espacio para observaciones */
@@ -55,14 +55,15 @@ section p {
 
 .rectangulo {
     top: 70px;
-    width: 550px;
-    height: 155px;
+    width: 1400px;
+    height: 220px;
     border: 2px solid black;
     padding: 10px;
     position: absolute;
     font-family: Arial, sans-serif;
-    right: 10%; /* Ajusta la distancia desde la derecha según tus necesidades */
+    right: 5%; /* Ajusta la distancia desde la derecha según tus necesidades */
     line-height: 1.5;
+    font-size: 25px;
 }
 
 /* Estilos para la línea vertical */
@@ -85,16 +86,18 @@ section p {
 
 .lista-table {
     border-collapse: collapse;
-    width: 80%;
+    width: 85%;
     margin: 10%;
-    font-size: 12pt;
+    font-size: 20pt;
 }
 
 table.lista-table {
     margin: 0 auto; /* Esto centrará la tabla horizontalmente */
-    width: 80%; /* Ajusta el ancho de la tabla según tus necesidades */
-    margin-top: 5%;
+    width: 95%; /* Ajusta el ancho de la tabla según tus necesidades */
+    margin-top: 2%;
     margin-bottom: 8%;
+    margin-right: 4%;
+   
 }
 
 table {
@@ -106,11 +109,12 @@ th, td {
     border: 2px solid black;
     padding: 8px;
     text-align: left;
-    font-size: 10px;
+    font-size: 20px;
 }
 
+
 .material-icons {
-    font-size: 15px;
+    font-size: 20px;
 }
 
 tr:nth-child(even) {
@@ -121,22 +125,37 @@ tr:nth-child(even) {
 /* Estilos para el contenedor de observaciones */
 .observaciones {
     text-align: center;
+    margin-right: 10%;
 }
 
+    .observaciones label {
+        font-size: 30px;
+        height: auto;
+        width: 100%;
+        white-space: normal; /* Permite que el texto se ajuste al ancho del contenedor */
+        word-wrap: break-word; /* Ajusta las palabras largas */
+        word-break: break-all; /* Ajusta las palabras largas en cualquier punto */
+        overflow: hidden; /* Esconde cualquier desbordamiento */
+        text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+    }
+
+/* Estilos para el cuadro de observaciones */
 /* Estilos para el cuadro de observaciones */
 .cuadro-observaciones {
-    max-width: 600px; /* Establece el ancho máximo que desees */
-    margin: 10% auto; /* Centra el cuadro en la página */
-    border: 2px solid black; /* Borde del cuadro */
+    max-width: 1000px;
+    margin: 5% auto;
+    border: 2px solid black;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    margin-top: -5%;
+    margin-top: -7%;
+    overflow: auto; /* Permite el desplazamiento si el contenido es muy grande */
+    max-height: 300px; /* Ajusta la altura máxima según sea necesario */
 }
 
 /* Estilos para el label de observaciones */
 label {
-    font-size: 18px;
+    font-size: 20px;
     height: 20px; /* Altura fija */
     width: 100%; /* Ancho fijo */
     white-space: nowrap;
@@ -146,7 +165,7 @@ label {
 textarea {
     width: 100%;
     height: auto; /* Altura automática */
-    font-size: 16px;
+    font-size: 20px;
 }
 
 
@@ -175,6 +194,10 @@ textarea {
     text-align: center;
     margin: 0 10px; /* Ajusta el margen entre firmas según sea necesario */
 }
+    .firma p {
+        font-size: 30px; /* Ajusta el tamaño de fuente según tus necesidades */
+        margin-bottom: -3px;
+    }
 
 .linea {
     border-top: 1px solid black;
@@ -198,6 +221,16 @@ textarea {
         width: 75%; /* Ancho de la línea */
         margin: 10px auto; /* Centra la línea horizontalmente */
     }
+
+/* New CSS for actividad-nombre */
+.actividad-nombre {
+    display: inline-block; /* Ensures inline behavior and respects max-width */
+    max-width: 62%; /* Adjust the width as needed to prevent overlapping the vertical line */
+    word-wrap: break-word; /* Allows the text to break and wrap within the specified width */
+    vertical-align: top; /* Aligns text to the top */
+    font-size: 25px; /* Adjust font size to match the document's style */
+    line-height: 1.5; /* Line height for better readability */
+}
 
 
 

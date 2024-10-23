@@ -25,13 +25,15 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public int actividad_id { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese un código")]
-        [MaxLength(15, ErrorMessage = "El código de la actividad no puede tener más de 15 caracteres")]
+        [MaxLength(20, ErrorMessage = "El código de la actividad no puede tener más de 20 caracteres")]
         public string codigo_actividad { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese un nombre")]
         public string nombre_actividad { get; set; }
         public string estado { get; set; }
+        public string tipo_actividad { get; set; }
         public int OBRA_obra_id { get; set; }
+        public string notas { get; set; }
     
         public virtual OBRA OBRA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

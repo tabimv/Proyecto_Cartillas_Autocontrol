@@ -12,14 +12,10 @@ else
 {
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
-
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
 {
-
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-
-
     <div class="container-xl">
         <div class="table-responsive">
             <div class="table-wrapper">
@@ -46,10 +42,13 @@ else
                 <table id="cartillaTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th></th>
                             <th> Nombre Obra </th>
                             <th> Dirección </th>
                             <th> Nombre Comuna </th>
+                            <th> Entidad Patrocinante </th>
+                            <th> Tipo de Proyecto </th>
+                            <th> Total de departamentos </th>
+                            <th> Total de viviendas </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -57,24 +56,49 @@ else
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td></td>
                                 <td> @Html.DisplayFor(modelItem => item.nombre_obra)</td>
                                 <td> @Html.DisplayFor(modelItem => item.direccion) </td>
                                 <td> @Html.DisplayFor(modelItem => item.COMUNA.nombre_comuna) </td>
-                                <td>
+                                <td> @Html.DisplayFor(modelItem => item.entidad_patrocinante) </td>
+                                <td> @Html.DisplayFor(modelItem => item.tipo_proyecto) </td>
+                                <td> @((int)(item.total_deptos ?? 0)) </td>
+                                <td> @((int)(item.total_viv ?? 0)) </td>
+                                <td style="white-space: nowrap;">
                                     <!-- Enlace "Edit" dentro de un botón -->
-
-
                                     <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.obra_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Editar Obra">&#xE254;</i>
                                         <span style="display: none;">Edit</span>
                                     </a>
 
+                                    @if (item.CARTILLA.Any())
+                                    {
+                                        <a href="@Url.Action("ReporteExcel", new { obraId = item.obra_id })" class="btn btn-primary" style="background-color: transparent; border: none; outline: none; box-shadow: none;">
+                                            <i class="material-icons" data-toggle="tooltip" title="Generar Reporte" style="color: gray; margin-bottom: 10px;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='gray'">insert_drive_file</i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="btn btn-primary" style="background-color: transparent; border: none; outline: none; box-shadow: none;">
+                                            <i class="material-icons" data-toggle="tooltip" title="La Obra no tiene Cartillas de Autocontrol para generar reportes." style="color: gray; margin-bottom: 10px;">insert_drive_file</i>
+                                        </a>
+                                    }
+
+                                    @if (item.CARTILLA.Any())
+                                    {
+                                        <a href="@Url.Action("ReporteSupervisor", new { obraId = item.obra_id })" class="btn btn-primary" style="background-color: transparent; border: none; outline: none; box-shadow: none;">
+                                            <i class="material-icons" data-toggle="tooltip" title="Generar Reporte Supervisor" style="color: gray; margin-bottom: 10px;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='gray'">description</i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="btn btn-primary" style="background-color: transparent; border: none; outline: none; box-shadow: none;">
+                                            <i class="material-icons" data-toggle="tooltip" title="La Obra no tiene Cartillas de Autocontrol para generar reportes de Supervisor." style="color: gray; margin-bottom: 10px;">description</i>
+                                        </a>
+                                    }
 
                                     <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.obra_id })">
                                         <i class="material-icons" data-toggle="tooltip" title="Eliminar Obra">&#xE872;</i>
                                     </a>
-
                                 </td>
                             </tr>
                         }
@@ -83,11 +107,8 @@ else
             </div>
         </div>
     </div>
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-
     <script>
         $(document).ready(function () {
             $(".edit").click(function (e) {
@@ -100,7 +121,6 @@ else
             });
         });
     </script>
-
     <script>
         $(document).ready(function () {
             $(".delete").click(function (e) {
@@ -143,9 +163,13 @@ else
             });
         });
     </script>
-
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
-
 else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">

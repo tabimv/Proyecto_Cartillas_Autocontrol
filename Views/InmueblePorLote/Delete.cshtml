@@ -1,0 +1,91 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.INMUEBLE
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
+
+    <div class="container-delete">
+        <div class="form-container-delete">
+            <h2> Eliminar Inmueble </h2>
+            <h3>¿Estás seguro que quieres eliminar este Inmueble?</h3>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Código Inmueble:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.codigo_inmueble)
+                    </dd>
+
+                    <dt>
+                        Tipo de Inmueble:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.tipo_inmueble)
+                    </dd>
+
+                    <dt>
+                        Lote Asociado:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.LOTE_INMUEBLE.abreviatura)
+                    </dd>
+
+                </dl>
+
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver a la Lista", "InmuebleDetails", "Inmueble", new { loteId = Model.LOTE_INMUEBLE.lote_id }, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
+
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

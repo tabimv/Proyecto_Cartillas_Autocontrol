@@ -1,0 +1,74 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>LOTE_INMUEBLE</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.tipo_bloque)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.tipo_bloque)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.numero_letra_bloque_1)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.numero_letra_bloque_1)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.abreviatura)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.abreviatura)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.cantidad_pisos)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.cantidad_pisos)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.cantidad_inmuebles)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.cantidad_inmuebles)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OBRA.nombre_obra)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OBRA.nombre_obra)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.lote_id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

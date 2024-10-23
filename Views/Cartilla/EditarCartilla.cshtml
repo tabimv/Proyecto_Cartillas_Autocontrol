@@ -56,9 +56,20 @@ else
 
                     <div class="form-group">
                         <p> <strong> Fecha de Creación:  </strong>  @Html.DisplayFor(model => model.Cartilla.fecha)</p>
-                        <p> <strong> Actividad:  </strong> @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.codigo_actividad) - @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
                         <p> <strong> Obra:  </strong>  @Html.DisplayFor(model => model.Cartilla.OBRA.nombre_obra)</p>
+                        <p> <strong> Actividad:  </strong> @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.codigo_actividad) - @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
+
                         <p style="width: 100%;"> <strong> Estado Final:  </strong>  @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado Final", new { @class = "form-control", @id = "estadoFinalDropdown" }) </p>
+
+                        <div>
+                            <label for="Observaciones"><strong>Observaciones Públicas</strong></label>
+                            @Html.TextAreaFor(model => model.Cartilla.observaciones, new { rows = 3, cols = 73, @class = "form-control" })
+                        </div>
+
+                        <div>
+                            <label for="Observaciones"><strong>Observaciones Privadas</strong></label>
+                            @Html.TextAreaFor(model => model.Cartilla.observaciones_priv, new { rows = 3, cols = 73, @class = "form-control" })
+                        </div>
                     </div>
 
 
@@ -107,9 +118,9 @@ else
                                         @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, false, new { @class = "approval-checkbox" }) No
                                     </td>
                                     <td class="column-otec editable">
-                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_otec, true, new { @class = "approval-checkbox" }) Sí
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_autocontrol, true, new { @class = "approval-checkbox" }) Sí
                                         <br />
-                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_otec, false, new { @class = "approval-checkbox" }) No
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_autocontrol, false, new { @class = "approval-checkbox" }) No
                                     </td>
                                     <td class="column-ito editable">
                                         @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_ito, true, new { @class = "approval-checkbox" }) Sí
@@ -133,7 +144,7 @@ else
                     </div>
 
                     <div>
-                        <a href="@Url.Action("Index")" class="btn-custom" style="padding: 10px 230px">Volver a la lista</a>
+                        <a  style="width: 100%;" href="@Url.Action("Index")" class="btn-custom" style="padding: 10px 230px">Volver a la lista</a>
                     </div>
                 </form>
             </div>

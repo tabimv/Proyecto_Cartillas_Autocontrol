@@ -33,6 +33,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public string apeliido_paterno { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese apellido materno")]
+
         public string apellido_materno { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese un correo eléctronico")]

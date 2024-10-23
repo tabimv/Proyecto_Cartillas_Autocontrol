@@ -24,6 +24,15 @@ else
             <div>
                 <hr />
                 <dl class="dl-horizontal">
+
+                    <dt>
+                        Actividad Asociada:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad) - @Html.DisplayFor(model => model.ACTIVIDAD.nombre_actividad)
+                    </dd>
+
                     <dt>
                         Label:
                     </dt>
@@ -40,13 +49,7 @@ else
                         @Html.DisplayFor(model => model.elemento_verificacion)
                     </dd>
 
-                    <dt>
-                        Actividad Asociada:
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.ACTIVIDAD.codigo_actividad) - @Html.DisplayFor(model => model.ACTIVIDAD.nombre_actividad)
-                    </dd>
 
                 </dl>
 

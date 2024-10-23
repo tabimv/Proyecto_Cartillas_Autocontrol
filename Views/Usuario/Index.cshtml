@@ -17,7 +17,10 @@ else
 {
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
+    <link rel="stylesheet" href="~/Content/css/boton.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+
 
     <div class="container-xl">
         <div class="table-responsive">
@@ -41,9 +44,9 @@ else
                             <th></th>
                             <th> Persona Asociada </th>
                             <th> Correo </th>
-                       
                             <th> Tipo Perfil </th>
-                            <th> Obra Asociada</th>
+                            <th> Estado Usuario </th>
+
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -54,23 +57,37 @@ else
                                 <td></td>
                                 <td>  @Html.DisplayFor(modelItem => item.PERSONA.nombre)  @Html.DisplayFor(modelItem => item.PERSONA.apeliido_paterno)  @Html.DisplayFor(modelItem => item.PERSONA.apellido_materno)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.PERSONA.correo) </td>
-                 
+
                                 <td>
-                                    @if (item.PERFIL.rol == "OTEC")
-                                    {
-                                        <text>Autocontrol</text>
-                                    }
-                                    else if (item.PERFIL.rol == "ITO")
-                                    {
-                                        <text>F.T.O</text>
-                                    }
-                                    else
-                                    {
-                                        @Html.DisplayFor(modelItem => item.PERFIL.rol)
-                                    }
+                                    @Html.DisplayFor(modelItem => item.PERFIL.rol)
+
                                 </td>
 
-                                <td>  @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                                @if (item.PERFIL.perfil_id == 1)
+                                {
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" class="estado-usuario-toggle" checked disabled title="No puedes bloquear un usuario administrador" />
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>
+
+
+                                }
+                                else
+                                {
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" class="estado-usuario-toggle" data-id="@item.usuario_id"
+                                                   @(item.estado_usuario ? "checked" : "")>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>
+                                }
+
+
+
+
                                 <td>
                                     <!-- Enlace "Edit" dentro de un botón -->
 
@@ -80,11 +97,25 @@ else
                                         <span style="display: none;">Edit</span>
                                     </a>
 
+                                    @if (item.PERFIL.perfil_id == 1 && item.estado_usuario == true)
+                                    {
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
+                                            <i class="material-icons" data-toggle="tooltip" title="No puedes eliminar el perfil de Administrador" style="color: grey;">&#xE872;</i>
+                                        </a>
 
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.usuario_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
-                                    </a>
-
+                                    }
+                                    else if (item.estado_usuario == true)
+                                    {
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
+                                            <i class="material-icons" data-toggle="tooltip" title="No puedes eliminar un Usuario de Estado Activo" style="color: grey;">&#xE872;</i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.usuario_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -97,6 +128,7 @@ else
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -153,7 +185,64 @@ else
             });
         });
     </script>
+    <script>
+$(document).ready(function () {
+    // Función que maneja el evento change
+    function handleCheckboxChange() {
+        var $checkbox = $(this);
+        var isChecked = $checkbox.prop('checked');
+        var usuarioId = $checkbox.data('id');
+        var newState = isChecked ? 1 : 0;
+        var confirmMessage = isChecked ? "¿Deseas activar este usuario?" : "¿Deseas desactivar este usuario?";
 
+        // Deshabilitar temporalmente el manejador de eventos
+        $checkbox.off('change', handleCheckboxChange);
+
+        if (confirm(confirmMessage)) {
+            // Realizar la solicitud AJAX solo si se confirma el cambio
+            $.ajax({
+                url: '@Url.Action("UpdateEstadoUsuario", "Usuario")',
+                type: 'POST',
+                data: {
+                    usuarioId: usuarioId,
+                    estado_usuario: newState
+                },
+                success: function (response) {
+                    // Recargar la página después de un cambio exitoso
+                    location.reload();
+                },
+                error: function () {
+                    alert('Hubo un problema al actualizar el estado.');
+                    // Revertir el cambio si hay un error en la solicitud
+                    $checkbox.prop('checked', !isChecked);
+                },
+                complete: function () {
+                    // Rehabilitar el manejador de eventos
+                    $checkbox.on('change', handleCheckboxChange);
+                }
+            });
+        } else {
+            // Revertir el cambio sin disparar el evento change nuevamente
+            $checkbox.prop('checked', !isChecked);
+            // Rehabilitar el manejador de eventos
+            $checkbox.on('change', handleCheckboxChange);
+        }
+    }
+
+    // Asociar el manejador de eventos por primera vez
+    $('.estado-usuario-toggle').on('change', handleCheckboxChange);
+});
+    </script>
+
+
+
+
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

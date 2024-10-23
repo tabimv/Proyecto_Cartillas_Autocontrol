@@ -1,0 +1,644 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ViewModels.CartillasViewModel
+
+@{
+    ViewBag.Title = "Editar Cartilla";
+}
+
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit_movil.css">
+    <link rel="stylesheet" href="~/Content/css/loading.css">
+    <link rel="stylesheet" href="~/Content/css/items_movil.css">
+    <link rel="stylesheet" href="~/Content/css/switch.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Fondo semitransparente -->
+    <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9998;"></div>
+
+    <!-- Spinner de carga -->
+    <div id="loadingSpinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color: #fff;"></i>
+        <span class="sr-only">Cargando...</span>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#loadingOverlay').show();
+            $('#loadingSpinner').show();
+
+            $(document).ready(function () {
+                $('#loadingOverlay').hide();
+                $('#loadingSpinner').hide();
+            });
+        });
+
+    </script>
+    using (Html.BeginForm("EditarCartilla", "CartillaActualizada", FormMethod.Post))
+    {
+
+
+        <!-- Agregar al final de la vista -->
+        <div style="position: fixed; right: 20px; bottom: 20px; text-align: center;" class="scroll-down-button">
+            <a href="#" id="scrollDownLink" style="display: inline-block; text-decoration: none; padding: 10px; background-color: #585858; color: #fff; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); transition: background-color 0.3s, box-shadow 0.3s;"
+               onmouseover="this.style.backgroundColor='#474747'; this.style.boxShadow='0px 0px 15px rgba(0, 0, 0, 0.3)';"
+               onmouseout="this.style.backgroundColor='#585858'; this.style.boxShadow='0px 0px 10px rgba(0, 0, 0, 0.2)';">
+                <i style="color: #F67122; font-size: 30px;" class="fa-solid fa-circle-down"></i>
+                Bajar
+            </a>
+        </div>
+
+        <div class="container-formularios">
+            <div class="form-container">
+                <h2>Editar Cartilla Autocontrol </h2>
+
+
+
+
+
+
+
+                <form>
+                    @Html.HiddenFor(model => model.Cartilla.cartilla_id) <!-- Campo oculto para el ID de la cartilla -->
+                    <!-- Mostrar datos de la cartilla -->
+                    @Html.HiddenFor(model => model.Cartilla.fecha)
+                    @Html.HiddenFor(model => model.Cartilla.OBRA_obra_id)
+                    @Html.HiddenFor(model => model.Cartilla.ACTIVIDAD_actividad_id)
+                    <div class="form-group">
+                        <p>
+                            <strong style=" white-space: nowrap;">Activar/Desactivar Correo de Revisión por Supervisor: </strong>
+                            @Html.CheckBoxFor(model => model.Cartilla.enviar_correo, new { @class = "form-control-checkbox", id = "enviar_correo" })
+                        </p>
+                        <p> <strong> Fecha de emisión:  </strong>  @Html.DisplayFor(model => model.Cartilla.fecha)</p>
+                        <p> <strong> Actividad:  </strong> @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.codigo_actividad) - @Html.DisplayFor(model => model.Cartilla.ACTIVIDAD.nombre_actividad)</p>
+                        <p> <strong> Obra:  </strong>  @Html.DisplayFor(model => model.Cartilla.OBRA.nombre_obra)</p>
+                        <p> <strong> Estado Final:  </strong>  @Html.DropDownListFor(model => model.Cartilla.ESTADO_FINAL_estado_final_id, new SelectList(Model.EstadoFinalList, "estado_final_id", "descripcion"), "Seleccione un Estado Final", new { @class = "form-control" }) </p>
+                        <div>
+                            <label for="Observaciones"><strong>Observaciones Públicas</strong></label>
+                            @Html.TextAreaFor(model => model.Cartilla.observaciones, new { rows = 3, cols = 73, @class = "form-control" })
+                        </div>
+                        <div>
+                            <label for="Observaciones"><strong>Observaciones Privadas</strong></label>
+                            @Html.TextAreaFor(model => model.Cartilla.observaciones_priv, new { rows = 3, cols = 73, @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Observaciones"><strong>Lote de Inmueble</strong></label>
+                            @Html.DropDownList("lote_id", ViewBag.LoteList as SelectList, "Seleccione Lote de Inmueble", new { @class = "form-control ddlLote" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Observaciones"><strong>Inmueble</strong></label>
+                            @Html.DropDownList("inmueble_id", ViewBag.InmueblePorLote as SelectList, "Seleccione Inmueble", new { @class = "form-control ddlInmueblePorLote" })
+                        </div>
+
+
+
+                        @if (Model.Cartilla.fecha_modificacion != null)
+                        {
+                            <div class="form-group-rev" style="display: none;">
+                                <label><strong>¿Es revisado por segunda vez?</strong></label>
+                                <input type="checkbox" id="revisionDosCheckbox" />
+                            </div>
+                        }
+                    </div>
+                    <!-- Tabla para mostrar los campos -->
+                    <table id="detalleTable" class="hidden">
+                        <thead>
+                            <tr>
+                                <th>Label</th>
+                                <th>Item Verificación</th>
+                                <th>
+                                    VB SUPV
+                                    @Html.CheckBox("selectAllSUPV", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+                                <th style="text-align: center;">
+                                    VB AC
+                                    @Html.CheckBox("selectAllAC", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+                                <th style="text-align: center;">
+                                    VB F.T.O
+                                    @Html.CheckBox("selectAllFTO", new { @class = "select-all", title = "Aprobar Todo", style = "vertical-align: middle;" })
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="contenedorRegistros">
+                            @for (int i = 0; i < Model.DetalleCartillas.Count; i++)
+                            {
+                                <tr class="detalle-cartilla" data-lote-id="@Model.DetalleCartillas[i].INMUEBLE.LOTE_INMUEBLE.lote_id" data-inmueble-id="@Model.DetalleCartillas[i].INMUEBLE.inmueble_id">
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].detalle_cartilla_id) <!-- Campo oculto para el ID del detalle -->
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].CARTILLA_cartilla_id)
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].ITEM_VERIF_item_verif_id)
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].INMUEBLE_inmueble_id)
+                                    @Html.HiddenFor(model => model.DetalleCartillas[i].ITEM_VERIF.tipo_item, new { @class = "tipo-item" })
+
+                                    <td style="font-size: 12px">
+                                        @Html.DisplayFor(model => model.DetalleCartillas[i].ITEM_VERIF.label)
+                                    </td>
+                                    <td style="font-size: 12px">
+                                        @Html.DisplayFor(model => model.DetalleCartillas[i].ITEM_VERIF.elemento_verificacion)
+                                    </td>
+
+                                    <td class="column-supv editable">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, true, new { @class = "approval-checkbox" }) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_supv, false, new { @class = "approval-checkbox" }) No
+                                    </td>
+                                    <td class="column-ac">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_autocontrol, true) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_autocontrol, false) No
+                                    </td>
+
+                                    <td class="column-fto">
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_ito, true) Sí
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.DetalleCartillas[i].estado_ito, false) No
+                                    </td>
+
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div style=" margin-top: 20px;" class="form-group">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input style="width: 100%; background-color: #585858; color:#fff" type="submit" value="Guardar Cambios" id="submitButton" class="btn btn-primary-custom" />
+                    </div>
+
+                    <div>
+                        <a style="width: 100%;" href="@Url.Action("Index", "Cartilla")" class="btn-custom" style="padding: 10px 43.5%; white-space: nowrap;">Volver a la lista</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Al cargar la página, el dropdown de inmueble estará deshabilitado
+            $('.ddlInmueblePorLote').prop('disabled', true);
+
+            // Evento cuando se cambia la selección del dropdown de lote
+            $('.ddlLote').change(function () {
+                var loteSeleccionado = $(this).val();
+
+                // Si se ha seleccionado un lote (no es el valor por defecto)
+                if (loteSeleccionado !== "" && loteSeleccionado !== "Seleccione Lote de Inmueble") {
+                    // Habilitar el dropdown de inmueble
+                    $('.ddlInmueblePorLote').prop('disabled', false);
+                } else {
+                    // Si no se selecciona lote, deshabilitar el dropdown de inmueble
+                    $('.ddlInmueblePorLote').prop('disabled', true);
+                }
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (e) {
+                $('#loadingOverlay').show();
+                $('#loadingSpinner').show();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            function filtrarTabla() {
+                var selectedLoteId = $('.ddlLote').val();
+                var selectedInmuebleId = $('.ddlInmueblePorLote').val();
+
+                // Verificar que ambos filtros estén seleccionados y no sean los mensajes predeterminados
+                if (selectedLoteId && selectedLoteId !== "Seleccione Lote de Inmueble" &&
+                    selectedInmuebleId && selectedInmuebleId !== "Seleccione Inmueble") {
+
+                    // Mostrar filas que coincidan con los filtros seleccionados
+                    $('.detalle-cartilla').hide(); // Asegúrate de que las filas estén ocultas antes de mostrar las coincidencias
+                    $('.detalle-cartilla[data-lote-id="' + selectedLoteId + '"][data-inmueble-id="' + selectedInmuebleId + '"]').show();
+
+                    // Mostrar la tabla después de aplicar el filtro
+                    $('#detalleTable').removeClass('hidden');
+                } else {
+                    // Si no se han seleccionado ambos filtros válidos, ocultar todas las filas
+                    $('.detalle-cartilla').hide();
+                }
+            }
+
+
+            // Manejar el evento de cambio en la lista desplegable de lote
+            $('.ddlLote').change(function () {
+                var loteId = $(this).val(); // Obtener el ID del lote seleccionado
+
+                // Hacer una solicitud AJAX para obtener los inmuebles correspondientes al lote seleccionado
+                $.ajax({
+                    url: '/CartillaActualizada/GetInmueblesByLote',
+                    type: 'GET',
+                    data: { loteId: loteId },
+                    success: function (data) {
+                        // Actualizar la lista desplegable de inmueble con los inmuebles correspondientes
+                        var inmuebleDropdown = $('.ddlInmueblePorLote');
+                        inmuebleDropdown.empty(); // Limpiar la lista desplegable
+
+                        // Agregar la opción por defecto de "SELECCIONE INMUEBLE"
+                        inmuebleDropdown.append($('<option></option>').text("Seleccione Inmueble").val(""));
+
+                        // Agregar nuevas opciones a la lista desplegable de inmueble
+                        $.each(data, function (index, item) {
+                            inmuebleDropdown.append($('<option></option>').text(item.Text).val(item.Value));
+                        });
+
+                        // Después de actualizar la lista desplegable de inmueble, llamar a la función para filtrar la tabla
+                        filtrarTabla();
+                    }
+                });
+            });
+
+            // Manejar el evento de cambio en la lista desplegable de inmueble
+            $('.ddlInmueblePorLote').change(function () {
+                // Después de cambiar la opción de la lista desplegable de inmueble, llamar a la función para filtrar la tabla
+                filtrarTabla();
+            });
+
+            // Ocultar todas las filas inicialmente
+            $('.detalle-cartilla').hide();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#scrollDownLink').click(function () {
+                $('html, body').animate({
+                    scrollTop: $('#submitButton').offset().top
+                }, 1000);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Función para verificar y deshabilitar o habilitar el detalle-cartilla con tipo_item = true
+            function verificarEstadoSupervisor() {
+                var loteId = $('.ddlLote').val();
+                var inmuebleId = $('.ddlInmueblePorLote').val();
+
+                var todosTipoItemFalseTrue = true;
+
+                // Buscar todos los detalle-cartilla que tienen tipo_item = false y verificar su estado_supv
+                $('.detalle-cartilla[data-lote-id="' + loteId + '"][data-inmueble-id="' + inmuebleId + '"]').each(function () {
+                    var tipoItem = $(this).find('.tipo-item').val();
+                    var estadoSupervisor = $(this).find('.column-supv input[type="radio"]:checked').val();
+                    if (tipoItem === "False" && estadoSupervisor !== "True") {
+                        todosTipoItemFalseTrue = false;
+                        return false; // Terminar el loop si encontramos un estado_supv que no sea true
+                    }
+                });
+
+                // Buscar el detalle-cartilla que tiene tipo_item = true y habilitarlo o deshabilitarlo según la verificación
+                $('.detalle-cartilla[data-lote-id="' + loteId + '"][data-inmueble-id="' + inmuebleId + '"]').each(function () {
+                    var tipoItem = $(this).find('.tipo-item').val();
+                    if (tipoItem === "True") {
+                        var $radioTrue = $(this).find('.column-supv input[type="radio"][value="True"]');
+                        $radioTrue.prop('disabled', !todosTipoItemFalseTrue);
+                        if (todosTipoItemFalseTrue) {
+                            $radioTrue.prop('checked', true);
+                        } else {
+                            $radioTrue.prop('checked', false);
+                        }
+                    }
+                });
+            }
+
+            // Llamar a la función al cargar la página y al cambiar los filtros
+            verificarEstadoSupervisor();
+
+            // Manejar el cambio en el filtro de lote
+            $('.ddlLote').change(function () {
+                // Desmarcar el checkbox selectAllSUPV cada vez que se cambie un filtro
+                $('#selectAllSUPV').prop('checked', false);
+
+                // Agregar un retraso para permitir que ddlInmueblePorLote se actualice
+                setTimeout(function () {
+                    verificarEstadoSupervisor();
+                }, 500); // ajustar el tiempo según sea necesario
+            });
+
+            // Manejar el cambio en el filtro de inmueble
+            $('.ddlInmueblePorLote').change(function () {
+                verificarEstadoSupervisor();
+                // Desmarcar el checkbox selectAllSUPV cada vez que se cambie un filtro
+                $('#selectAllSUPV').prop('checked', false);
+            });
+
+            // Manejar el cambio en los radio buttons de estado_supv
+            $('#detalleTable').on('change', '.column-supv input[type="radio"]', function () {
+                verificarEstadoSupervisor();
+            });
+
+            // Script para el checkbox selectAllSUPV
+            $('#selectAllSUPV').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Obtener los radio buttons de la columna VB SUPV que están visibles
+                var $visibleRadios = $('td.column-supv:visible');
+
+                // Establecer el estado de los radio buttons visibles según el estado del checkbox selectAllSUPV
+                $visibleRadios.each(function () {
+                    var detalleCartilla = $(this).closest('.detalle-cartilla');
+                    var tipoItem = detalleCartilla.find('.tipo-item').val();
+                    if (isChecked && tipoItem !== "True") {
+                        // Si el checkbox está marcado y tipo_item no es true, establecer estado_supv a true
+                        $(this).find('input[type="radio"][value="True"]').prop('checked', true);
+                    } else {
+                        // Si el checkbox no está marcado o tipo_item es true, establecer estado_supv a null
+                        $(this).find('input[type="radio"][value="True"]').prop('checked', false);
+                        $(this).find('input[type="radio"][value="False"]').prop('checked', false);
+                    }
+                });
+
+                // Verificar el estado de supervisor después de actualizar los radio buttons
+                verificarEstadoSupervisor();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Función para verificar y deshabilitar o habilitar el detalle-cartilla con tipo_item = true
+            function verificarEstadoIto() {
+                var loteId = $('.ddlLote').val();
+                var inmuebleId = $('.ddlInmueblePorLote').val();
+
+                var todosTipoItemFalseTrue = true;
+
+                // Buscar todos los detalle-cartilla que tienen tipo_item = false y verificar su estado_ito
+                $('.detalle-cartilla[data-lote-id="' + loteId + '"][data-inmueble-id="' + inmuebleId + '"]').each(function () {
+                    var tipoItem = $(this).find('.tipo-item').val();
+                    var estadoIto = $(this).find('.column-fto input[type="radio"]:checked').val();
+                    if (tipoItem === "False" && estadoIto !== "True") {
+                        todosTipoItemFalseTrue = false;
+                        return false; // Terminar el loop si encontramos un estado_ito que no sea true
+                    }
+                });
+
+                // Buscar el detalle-cartilla que tiene tipo_item = true y habilitarlo o deshabilitarlo según la verificación
+                $('.detalle-cartilla[data-lote-id="' + loteId + '"][data-inmueble-id="' + inmuebleId + '"]').each(function () {
+                    var tipoItem = $(this).find('.tipo-item').val();
+                    if (tipoItem === "True") {
+                        var $radioTrue = $(this).find('.column-fto input[type="radio"][value="True"]');
+                        $radioTrue.prop('disabled', !todosTipoItemFalseTrue);
+                        if (todosTipoItemFalseTrue) {
+                            $radioTrue.prop('checked', true);
+                        } else {
+                            $radioTrue.prop('checked', false);
+                        }
+                    }
+                });
+            }
+
+            // Llamar a la función al cargar la página y al cambiar los filtros
+            verificarEstadoIto();
+
+            // Manejar el cambio en el filtro de lote
+            $('.ddlLote').change(function () {
+                // Desmarcar el checkbox selectAllFTO cada vez que se cambie un filtro
+                $('#selectAllFTO').prop('checked', false);
+
+                // Agregar un retraso para permitir que ddlInmueblePorLote se actualice
+                setTimeout(function () {
+                    verificarEstadoIto();
+                }, 500); // ajustar el tiempo según sea necesario
+            });
+
+            // Manejar el cambio en el filtro de inmueble
+            $('.ddlInmueblePorLote').change(function () {
+                verificarEstadoIto();
+                // Desmarcar el checkbox selectAllFTO cada vez que se cambie un filtro
+                $('#selectAllFTO').prop('checked', false);
+            });
+
+            // Manejar el cambio en los radio buttons de estado_ito
+            $('#detalleTable').on('change', '.column-fto input[type="radio"]', function () {
+                verificarEstadoIto();
+            });
+
+            // Script para el checkbox selectAllFTO
+            $('#selectAllFTO').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Obtener los radio buttons de la columna VB FTO que están visibles
+                var $visibleRadios = $('td.column-fto:visible');
+
+                // Establecer el estado de los radio buttons visibles según el estado del checkbox selectAllFTO
+                $visibleRadios.each(function () {
+                    var detalleCartilla = $(this).closest('.detalle-cartilla');
+                    var tipoItem = detalleCartilla.find('.tipo-item').val();
+                    if (isChecked && tipoItem !== "True") {
+                        // Si el checkbox está marcado y tipo_item no es true, establecer estado_ito a true
+                        $(this).find('input[type="radio"][value="True"]').prop('checked', true);
+                    } else {
+                        // Si el checkbox no está marcado o tipo_item es true, establecer estado_ito a null
+                        $(this).find('input[type="radio"][value="True"]').prop('checked', false);
+                        $(this).find('input[type="radio"][value="False"]').prop('checked', false);
+                    }
+                });
+
+                // Verificar el estado de ito después de actualizar los radio buttons
+                verificarEstadoIto();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Función para verificar y deshabilitar o habilitar el detalle-cartilla con tipo_item = true
+            function verificarEstadoAutocontrol() {
+                var loteId = $('.ddlLote').val();
+                var inmuebleId = $('.ddlInmueblePorLote').val();
+
+                var todosTipoItemFalseTrue = true;
+
+                // Buscar todos los detalle-cartilla que tienen tipo_item = false y verificar su estado_autocontrol
+                $('.detalle-cartilla[data-lote-id="' + loteId + '"][data-inmueble-id="' + inmuebleId + '"]').each(function () {
+                    var tipoItem = $(this).find('.tipo-item').val();
+                    var estadoAutocontrol = $(this).find('.column-ac input[type="radio"]:checked').val();
+                    if (tipoItem === "False" && estadoAutocontrol !== "True") {
+                        todosTipoItemFalseTrue = false;
+                        return false; // Terminar el loop si encontramos un estado_autocontrol que no sea true
+                    }
+                });
+
+                // Buscar el detalle-cartilla que tiene tipo_item = true y habilitarlo o deshabilitarlo según la verificación
+                $('.detalle-cartilla[data-lote-id="' + loteId + '"][data-inmueble-id="' + inmuebleId + '"]').each(function () {
+                    var tipoItem = $(this).find('.tipo-item').val();
+                    if (tipoItem === "True") {
+                        var $radioTrue = $(this).find('.column-ac input[type="radio"][value="True"]');
+                        $radioTrue.prop('disabled', !todosTipoItemFalseTrue);
+                        if (todosTipoItemFalseTrue) {
+                            $radioTrue.prop('checked', true);
+                        } else {
+                            $radioTrue.prop('checked', false);
+                        }
+                    }
+                });
+            }
+
+            // Llamar a la función al cargar la página y al cambiar los filtros
+            verificarEstadoAutocontrol();
+
+            // Manejar el cambio en el filtro de lote
+            $('.ddlLote').change(function () {
+                // Desmarcar el checkbox selectAllAC cada vez que se cambie un filtro
+                $('#selectAllAC').prop('checked', false);
+
+                // Agregar un retraso para permitir que ddlInmueblePorLote se actualice
+                setTimeout(function () {
+                    verificarEstadoAutocontrol();
+                }, 500); // ajustar el tiempo según sea necesario
+            });
+
+            // Manejar el cambio en el filtro de inmueble
+            $('.ddlInmueblePorLote').change(function () {
+                verificarEstadoAutocontrol();
+                // Desmarcar el checkbox selectAllAC cada vez que se cambie un filtro
+                $('#selectAllAC').prop('checked', false);
+            });
+
+            // Manejar el cambio en los radio buttons de estado_autocontrol
+            $('#detalleTable').on('change', '.column-ac input[type="radio"]', function () {
+                verificarEstadoAutocontrol();
+            });
+
+            // Script para el checkbox selectAllAC
+            $('#selectAllAC').change(function () {
+                var isChecked = $(this).prop('checked');
+
+                // Obtener los radio buttons de la columna VB AC que están visibles
+                var $visibleRadios = $('td.column-ac:visible');
+
+                // Establecer el estado de los radio buttons visibles según el estado del checkbox selectAllAC
+                $visibleRadios.each(function () {
+                    var detalleCartilla = $(this).closest('.detalle-cartilla');
+                    var tipoItem = detalleCartilla.find('.tipo-item').val();
+                    if (isChecked && tipoItem !== "True") {
+                        // Si el checkbox está marcado y tipo_item no es true, establecer estado_autocontrol a true
+                        $(this).find('input[type="radio"][value="True"]').prop('checked', true);
+                    } else {
+                        // Si el checkbox no está marcado o tipo_item es true, establecer estado_autocontrol a null
+                        $(this).find('input[type="radio"][value="True"]').prop('checked', false);
+                        $(this).find('input[type="radio"][value="False"]').prop('checked', false);
+                    }
+                });
+
+                // Verificar el estado de autocontrol después de actualizar los radio buttons
+                verificarEstadoAutocontrol();
+            });
+        });
+    </script>
+    <script>
+  $(document).ready(function () {
+    // Función para obtener y establecer el estado del checkbox
+    function actualizarEstadoCheckbox(loteId, inmuebleId) {
+        $.ajax({
+            url: '@Url.Action("ObtenerEstadoRevisionDos", "CartillaActualizada")', // URL de acción para obtener el estado
+            type: 'GET', // Usar GET para obtener datos
+            data: {
+                loteId: loteId,
+                inmuebleId: inmuebleId
+            },
+            success: function (response) {
+                // Actualizar el estado del checkbox
+                $('#revisionDosCheckbox').prop('checked', response.revisionDos);
+            },
+            error: function () {
+                console.log('Error al obtener el estado de revisión.');
+            }
+        });
+    }
+
+    // Función para mostrar u ocultar el div de revisión
+    function toggleRevisionDosDiv() {
+        var loteId = $('.ddlLote').val();
+        var inmuebleId = $('.ddlInmueblePorLote').val();
+
+        if (loteId && inmuebleId) {
+            $('.form-group-rev').show(); // Mostrar el div si ambos filtros tienen valores
+            actualizarEstadoCheckbox(loteId, inmuebleId); // Actualizar el estado del checkbox
+        } else {
+            $('.form-group-rev').hide(); // Ocultar el div si algún filtro no tiene valor
+        }
+    }
+
+    // Obtener los valores iniciales de los filtros al cargar la página
+    toggleRevisionDosDiv();
+
+    // Evento para detectar cambios en los filtros y actualizar la visibilidad del div
+    $('.ddlLote, .ddlInmueblePorLote').change(function () {
+        toggleRevisionDosDiv();
+    });
+
+    // Evento de cambio del checkbox para actualizar el estado en la base de datos
+    $('#revisionDosCheckbox').change(function () {
+        var isChecked = $(this).is(':checked');
+        var loteId = $('.ddlLote').val();
+        var inmuebleId = $('.ddlInmueblePorLote').val();
+
+        if (loteId && inmuebleId) {
+            $.ajax({
+                url: '@Url.Action("ActualizarRevisionDos", "CartillaActualizada")',
+                type: 'POST',
+                data: {
+                    loteId: loteId,
+                    inmuebleId: inmuebleId,
+                    revisionDos: isChecked
+                },
+                success: function (response) {
+                    if (response.success) {
+                        console.log('Los registros se han actualizado correctamente.');
+                    } else {
+                        console.log('Hubo un error al actualizar los registros: ' + response.error);
+                    }
+                },
+                error: function () {
+                    console.log('Hubo un error en la solicitud.');
+                }
+            });
+        } else {
+            console.log('Por favor, seleccione un lote y un inmueble.');
+        }
+    });
+});
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+
+
+
+}
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para perfil Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

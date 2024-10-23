@@ -1,0 +1,28 @@
+﻿.fa-spinner {
+    color: #F67122 !important;
+}
+
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Color negro semi transparente */
+    display: none; /* Inicialmente oculto */
+    z-index: 9998; /* Z-index menor que el del spinner para estar detrás */
+}
+
+
+/* Estilo para el checkbox cuando está marcado */
+#EnviarCorreo:checked {
+    background-color: green;
+    border-color: green;
+}
+
+    /* Estilo para el contenedor cuando el checkbox está marcado */
+    #EnviarCorreo:checked + label {
+        background-color: green;
+        border-color: green;
+    }
+

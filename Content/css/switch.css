@@ -1,0 +1,11 @@
+﻿/* Alineación del checkbox con el texto */
+p {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el texto y el checkbox, ajusta según sea necesario */
+}
+
+.form-control-checkbox {
+    margin-right: 50%; /* Espacio entre el texto y el checkbox, ajusta según sea necesario */
+    margin-top: 5px;
+}

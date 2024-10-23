@@ -23,6 +23,7 @@ namespace Proyecto_Cartilla_Autocontrol.Models
         public int item_verif_id { get; set; }
         public string elemento_verificacion { get; set; }
         public string label { get; set; }
+        public bool tipo_item { get; set; }
         public int ACTIVIDAD_actividad_id { get; set; }
     
         public virtual ACTIVIDAD ACTIVIDAD { get; set; }

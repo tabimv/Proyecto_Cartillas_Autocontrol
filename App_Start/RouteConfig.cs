@@ -25,6 +25,13 @@ namespace Proyecto_Cartilla_Autocontrol
             defaults: new { controller = "CartillasAutocontrol", action = "DescargarPDF" }
            );
 
+            routes.MapRoute(
+             name: "GenerarPDF",
+             url: "VisualizarCartilla/GenerarPDF/{id}",
+             defaults: new { controller = "VisualizarCartilla", action = "GenerarPDF", id = UrlParameter.Optional }
+         );
+
+
         }
 
     }

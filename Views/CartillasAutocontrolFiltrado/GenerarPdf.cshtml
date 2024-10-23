@@ -1,0 +1,297 @@
+﻿@model IEnumerable<IEnumerable<IGrouping<int, Proyecto_Cartilla_Autocontrol.Models.vw_DetalleCartilla>>>
+
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Autocontrol" || Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "Supervisor"))
+{
+    Layout = "~/Views/Shared/_LayoutCartilla.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Autocontrol" || Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "Supervisor"))
+{
+    <link rel="stylesheet" href="~/Content/css/VisualizarPDF.css">
+    <link rel="stylesheet" href="~/Content/css/page.css">
+
+    foreach (var pageGroup in Model)
+    {
+        <div class="page">
+            <div class="encabezado">
+                <img src="~/Content/img/logo2.png" alt="Logo" class="encabezado-imagen">
+                <h1 class="encabezado-titulo">CARTILLA DE CONTROL VIVIENDA</h1>
+            </div>
+
+            <div class="rectangulo">
+                <div class="actividad-nombre">
+                    <strong>Actividad:</strong> @ViewBag.ActividadNombre
+                </div>
+                <p><strong>Código Actividad: </strong> @ViewBag.ActividadCodigo  </p>
+                @if (@ViewBag.ActividadNotas != null)
+                {
+                    <p><strong>Notas: </strong> @ViewBag.ActividadNotas</p>
+                }
+                <p><strong>Estado: </strong>  @ViewBag.Estado </p>
+                <div class="linea-vertical"></div>
+                <div class="fecha-firma">
+
+                    <p><strong>Fecha Inicio:</strong> @ViewBag.CartillaFecha </p>
+                    @if (@ViewBag.CartillaFechaModif != null)
+                    {
+                        <p><strong>Fecha Modificación:</strong> <br />  @ViewBag.CartillaFechaModif </p>
+                    }
+                    else
+                    {
+                        <p><strong>Fecha Modificación:</strong> <br /> No ha sido revisada </p>
+                    }
+                </div>
+            </div>
+
+            <section class="informacion-general">
+                <!-- Información general -->
+                <p><strong>OBRA:</strong> @ViewBag.ObraNombre</p>
+                <p><strong>DIRECCIÓN:</strong> @ViewBag.ObraDireccion</p>
+                <p><strong>COMUNA:</strong> @ViewBag.ObraComuna</p>
+                <p><strong>CONSTRUCTORA:</strong> Constructora Manzano y Asociados Ltda</p>
+                @if (@ViewBag.Entidad != null)
+                {
+                    <p><strong>ENTIDAD PATROCINANTE:</strong>  @ViewBag.Entidad </p>
+                }
+                @foreach (var item in ViewBag.Firmas)
+                {
+                    if (item.cargo == "Administrador de Obra")
+                    {
+                        <p><strong>ADMINISTRADOR DE OBRA: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                    }
+                    if (item.cargo == "Autocontrol")
+                    {
+                        <p><strong>AUTOCONTROL: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno</p>
+                    }
+                    if (item.cargo == "F.T.O 1")
+                    {
+                        <p><strong>F.T.O SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
+                    }
+                    if (item.cargo == "F.T.O 2")
+                    {
+                        <p><strong>F.T.O SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
+                    }
+                    if (item.cargo == "Supervisor Serviu")
+                    {
+                        <p><strong>SUPERVISOR SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
+                    }
+                }
+            </section>
+
+
+
+            <table class="lista-table">
+                <colgroup>
+                    <col span="2">
+                </colgroup>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    @foreach (var inmuebleGroup in pageGroup)
+                    {
+                        var codigoInmueble = inmuebleGroup.First().codigo_inmueble;
+                        <th colspan="3">N° VIV: @Html.DisplayFor(modelItem => codigoInmueble)</th>
+                    }
+                </tr>
+                <tr>
+                    <th>N°</th>
+                    <th class="elemento-verificacion">Elementos de Verificación</th>
+                    @foreach (var inmuebleGroup in pageGroup)
+                    {
+                        <th>SUPV</th>
+                        <th>AC</th>
+                        <th>F.T.O</th>
+                    }
+                </tr>
+
+                @{
+                    var labels = pageGroup.SelectMany(g => g).Select(x => x.ElementoVerif).Distinct().ToList();
+                    var abc = pageGroup.SelectMany(g => g).Select(x => x.label).Distinct().ToList();
+                }
+                @foreach (var label in labels)
+                {
+                    <tr>
+                        <th class="large-font">@abc[labels.IndexOf(label)]</th>
+                        <th class="large-font">@(label.Length > 65 ? label.Substring(0, 65) + "..." : label)</th>
+                        @foreach (var inmuebleGroup in pageGroup)
+                        {
+                            var detalles = inmuebleGroup.Where(x => x.ElementoVerif == label).ToList();
+                            if (detalles.Any())
+                            {
+                                var detalle = detalles.First();
+                                <td>
+                                    @if (detalle.estado_supv == null && detalle.tipo_item == true)
+                                    {
+                                        // No mostrar nada
+                                    }
+                                    else if (detalle.estado_supv == true && detalle.fecha_supv != null && detalle.tipo_item == true)
+                                    {
+                                        @detalle.fecha_supv.Value.ToString("dd-MM-yyyy")
+                                    }
+                                    else if (detalle.estado_supv == true)
+                                    {
+                                        <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB Supervisor: Aprobado">&#xE876;</i>
+                                        <span style="display: none;">Sí</span>
+                                    }
+                                    else if (detalle.estado_supv == false && detalle.tipo_item == true && detalle.fecha_supv == null)
+                                    {
+                                        // No mostrar nada
+                                    }
+                                    else if (detalle.estado_supv == false)
+                                    {
+                                        <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB Supervisor: Rechazado">&#xE5CD;</i>
+                                        <span style="display: none;">No</span>
+                                    }
+                                    else
+                                    {
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (detalle.estado_autocontrol == null && detalle.tipo_item == true)
+                                    {
+                                        // No mostrar nada
+                                    }
+                                    else if (detalle.estado_autocontrol == true && detalle.fecha_autocontrol != null && detalle.tipo_item == true)
+                                    {
+                                        @detalle.fecha_autocontrol.Value.ToString("dd-MM-yyyy")
+                                    }
+                                    else if (detalle.estado_autocontrol == true)
+                                    {
+                                        <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Aprobado">&#xE876;</i>
+                                        <span style="display: none;">Sí</span>
+                                    }
+                                    else if (detalle.estado_autocontrol == false && detalle.tipo_item == true && detalle.fecha_autocontrol == null)
+                                    {
+                                        // No mostrar nada
+                                    }
+                                    else if (detalle.estado_autocontrol == false)
+                                    {
+                                        <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Rechazado">&#xE5CD;</i>
+                                        <span style="display: none;">No</span>
+                                    }
+                                    else
+                                    {
+                                     
+                                    }
+                                </td>
+                                <td>
+                                    @if (detalle.estado_ito == null && detalle.tipo_item == true)
+                                    {
+                                        // No mostrar nada
+                                    }
+                                    else if (detalle.estado_ito == true && detalle.fecha_fto != null && detalle.tipo_item == true)
+                                    {
+                                        @detalle.fecha_fto.Value.ToString("dd-MM-yyyy")
+                                    }
+                                    else if (detalle.estado_ito == true)
+                                    {
+                                        <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB F.T.O: Aprobado">&#xE876;</i>
+                                        <span style="display: none;">Sí</span>
+                                    }
+                                    else if (detalle.estado_ito == false && detalle.tipo_item == true && detalle.fecha_fto == null)
+                                    {
+                                        // No mostrar nada
+                                    }
+                                    else if (detalle.estado_ito == false)
+                                    {
+                                        <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB F.T.O: Rechazado">&#xE5CD;</i>
+                                        <span style="display: none;">No</span>
+                                    }
+                                    else
+                                    {
+                                        
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+            <div class="observaciones">
+                <div class="cuadro-observaciones">
+                    @if (@ViewBag.ObservacionesPublic != null)
+                    {
+                        <label for="observaciones"> <strong>Observaciones: </strong>  @ViewBag.ObservacionesPublic </label>
+                    }
+                    else
+                    {
+                        <label for="observaciones"> <strong>Observaciones: </strong>  Cartilla sin Observaciones </label>
+                    }
+                </div>
+            </div>
+            <table class="firmas-table">
+                @foreach (var item in ViewBag.Firmas)
+                {
+                    <tr>
+                        @if (item.cargo == "Administrador de Obra")
+                        {
+                            <div class="firma">
+                                <div class="linea"></div>
+                                <p><strong>  @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                                <p>Administrador de Obra</p>
+                                <p>Constructora Manzano y Asoc.Ltda</p>
+                            </div>
+                        }
+                        else if (item.cargo == "Autocontrol")
+                        {
+                            <div class="firma">
+                                <div class="linea"></div>
+                                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                                <p>Autocontrol de Obra</p>
+                                <p>Constructora Manzano y Asoc.Ltda</p>
+                            </div>
+
+                        }
+                        else if (item.cargo == "F.T.O 1")
+                        {
+                            <div class="firma">
+                                <div class="linea"></div>
+                                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                                <p>F.T.O Serviu</p>
+                                <p>Serviu Región del Biobío</p>
+                            </div>
+                        }
+                        else if (item.cargo == "F.T.O 2")
+                        {
+                            <div class="firma">
+                                <div class="linea"></div>
+                                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                                <p>F.T.O Serviu</p>
+                                <p>Serviu Región del Biobío</p>
+                            </div>
+                        }
+                        else if (item.cargo == "Supervisor Serviu")
+                        {
+                            <div class="firma">
+                                <div class="linea"></div>
+                                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                                <p>Supervisor Serviu</p>
+                                <p>Serviu Región del Biobío</p>
+                            </div>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+}
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Vista protegida. </h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

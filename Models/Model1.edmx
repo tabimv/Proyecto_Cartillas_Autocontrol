@@ -4,16 +4,35 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ObraManzanoEneroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ObraManzanoMayoActualizadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ACCESO_CARTILLA">
+          <Key>
+            <PropertyRef Name="acceso_cartilla_id" />
+          </Key>
+          <Property Name="acceso_cartilla_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CARTILLA_cartilla_id" Type="int" Nullable="false" />
+          <Property Name="USUARIO_usuario_id" Type="int" Nullable="false" />
+          <Property Name="correo_enviado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ACCESO_OBRAS">
+          <Key>
+            <PropertyRef Name="acceso_id" />
+          </Key>
+          <Property Name="acceso_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario_id" Type="int" />
+          <Property Name="obra_id" Type="int" />
+        </EntityType>
         <EntityType Name="ACTIVIDAD">
           <Key>
             <PropertyRef Name="actividad_id" />
           </Key>
           <Property Name="actividad_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codigo_actividad" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="nombre_actividad" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="codigo_actividad" Type="varchar" MaxLength="20" />
+          <Property Name="nombre_actividad" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="tipo_actividad" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
+          <Property Name="notas" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="CARTILLA">
           <Key>
@@ -21,11 +40,14 @@
           </Key>
           <Property Name="cartilla_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fecha" Type="date" Nullable="false" />
-          <Property Name="observaciones" Type="varchar" MaxLength="200" />
+          <Property Name="observaciones" Type="varchar(max)" />
+          <Property Name="observaciones_priv" Type="varchar(max)" />
           <Property Name="ruta_pdf" Type="varchar(max)" />
           <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
           <Property Name="ACTIVIDAD_actividad_id" Type="int" Nullable="false" />
           <Property Name="ESTADO_FINAL_estado_final_id" Type="int" Nullable="false" />
+          <Property Name="fecha_modificacion" Type="date" />
+          <Property Name="enviar_correo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="COMUNA">
           <Key>
@@ -40,12 +62,20 @@
             <PropertyRef Name="detalle_cartilla_id" />
           </Key>
           <Property Name="detalle_cartilla_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="estado_otec" Type="bit" Nullable="false" />
-          <Property Name="estado_ito" Type="bit" Nullable="false" />
-          <Property Name="estado_supv" Type="bit" Nullable="false" />
+          <Property Name="estado_autocontrol" Type="bit" />
+          <Property Name="estado_ito" Type="bit" />
+          <Property Name="estado_supv" Type="bit" />
+          <Property Name="fecha_rev" Type="date" />
           <Property Name="ITEM_VERIF_item_verif_id" Type="int" Nullable="false" />
           <Property Name="CARTILLA_cartilla_id" Type="int" Nullable="false" />
           <Property Name="INMUEBLE_inmueble_id" Type="int" Nullable="false" />
+          <Property Name="fecha_fto" Type="date" />
+          <Property Name="fecha_supv" Type="date" />
+          <Property Name="fecha_autocontrol" Type="date" />
+          <Property Name="rut_spv" Type="varchar" MaxLength="12" />
+          <Property Name="correo_enviado_ac" Type="bit" />
+          <Property Name="correo_enviado_supv" Type="bit" />
+          <Property Name="revision_dos" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ESTADO_FINAL">
           <Key>
@@ -60,27 +90,48 @@
             <PropertyRef Name="inmueble_id" />
           </Key>
           <Property Name="inmueble_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codigo_inmueble" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="tipo_inmueble" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
+          <Property Name="tipo_inmueble" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="codigo_inmueble" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LOTE_INMUEBLE_lote_id" Type="int" Nullable="false" />
+          <Property Name="codigo_interno" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ITEM_VERIF">
           <Key>
             <PropertyRef Name="item_verif_id" />
           </Key>
           <Property Name="item_verif_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="elemento_verificacion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="elemento_verificacion" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="label" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="tipo_item" Type="bit" Nullable="false" />
           <Property Name="ACTIVIDAD_actividad_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LOTE_INMUEBLE">
+          <Key>
+            <PropertyRef Name="lote_id" />
+          </Key>
+          <Property Name="lote_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo_bloque" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="numero_letra_bloque_1" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="cantidad_pisos" Type="numeric" Precision="28" Scale="0" />
+          <Property Name="cantidad_inmuebles" Type="numeric" Precision="28" Scale="0" Nullable="false" />
+          <Property Name="descripcion_tipo_proyecto" Type="varchar" MaxLength="100" />
+          <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
+          <Property Name="rango_inicial" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="rango_final" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="OBRA">
           <Key>
             <PropertyRef Name="obra_id" />
           </Key>
           <Property Name="obra_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre_obra" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="nombre_obra" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="direccion" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="COMUNA_comuna_id" Type="int" Nullable="false" />
+          <Property Name="tipo_proyecto" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="total_deptos" Type="numeric" Precision="28" Scale="0" />
+          <Property Name="total_viv" Type="numeric" Precision="28" Scale="0" />
+          <Property Name="entidad_patrocinante" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PERFIL">
           <Key>
@@ -99,6 +150,37 @@
           <Property Name="apellido_materno" Type="varchar" MaxLength="50" />
           <Property Name="correo" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'ObraManzanoMayoActualizada.dbo.PLG_TablaResultado' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="PLG_TablaResultado">
+          <Property Name="id" Type="int" />
+          <Property Name="cod_act" Type="varchar" MaxLength="20" />
+          <Property Name="nomact" Type="varchar" MaxLength="200" />
+          <Property Name="cant_a" Type="int" />
+          <Property Name="cant_xr" Type="int" />
+          <Property Name="cant_o" Type="int" />
+          <Property Name="MA-VIV1" Type="char" MaxLength="10" />
+          <Property Name="MA-VIV2" Type="char" MaxLength="10" />
+          <Property Name="MA-VIV3" Type="char" MaxLength="10" />
+          <Property Name="MA-VIV4" Type="char" MaxLength="10" />
+          <Property Name="MA-VIV5" Type="char" MaxLength="10" />
+        </EntityType>-->
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'ObraManzanoMayoActualizada.dbo.PLG_TablaResultado_SPV' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="PLG_TablaResultado_SPV">
+          <Property Name="id" Type="int" />
+          <Property Name="rut_spv" Type="varchar" MaxLength="12" />
+          <Property Name="paterno" Type="varchar" MaxLength="50" />
+          <Property Name="materno" Type="varchar" MaxLength="50" />
+          <Property Name="nombres" Type="varchar" MaxLength="50" />
+          <Property Name="cant_a" Type="int" />
+          <Property Name="cant_xr" Type="int" />
+          <Property Name="cant_o" Type="int" />
+          <Property Name="M1-VIV1" Type="char" MaxLength="10" />
+          <Property Name="M1-VIV2" Type="char" MaxLength="10" />
+          <Property Name="M2-VIV1" Type="char" MaxLength="10" />
+          <Property Name="M2-VIV2" Type="char" MaxLength="10" />
+        </EntityType>-->
         <EntityType Name="REGION">
           <Key>
             <PropertyRef Name="region_id" />
@@ -122,9 +204,88 @@
           <Property Name="usuario_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="contraseña" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PERFIL_perfil_id" Type="int" Nullable="false" />
-          <Property Name="OBRA_obra_id" Type="int" Nullable="false" />
           <Property Name="PERSONA_rut" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="estado_usuario" Type="bit" Nullable="false" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ObraManzanoMayoActualizada.dbo.VistaExcel' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VistaExcel">
+          <Key>
+            <PropertyRef Name="label" />
+            <PropertyRef Name="elemento_verificacion" />
+            <PropertyRef Name="codigo_inmueble" />
+            <PropertyRef Name="cartilla_id" />
+            <PropertyRef Name="actividad_id" />
+            <PropertyRef Name="tipo_item" />
+          </Key>
+          <Property Name="label" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="elemento_verificacion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="estado_autocontrol" Type="bit" />
+          <Property Name="estado_ito" Type="bit" />
+          <Property Name="estado_supv" Type="bit" />
+          <Property Name="fecha_rev" Type="date" />
+          <Property Name="codigo_inmueble" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cartilla_id" Type="int" Nullable="false" />
+          <Property Name="actividad_id" Type="int" Nullable="false" />
+          <Property Name="fecha_autocontrol" Type="date" />
+          <Property Name="fecha_fto" Type="date" />
+          <Property Name="fecha_supv" Type="date" />
+          <Property Name="tipo_item" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ObraManzanoMayoActualizada.dbo.vw_DetalleCartilla' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vw_DetalleCartilla">
+          <Key>
+            <PropertyRef Name="label" />
+            <PropertyRef Name="ElementoVerif" />
+            <PropertyRef Name="tipo_item" />
+            <PropertyRef Name="CARTILLA_cartilla_id" />
+            <PropertyRef Name="codigo_inmueble" />
+            <PropertyRef Name="inmueble_id" />
+            <PropertyRef Name="lote_id" />
+          </Key>
+          <Property Name="estado_autocontrol" Type="bit" />
+          <Property Name="estado_ito" Type="bit" />
+          <Property Name="estado_supv" Type="bit" />
+          <Property Name="fecha_autocontrol" Type="date" />
+          <Property Name="fecha_fto" Type="date" />
+          <Property Name="fecha_supv" Type="date" />
+          <Property Name="label" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="ElementoVerif" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="tipo_item" Type="bit" Nullable="false" />
+          <Property Name="CARTILLA_cartilla_id" Type="int" Nullable="false" />
+          <Property Name="codigo_inmueble" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="inmueble_id" Type="int" Nullable="false" />
+          <Property Name="lote_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="ACCESO_CARTILLA_CARTILLA_FK">
+          <End Role="CARTILLA" Type="Self.CARTILLA" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ACCESO_CARTILLA" Type="Self.ACCESO_CARTILLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARTILLA">
+              <PropertyRef Name="cartilla_id" />
+            </Principal>
+            <Dependent Role="ACCESO_CARTILLA">
+              <PropertyRef Name="CARTILLA_cartilla_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ACCESO_CARTILLA_USUARIO_FK">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ACCESO_CARTILLA" Type="Self.ACCESO_CARTILLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="usuario_id" />
+            </Principal>
+            <Dependent Role="ACCESO_CARTILLA">
+              <PropertyRef Name="USUARIO_usuario_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="ACTIVIDAD_OBRA_FK">
           <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
           <End Role="ACTIVIDAD" Type="Self.ACTIVIDAD" Multiplicity="*" />
@@ -221,15 +382,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INMUEBLE_OBRA_FK">
-          <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
-          <End Role="INMUEBLE" Type="Self.INMUEBLE" Multiplicity="*" />
+        <Association Name="FK__ACCESO_OB__obra___0EF836A4">
+          <End Role="OBRA" Type="Self.OBRA" Multiplicity="0..1" />
+          <End Role="ACCESO_OBRAS" Type="Self.ACCESO_OBRAS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OBRA">
               <PropertyRef Name="obra_id" />
             </Principal>
+            <Dependent Role="ACCESO_OBRAS">
+              <PropertyRef Name="obra_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ACCESO_OB__usuar__0E04126B">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
+          <End Role="ACCESO_OBRAS" Type="Self.ACCESO_OBRAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="usuario_id" />
+            </Principal>
+            <Dependent Role="ACCESO_OBRAS">
+              <PropertyRef Name="usuario_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="INMUEBLE_LOTE_INMUEBLE_FK">
+          <End Role="LOTE_INMUEBLE" Type="Self.LOTE_INMUEBLE" Multiplicity="1" />
+          <End Role="INMUEBLE" Type="Self.INMUEBLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOTE_INMUEBLE">
+              <PropertyRef Name="lote_id" />
+            </Principal>
             <Dependent Role="INMUEBLE">
-              <PropertyRef Name="OBRA_obra_id" />
+              <PropertyRef Name="LOTE_INMUEBLE_lote_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -242,6 +427,18 @@
             </Principal>
             <Dependent Role="ITEM_VERIF">
               <PropertyRef Name="ACTIVIDAD_actividad_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LOTE_INMUEBLE_OBRA_FK">
+          <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
+          <End Role="LOTE_INMUEBLE" Type="Self.LOTE_INMUEBLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBRA">
+              <PropertyRef Name="obra_id" />
+            </Principal>
+            <Dependent Role="LOTE_INMUEBLE">
+              <PropertyRef Name="OBRA_obra_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -281,18 +478,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="USUARIO_OBRA_FK">
-          <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
-          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBRA">
-              <PropertyRef Name="obra_id" />
-            </Principal>
-            <Dependent Role="USUARIO">
-              <PropertyRef Name="OBRA_obra_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="USUARIO_PERFIL_FK">
           <End Role="PERFIL" Type="Self.PERFIL" Multiplicity="1" />
           <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
@@ -317,7 +502,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ObraManzanoEneroModelStoreContainer">
+        <Function Name="CrearCartillaYDetalleCartilla" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="obra_id" Type="int" Mode="In" />
+          <Parameter Name="actividad_id" Type="int" Mode="In" />
+          <Parameter Name="observaciones" Type="varchar(max)" Mode="In" />
+          <Parameter Name="observaciones_priv" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="InitCap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+          <Parameter Name="inputString" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_AdicionarInmueblesFaltantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LOTE_INMUEBLE_lote_id" Type="int" Mode="In" />
+          <Parameter Name="OBRA_obra_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SPU_RESUMEN_CARTILLA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="obra" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SPU_RESUMEN_SUPERV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="obra" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ObraManzanoMayoActualizadaModelStoreContainer">
+          <EntitySet Name="ACCESO_CARTILLA" EntityType="Self.ACCESO_CARTILLA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACCESO_OBRAS" EntityType="Self.ACCESO_OBRAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ACTIVIDAD" EntityType="Self.ACTIVIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CARTILLA" EntityType="Self.CARTILLA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="dbo" store:Type="Tables" />
@@ -325,12 +531,55 @@
           <EntitySet Name="ESTADO_FINAL" EntityType="Self.ESTADO_FINAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INMUEBLE" EntityType="Self.INMUEBLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ITEM_VERIF" EntityType="Self.ITEM_VERIF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOTE_INMUEBLE" EntityType="Self.LOTE_INMUEBLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBRA" EntityType="Self.OBRA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERFIL" EntityType="Self.PERFIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REGION" EntityType="Self.REGION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RESPONSABLE" EntityType="Self.RESPONSABLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VistaExcel" EntityType="Self.VistaExcel" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VistaExcel].[label] AS [label], 
+    [VistaExcel].[elemento_verificacion] AS [elemento_verificacion], 
+    [VistaExcel].[estado_autocontrol] AS [estado_autocontrol], 
+    [VistaExcel].[estado_ito] AS [estado_ito], 
+    [VistaExcel].[estado_supv] AS [estado_supv], 
+    [VistaExcel].[fecha_rev] AS [fecha_rev], 
+    [VistaExcel].[codigo_inmueble] AS [codigo_inmueble], 
+    [VistaExcel].[cartilla_id] AS [cartilla_id], 
+    [VistaExcel].[actividad_id] AS [actividad_id], 
+    [VistaExcel].[fecha_autocontrol] AS [fecha_autocontrol], 
+    [VistaExcel].[fecha_fto] AS [fecha_fto], 
+    [VistaExcel].[fecha_supv] AS [fecha_supv], 
+    [VistaExcel].[tipo_item] AS [tipo_item]
+    FROM [dbo].[VistaExcel] AS [VistaExcel]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_DetalleCartilla" EntityType="Self.vw_DetalleCartilla" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DetalleCartilla].[estado_autocontrol] AS [estado_autocontrol], 
+    [vw_DetalleCartilla].[estado_ito] AS [estado_ito], 
+    [vw_DetalleCartilla].[estado_supv] AS [estado_supv], 
+    [vw_DetalleCartilla].[fecha_autocontrol] AS [fecha_autocontrol], 
+    [vw_DetalleCartilla].[fecha_fto] AS [fecha_fto], 
+    [vw_DetalleCartilla].[fecha_supv] AS [fecha_supv], 
+    [vw_DetalleCartilla].[label] AS [label], 
+    [vw_DetalleCartilla].[ElementoVerif] AS [ElementoVerif], 
+    [vw_DetalleCartilla].[tipo_item] AS [tipo_item], 
+    [vw_DetalleCartilla].[CARTILLA_cartilla_id] AS [CARTILLA_cartilla_id], 
+    [vw_DetalleCartilla].[codigo_inmueble] AS [codigo_inmueble], 
+    [vw_DetalleCartilla].[inmueble_id] AS [inmueble_id], 
+    [vw_DetalleCartilla].[lote_id] AS [lote_id]
+    FROM [dbo].[vw_DetalleCartilla] AS [vw_DetalleCartilla]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="ACCESO_CARTILLA_CARTILLA_FK" Association="Self.ACCESO_CARTILLA_CARTILLA_FK">
+            <End Role="CARTILLA" EntitySet="CARTILLA" />
+            <End Role="ACCESO_CARTILLA" EntitySet="ACCESO_CARTILLA" />
+          </AssociationSet>
+          <AssociationSet Name="ACCESO_CARTILLA_USUARIO_FK" Association="Self.ACCESO_CARTILLA_USUARIO_FK">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ACCESO_CARTILLA" EntitySet="ACCESO_CARTILLA" />
+          </AssociationSet>
           <AssociationSet Name="ACTIVIDAD_OBRA_FK" Association="Self.ACTIVIDAD_OBRA_FK">
             <End Role="OBRA" EntitySet="OBRA" />
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
@@ -363,13 +612,25 @@
             <End Role="ITEM_VERIF" EntitySet="ITEM_VERIF" />
             <End Role="DETALLE_CARTILLA" EntitySet="DETALLE_CARTILLA" />
           </AssociationSet>
-          <AssociationSet Name="INMUEBLE_OBRA_FK" Association="Self.INMUEBLE_OBRA_FK">
+          <AssociationSet Name="FK__ACCESO_OB__obra___0EF836A4" Association="Self.FK__ACCESO_OB__obra___0EF836A4">
             <End Role="OBRA" EntitySet="OBRA" />
+            <End Role="ACCESO_OBRAS" EntitySet="ACCESO_OBRAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ACCESO_OB__usuar__0E04126B" Association="Self.FK__ACCESO_OB__usuar__0E04126B">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ACCESO_OBRAS" EntitySet="ACCESO_OBRAS" />
+          </AssociationSet>
+          <AssociationSet Name="INMUEBLE_LOTE_INMUEBLE_FK" Association="Self.INMUEBLE_LOTE_INMUEBLE_FK">
+            <End Role="LOTE_INMUEBLE" EntitySet="LOTE_INMUEBLE" />
             <End Role="INMUEBLE" EntitySet="INMUEBLE" />
           </AssociationSet>
           <AssociationSet Name="ITEM_VERIF_ACTIVIDAD_FK" Association="Self.ITEM_VERIF_ACTIVIDAD_FK">
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
             <End Role="ITEM_VERIF" EntitySet="ITEM_VERIF" />
+          </AssociationSet>
+          <AssociationSet Name="LOTE_INMUEBLE_OBRA_FK" Association="Self.LOTE_INMUEBLE_OBRA_FK">
+            <End Role="OBRA" EntitySet="OBRA" />
+            <End Role="LOTE_INMUEBLE" EntitySet="LOTE_INMUEBLE" />
           </AssociationSet>
           <AssociationSet Name="OBRA_COMUNA_FK" Association="Self.OBRA_COMUNA_FK">
             <End Role="COMUNA" EntitySet="COMUNA" />
@@ -382,10 +643,6 @@
           <AssociationSet Name="RESPONSABLE_PERSONA_FK" Association="Self.RESPONSABLE_PERSONA_FK">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="RESPONSABLE" EntitySet="RESPONSABLE" />
-          </AssociationSet>
-          <AssociationSet Name="USUARIO_OBRA_FK" Association="Self.USUARIO_OBRA_FK">
-            <End Role="OBRA" EntitySet="OBRA" />
-            <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
           <AssociationSet Name="USUARIO_PERFIL_FK" Association="Self.USUARIO_PERFIL_FK">
             <End Role="PERFIL" EntitySet="PERFIL" />
@@ -400,16 +657,39 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ObraManzanoEneroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ObraManzanoMayoActualizadaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ACCESO_CARTILLA">
+          <Key>
+            <PropertyRef Name="acceso_cartilla_id" />
+          </Key>
+          <Property Name="acceso_cartilla_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CARTILLA_cartilla_id" Type="Int32" Nullable="false" />
+          <Property Name="USUARIO_usuario_id" Type="Int32" Nullable="false" />
+          <Property Name="correo_enviado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CARTILLA" Relationship="Self.ACCESO_CARTILLA_CARTILLA_FK" FromRole="ACCESO_CARTILLA" ToRole="CARTILLA" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.ACCESO_CARTILLA_USUARIO_FK" FromRole="ACCESO_CARTILLA" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="ACCESO_OBRAS">
+          <Key>
+            <PropertyRef Name="acceso_id" />
+          </Key>
+          <Property Name="acceso_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario_id" Type="Int32" />
+          <Property Name="obra_id" Type="Int32" />
+          <NavigationProperty Name="OBRA" Relationship="Self.FK__ACCESO_OB__obra___0EF836A4" FromRole="ACCESO_OBRAS" ToRole="OBRA" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK__ACCESO_OB__usuar__0E04126B" FromRole="ACCESO_OBRAS" ToRole="USUARIO" />
+        </EntityType>
         <EntityType Name="ACTIVIDAD">
           <Key>
             <PropertyRef Name="actividad_id" />
           </Key>
           <Property Name="actividad_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo_actividad" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombre_actividad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codigo_actividad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_actividad" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="tipo_actividad" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
+          <Property Name="notas" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OBRA" Relationship="Self.ACTIVIDAD_OBRA_FK" FromRole="ACTIVIDAD" ToRole="OBRA" />
           <NavigationProperty Name="CARTILLA" Relationship="Self.CARTILLA_ACTIVIDAD_FK" FromRole="ACTIVIDAD" ToRole="CARTILLA" />
           <NavigationProperty Name="ITEM_VERIF" Relationship="Self.ITEM_VERIF_ACTIVIDAD_FK" FromRole="ACTIVIDAD" ToRole="ITEM_VERIF" />
@@ -420,11 +700,15 @@
           </Key>
           <Property Name="cartilla_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="observaciones_priv" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ruta_pdf" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
           <Property Name="ACTIVIDAD_actividad_id" Type="Int32" Nullable="false" />
           <Property Name="ESTADO_FINAL_estado_final_id" Type="Int32" Nullable="false" />
+          <Property Name="fecha_modificacion" Type="DateTime" Precision="0" />
+          <Property Name="enviar_correo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ACCESO_CARTILLA" Relationship="Self.ACCESO_CARTILLA_CARTILLA_FK" FromRole="CARTILLA" ToRole="ACCESO_CARTILLA" />
           <NavigationProperty Name="ACTIVIDAD" Relationship="Self.CARTILLA_ACTIVIDAD_FK" FromRole="CARTILLA" ToRole="ACTIVIDAD" />
           <NavigationProperty Name="ESTADO_FINAL" Relationship="Self.CARTILLA_ESTADO_FINAL_FK" FromRole="CARTILLA" ToRole="ESTADO_FINAL" />
           <NavigationProperty Name="OBRA" Relationship="Self.CARTILLA_OBRA_FK" FromRole="CARTILLA" ToRole="OBRA" />
@@ -445,12 +729,20 @@
             <PropertyRef Name="detalle_cartilla_id" />
           </Key>
           <Property Name="detalle_cartilla_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="estado_otec" Type="Boolean" Nullable="false" />
-          <Property Name="estado_ito" Type="Boolean" Nullable="false" />
-          <Property Name="estado_supv" Type="Boolean" Nullable="false" />
+          <Property Name="estado_autocontrol" Type="Boolean" />
+          <Property Name="estado_ito" Type="Boolean" />
+          <Property Name="estado_supv" Type="Boolean" />
+          <Property Name="fecha_rev" Type="DateTime" Precision="0" />
           <Property Name="ITEM_VERIF_item_verif_id" Type="Int32" Nullable="false" />
           <Property Name="CARTILLA_cartilla_id" Type="Int32" Nullable="false" />
           <Property Name="INMUEBLE_inmueble_id" Type="Int32" Nullable="false" />
+          <Property Name="fecha_fto" Type="DateTime" Precision="0" />
+          <Property Name="fecha_supv" Type="DateTime" Precision="0" />
+          <Property Name="fecha_autocontrol" Type="DateTime" Precision="0" />
+          <Property Name="rut_spv" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="correo_enviado_ac" Type="Boolean" />
+          <Property Name="correo_enviado_supv" Type="Boolean" />
+          <Property Name="revision_dos" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CARTILLA" Relationship="Self.DETALLE_CARTILLA_CARTILLA_FK" FromRole="DETALLE_CARTILLA" ToRole="CARTILLA" />
           <NavigationProperty Name="INMUEBLE" Relationship="Self.DETALLE_CARTILLA_INMUEBLE_FK" FromRole="DETALLE_CARTILLA" ToRole="INMUEBLE" />
           <NavigationProperty Name="ITEM_VERIF" Relationship="Self.DETALLE_CARTILLA_ITEM_VERIF_FK" FromRole="DETALLE_CARTILLA" ToRole="ITEM_VERIF" />
@@ -469,37 +761,60 @@
             <PropertyRef Name="inmueble_id" />
           </Key>
           <Property Name="inmueble_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo_inmueble" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="tipo_inmueble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
+          <Property Name="tipo_inmueble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codigo_inmueble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LOTE_INMUEBLE_lote_id" Type="Int32" Nullable="false" />
+          <Property Name="codigo_interno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DETALLE_CARTILLA" Relationship="Self.DETALLE_CARTILLA_INMUEBLE_FK" FromRole="INMUEBLE" ToRole="DETALLE_CARTILLA" />
-          <NavigationProperty Name="OBRA" Relationship="Self.INMUEBLE_OBRA_FK" FromRole="INMUEBLE" ToRole="OBRA" />
+          <NavigationProperty Name="LOTE_INMUEBLE" Relationship="Self.INMUEBLE_LOTE_INMUEBLE_FK" FromRole="INMUEBLE" ToRole="LOTE_INMUEBLE" />
         </EntityType>
         <EntityType Name="ITEM_VERIF">
           <Key>
             <PropertyRef Name="item_verif_id" />
           </Key>
           <Property Name="item_verif_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="elemento_verificacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="elemento_verificacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="label" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo_item" Type="Boolean" Nullable="false" />
           <Property Name="ACTIVIDAD_actividad_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ACTIVIDAD" Relationship="Self.ITEM_VERIF_ACTIVIDAD_FK" FromRole="ITEM_VERIF" ToRole="ACTIVIDAD" />
           <NavigationProperty Name="DETALLE_CARTILLA" Relationship="Self.DETALLE_CARTILLA_ITEM_VERIF_FK" FromRole="ITEM_VERIF" ToRole="DETALLE_CARTILLA" />
+        </EntityType>
+        <EntityType Name="LOTE_INMUEBLE">
+          <Key>
+            <PropertyRef Name="lote_id" />
+          </Key>
+          <Property Name="lote_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo_bloque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numero_letra_bloque_1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="abreviatura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cantidad_pisos" Type="Decimal" Precision="28" Scale="0" />
+          <Property Name="cantidad_inmuebles" Type="Decimal" Precision="28" Scale="0" Nullable="false" />
+          <Property Name="descripcion_tipo_proyecto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
+          <Property Name="rango_inicial" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="rango_final" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="INMUEBLE" Relationship="Self.INMUEBLE_LOTE_INMUEBLE_FK" FromRole="LOTE_INMUEBLE" ToRole="INMUEBLE" />
+          <NavigationProperty Name="OBRA" Relationship="Self.LOTE_INMUEBLE_OBRA_FK" FromRole="LOTE_INMUEBLE" ToRole="OBRA" />
         </EntityType>
         <EntityType Name="OBRA">
           <Key>
             <PropertyRef Name="obra_id" />
           </Key>
           <Property Name="obra_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre_obra" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre_obra" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="COMUNA_comuna_id" Type="Int32" Nullable="false" />
+          <Property Name="tipo_proyecto" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="total_deptos" Type="Decimal" Precision="28" Scale="0" />
+          <Property Name="total_viv" Type="Decimal" Precision="28" Scale="0" />
+          <Property Name="entidad_patrocinante" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ACCESO_OBRAS" Relationship="Self.FK__ACCESO_OB__obra___0EF836A4" FromRole="OBRA" ToRole="ACCESO_OBRAS" />
           <NavigationProperty Name="ACTIVIDAD" Relationship="Self.ACTIVIDAD_OBRA_FK" FromRole="OBRA" ToRole="ACTIVIDAD" />
           <NavigationProperty Name="CARTILLA" Relationship="Self.CARTILLA_OBRA_FK" FromRole="OBRA" ToRole="CARTILLA" />
           <NavigationProperty Name="COMUNA" Relationship="Self.OBRA_COMUNA_FK" FromRole="OBRA" ToRole="COMUNA" />
-          <NavigationProperty Name="INMUEBLE" Relationship="Self.INMUEBLE_OBRA_FK" FromRole="OBRA" ToRole="INMUEBLE" />
+          <NavigationProperty Name="LOTE_INMUEBLE" Relationship="Self.LOTE_INMUEBLE_OBRA_FK" FromRole="OBRA" ToRole="LOTE_INMUEBLE" />
           <NavigationProperty Name="RESPONSABLE" Relationship="Self.RESPONSABLE_OBRA_FK" FromRole="OBRA" ToRole="RESPONSABLE" />
-          <NavigationProperty Name="USUARIO" Relationship="Self.USUARIO_OBRA_FK" FromRole="OBRA" ToRole="USUARIO" />
         </EntityType>
         <EntityType Name="PERFIL">
           <Key>
@@ -547,12 +862,112 @@
           <Property Name="usuario_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PERFIL_perfil_id" Type="Int32" Nullable="false" />
-          <Property Name="OBRA_obra_id" Type="Int32" Nullable="false" />
           <Property Name="PERSONA_rut" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="OBRA" Relationship="Self.USUARIO_OBRA_FK" FromRole="USUARIO" ToRole="OBRA" />
+          <Property Name="estado_usuario" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ACCESO_CARTILLA" Relationship="Self.ACCESO_CARTILLA_USUARIO_FK" FromRole="USUARIO" ToRole="ACCESO_CARTILLA" />
+          <NavigationProperty Name="ACCESO_OBRAS" Relationship="Self.FK__ACCESO_OB__usuar__0E04126B" FromRole="USUARIO" ToRole="ACCESO_OBRAS" />
           <NavigationProperty Name="PERFIL" Relationship="Self.USUARIO_PERFIL_FK" FromRole="USUARIO" ToRole="PERFIL" />
           <NavigationProperty Name="PERSONA" Relationship="Self.USUARIO_PERSONA_FK" FromRole="USUARIO" ToRole="PERSONA" />
         </EntityType>
+        <EntityType Name="VistaExcel">
+          <Key>
+            <PropertyRef Name="label" />
+            <PropertyRef Name="elemento_verificacion" />
+            <PropertyRef Name="codigo_inmueble" />
+            <PropertyRef Name="cartilla_id" />
+            <PropertyRef Name="actividad_id" />
+            <PropertyRef Name="tipo_item" />
+          </Key>
+          <Property Name="label" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="elemento_verificacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado_autocontrol" Type="Boolean" />
+          <Property Name="estado_ito" Type="Boolean" />
+          <Property Name="estado_supv" Type="Boolean" />
+          <Property Name="fecha_rev" Type="DateTime" Precision="0" />
+          <Property Name="codigo_inmueble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cartilla_id" Type="Int32" Nullable="false" />
+          <Property Name="actividad_id" Type="Int32" Nullable="false" />
+          <Property Name="fecha_autocontrol" Type="DateTime" Precision="0" />
+          <Property Name="fecha_fto" Type="DateTime" Precision="0" />
+          <Property Name="fecha_supv" Type="DateTime" Precision="0" />
+          <Property Name="tipo_item" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_DetalleCartilla">
+          <Key>
+            <PropertyRef Name="label" />
+            <PropertyRef Name="ElementoVerif" />
+            <PropertyRef Name="tipo_item" />
+            <PropertyRef Name="CARTILLA_cartilla_id" />
+            <PropertyRef Name="codigo_inmueble" />
+            <PropertyRef Name="inmueble_id" />
+            <PropertyRef Name="lote_id" />
+          </Key>
+          <Property Name="estado_autocontrol" Type="Boolean" />
+          <Property Name="estado_ito" Type="Boolean" />
+          <Property Name="estado_supv" Type="Boolean" />
+          <Property Name="fecha_autocontrol" Type="DateTime" Precision="0" />
+          <Property Name="fecha_fto" Type="DateTime" Precision="0" />
+          <Property Name="fecha_supv" Type="DateTime" Precision="0" />
+          <Property Name="label" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ElementoVerif" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo_item" Type="Boolean" Nullable="false" />
+          <Property Name="CARTILLA_cartilla_id" Type="Int32" Nullable="false" />
+          <Property Name="codigo_inmueble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inmueble_id" Type="Int32" Nullable="false" />
+          <Property Name="lote_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="ACCESO_CARTILLA_CARTILLA_FK">
+          <End Role="CARTILLA" Type="Self.CARTILLA" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ACCESO_CARTILLA" Type="Self.ACCESO_CARTILLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARTILLA">
+              <PropertyRef Name="cartilla_id" />
+            </Principal>
+            <Dependent Role="ACCESO_CARTILLA">
+              <PropertyRef Name="CARTILLA_cartilla_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ACCESO_CARTILLA_USUARIO_FK">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ACCESO_CARTILLA" Type="Self.ACCESO_CARTILLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="usuario_id" />
+            </Principal>
+            <Dependent Role="ACCESO_CARTILLA">
+              <PropertyRef Name="USUARIO_usuario_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ACCESO_OB__obra___0EF836A4">
+          <End Role="OBRA" Type="Self.OBRA" Multiplicity="0..1" />
+          <End Role="ACCESO_OBRAS" Type="Self.ACCESO_OBRAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OBRA">
+              <PropertyRef Name="obra_id" />
+            </Principal>
+            <Dependent Role="ACCESO_OBRAS">
+              <PropertyRef Name="obra_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ACCESO_OB__usuar__0E04126B">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
+          <End Role="ACCESO_OBRAS" Type="Self.ACCESO_OBRAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="usuario_id" />
+            </Principal>
+            <Dependent Role="ACCESO_OBRAS">
+              <PropertyRef Name="usuario_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="ACTIVIDAD_OBRA_FK">
           <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
           <End Role="ACTIVIDAD" Type="Self.ACTIVIDAD" Multiplicity="*" />
@@ -673,14 +1088,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="INMUEBLE_OBRA_FK">
-          <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
+        <Association Name="INMUEBLE_LOTE_INMUEBLE_FK">
+          <End Role="LOTE_INMUEBLE" Type="Self.LOTE_INMUEBLE" Multiplicity="1" />
           <End Role="INMUEBLE" Type="Self.INMUEBLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOTE_INMUEBLE">
+              <PropertyRef Name="lote_id" />
+            </Principal>
+            <Dependent Role="INMUEBLE">
+              <PropertyRef Name="LOTE_INMUEBLE_lote_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LOTE_INMUEBLE_OBRA_FK">
+          <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
+          <End Role="LOTE_INMUEBLE" Type="Self.LOTE_INMUEBLE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OBRA">
               <PropertyRef Name="obra_id" />
             </Principal>
-            <Dependent Role="INMUEBLE">
+            <Dependent Role="LOTE_INMUEBLE">
               <PropertyRef Name="OBRA_obra_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -693,18 +1120,6 @@
               <PropertyRef Name="obra_id" />
             </Principal>
             <Dependent Role="RESPONSABLE">
-              <PropertyRef Name="OBRA_obra_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="USUARIO_OBRA_FK">
-          <End Role="OBRA" Type="Self.OBRA" Multiplicity="1" />
-          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OBRA">
-              <PropertyRef Name="obra_id" />
-            </Principal>
-            <Dependent Role="USUARIO">
               <PropertyRef Name="OBRA_obra_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -746,6 +1161,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ObraManzanoFinal" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACCESO_CARTILLA" EntityType="Self.ACCESO_CARTILLA" />
+          <EntitySet Name="ACCESO_OBRAS" EntityType="Self.ACCESO_OBRAS" />
           <EntitySet Name="ACTIVIDAD" EntityType="Self.ACTIVIDAD" />
           <EntitySet Name="CARTILLA" EntityType="Self.CARTILLA" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" />
@@ -753,12 +1170,31 @@
           <EntitySet Name="ESTADO_FINAL" EntityType="Self.ESTADO_FINAL" />
           <EntitySet Name="INMUEBLE" EntityType="Self.INMUEBLE" />
           <EntitySet Name="ITEM_VERIF" EntityType="Self.ITEM_VERIF" />
+          <EntitySet Name="LOTE_INMUEBLE" EntityType="Self.LOTE_INMUEBLE" />
           <EntitySet Name="OBRA" EntityType="Self.OBRA" />
           <EntitySet Name="PERFIL" EntityType="Self.PERFIL" />
           <EntitySet Name="PERSONA" EntityType="Self.PERSONA" />
           <EntitySet Name="REGION" EntityType="Self.REGION" />
           <EntitySet Name="RESPONSABLE" EntityType="Self.RESPONSABLE" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <EntitySet Name="VistaExcel" EntityType="Self.VistaExcel" />
+          <EntitySet Name="vw_DetalleCartilla" EntityType="Self.vw_DetalleCartilla" />
+          <AssociationSet Name="ACCESO_CARTILLA_CARTILLA_FK" Association="Self.ACCESO_CARTILLA_CARTILLA_FK">
+            <End Role="CARTILLA" EntitySet="CARTILLA" />
+            <End Role="ACCESO_CARTILLA" EntitySet="ACCESO_CARTILLA" />
+          </AssociationSet>
+          <AssociationSet Name="ACCESO_CARTILLA_USUARIO_FK" Association="Self.ACCESO_CARTILLA_USUARIO_FK">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ACCESO_CARTILLA" EntitySet="ACCESO_CARTILLA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ACCESO_OB__obra___0EF836A4" Association="Self.FK__ACCESO_OB__obra___0EF836A4">
+            <End Role="OBRA" EntitySet="OBRA" />
+            <End Role="ACCESO_OBRAS" EntitySet="ACCESO_OBRAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ACCESO_OB__usuar__0E04126B" Association="Self.FK__ACCESO_OB__usuar__0E04126B">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ACCESO_OBRAS" EntitySet="ACCESO_OBRAS" />
+          </AssociationSet>
           <AssociationSet Name="ACTIVIDAD_OBRA_FK" Association="Self.ACTIVIDAD_OBRA_FK">
             <End Role="OBRA" EntitySet="OBRA" />
             <End Role="ACTIVIDAD" EntitySet="ACTIVIDAD" />
@@ -799,17 +1235,17 @@
             <End Role="ITEM_VERIF" EntitySet="ITEM_VERIF" />
             <End Role="DETALLE_CARTILLA" EntitySet="DETALLE_CARTILLA" />
           </AssociationSet>
-          <AssociationSet Name="INMUEBLE_OBRA_FK" Association="Self.INMUEBLE_OBRA_FK">
-            <End Role="OBRA" EntitySet="OBRA" />
+          <AssociationSet Name="INMUEBLE_LOTE_INMUEBLE_FK" Association="Self.INMUEBLE_LOTE_INMUEBLE_FK">
+            <End Role="LOTE_INMUEBLE" EntitySet="LOTE_INMUEBLE" />
             <End Role="INMUEBLE" EntitySet="INMUEBLE" />
+          </AssociationSet>
+          <AssociationSet Name="LOTE_INMUEBLE_OBRA_FK" Association="Self.LOTE_INMUEBLE_OBRA_FK">
+            <End Role="OBRA" EntitySet="OBRA" />
+            <End Role="LOTE_INMUEBLE" EntitySet="LOTE_INMUEBLE" />
           </AssociationSet>
           <AssociationSet Name="RESPONSABLE_OBRA_FK" Association="Self.RESPONSABLE_OBRA_FK">
             <End Role="OBRA" EntitySet="OBRA" />
             <End Role="RESPONSABLE" EntitySet="RESPONSABLE" />
-          </AssociationSet>
-          <AssociationSet Name="USUARIO_OBRA_FK" Association="Self.USUARIO_OBRA_FK">
-            <End Role="OBRA" EntitySet="OBRA" />
-            <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
           <AssociationSet Name="USUARIO_PERFIL_FK" Association="Self.USUARIO_PERFIL_FK">
             <End Role="PERFIL" EntitySet="PERFIL" />
@@ -823,39 +1259,79 @@
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <FunctionImport Name="CrearCartillaYDetalleCartilla">
+            <Parameter Name="obra_id" Mode="In" Type="Int32" />
+            <Parameter Name="actividad_id" Mode="In" Type="Int32" />
+            <Parameter Name="observaciones" Mode="In" Type="String" />
+            <Parameter Name="observaciones_priv" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AdicionarInmueblesFaltantes">
+            <Parameter Name="LOTE_INMUEBLE_lote_id" Mode="In" Type="Int32" />
+            <Parameter Name="OBRA_obra_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SPU_RESUMEN_CARTILLA">
+            <Parameter Name="obra" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SPU_RESUMEN_SUPERV">
+            <Parameter Name="obra" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ObraManzanoEneroModelStoreContainer" CdmEntityContainer="ObraManzanoFinal">
+        <EntityContainerMapping StorageEntityContainer="ObraManzanoMayoActualizadaModelStoreContainer" CdmEntityContainer="ObraManzanoFinal">
+          <EntitySetMapping Name="ACCESO_CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.ACCESO_CARTILLA">
+              <MappingFragment StoreEntitySet="ACCESO_CARTILLA">
+                <ScalarProperty Name="acceso_cartilla_id" ColumnName="acceso_cartilla_id" />
+                <ScalarProperty Name="CARTILLA_cartilla_id" ColumnName="CARTILLA_cartilla_id" />
+                <ScalarProperty Name="USUARIO_usuario_id" ColumnName="USUARIO_usuario_id" />
+                <ScalarProperty Name="correo_enviado" ColumnName="correo_enviado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACCESO_OBRAS">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.ACCESO_OBRAS">
+              <MappingFragment StoreEntitySet="ACCESO_OBRAS">
+                <ScalarProperty Name="acceso_id" ColumnName="acceso_id" />
+                <ScalarProperty Name="usuario_id" ColumnName="usuario_id" />
+                <ScalarProperty Name="obra_id" ColumnName="obra_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ACTIVIDAD">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.ACTIVIDAD">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.ACTIVIDAD">
               <MappingFragment StoreEntitySet="ACTIVIDAD">
                 <ScalarProperty Name="actividad_id" ColumnName="actividad_id" />
                 <ScalarProperty Name="codigo_actividad" ColumnName="codigo_actividad" />
                 <ScalarProperty Name="nombre_actividad" ColumnName="nombre_actividad" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="tipo_actividad" ColumnName="tipo_actividad" />
                 <ScalarProperty Name="OBRA_obra_id" ColumnName="OBRA_obra_id" />
+                <ScalarProperty Name="notas" ColumnName="notas" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CARTILLA">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.CARTILLA">
               <MappingFragment StoreEntitySet="CARTILLA">
                 <ScalarProperty Name="cartilla_id" ColumnName="cartilla_id" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="observaciones_priv" ColumnName="observaciones_priv" />
                 <ScalarProperty Name="ruta_pdf" ColumnName="ruta_pdf" />
                 <ScalarProperty Name="OBRA_obra_id" ColumnName="OBRA_obra_id" />
                 <ScalarProperty Name="ACTIVIDAD_actividad_id" ColumnName="ACTIVIDAD_actividad_id" />
                 <ScalarProperty Name="ESTADO_FINAL_estado_final_id" ColumnName="ESTADO_FINAL_estado_final_id" />
+                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
+                <ScalarProperty Name="enviar_correo" ColumnName="enviar_correo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="COMUNA">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.COMUNA">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.COMUNA">
               <MappingFragment StoreEntitySet="COMUNA">
                 <ScalarProperty Name="comuna_id" ColumnName="comuna_id" />
                 <ScalarProperty Name="nombre_comuna" ColumnName="nombre_comuna" />
@@ -864,20 +1340,28 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLE_CARTILLA">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.DETALLE_CARTILLA">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.DETALLE_CARTILLA">
               <MappingFragment StoreEntitySet="DETALLE_CARTILLA">
                 <ScalarProperty Name="detalle_cartilla_id" ColumnName="detalle_cartilla_id" />
-                <ScalarProperty Name="estado_otec" ColumnName="estado_otec" />
+                <ScalarProperty Name="estado_autocontrol" ColumnName="estado_autocontrol" />
                 <ScalarProperty Name="estado_ito" ColumnName="estado_ito" />
                 <ScalarProperty Name="estado_supv" ColumnName="estado_supv" />
+                <ScalarProperty Name="fecha_rev" ColumnName="fecha_rev" />
                 <ScalarProperty Name="ITEM_VERIF_item_verif_id" ColumnName="ITEM_VERIF_item_verif_id" />
                 <ScalarProperty Name="CARTILLA_cartilla_id" ColumnName="CARTILLA_cartilla_id" />
                 <ScalarProperty Name="INMUEBLE_inmueble_id" ColumnName="INMUEBLE_inmueble_id" />
+                <ScalarProperty Name="fecha_fto" ColumnName="fecha_fto" />
+                <ScalarProperty Name="fecha_supv" ColumnName="fecha_supv" />
+                <ScalarProperty Name="fecha_autocontrol" ColumnName="fecha_autocontrol" />
+                <ScalarProperty Name="rut_spv" ColumnName="rut_spv" />
+                <ScalarProperty Name="correo_enviado_ac" ColumnName="correo_enviado_ac" />
+                <ScalarProperty Name="correo_enviado_supv" ColumnName="correo_enviado_supv" />
+                <ScalarProperty Name="revision_dos" ColumnName="revision_dos" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ESTADO_FINAL">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.ESTADO_FINAL">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.ESTADO_FINAL">
               <MappingFragment StoreEntitySet="ESTADO_FINAL">
                 <ScalarProperty Name="estado_final_id" ColumnName="estado_final_id" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -886,37 +1370,59 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="INMUEBLE">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.INMUEBLE">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.INMUEBLE">
               <MappingFragment StoreEntitySet="INMUEBLE">
                 <ScalarProperty Name="inmueble_id" ColumnName="inmueble_id" />
-                <ScalarProperty Name="codigo_inmueble" ColumnName="codigo_inmueble" />
                 <ScalarProperty Name="tipo_inmueble" ColumnName="tipo_inmueble" />
-                <ScalarProperty Name="OBRA_obra_id" ColumnName="OBRA_obra_id" />
+                <ScalarProperty Name="codigo_inmueble" ColumnName="codigo_inmueble" />
+                <ScalarProperty Name="LOTE_INMUEBLE_lote_id" ColumnName="LOTE_INMUEBLE_lote_id" />
+                <ScalarProperty Name="codigo_interno" ColumnName="codigo_interno" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ITEM_VERIF">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.ITEM_VERIF">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.ITEM_VERIF">
               <MappingFragment StoreEntitySet="ITEM_VERIF">
                 <ScalarProperty Name="item_verif_id" ColumnName="item_verif_id" />
                 <ScalarProperty Name="elemento_verificacion" ColumnName="elemento_verificacion" />
                 <ScalarProperty Name="label" ColumnName="label" />
+                <ScalarProperty Name="tipo_item" ColumnName="tipo_item" />
                 <ScalarProperty Name="ACTIVIDAD_actividad_id" ColumnName="ACTIVIDAD_actividad_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LOTE_INMUEBLE">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.LOTE_INMUEBLE">
+              <MappingFragment StoreEntitySet="LOTE_INMUEBLE">
+                <ScalarProperty Name="lote_id" ColumnName="lote_id" />
+                <ScalarProperty Name="tipo_bloque" ColumnName="tipo_bloque" />
+                <ScalarProperty Name="numero_letra_bloque_1" ColumnName="numero_letra_bloque_1" />
+                <ScalarProperty Name="abreviatura" ColumnName="abreviatura" />
+                <ScalarProperty Name="cantidad_pisos" ColumnName="cantidad_pisos" />
+                <ScalarProperty Name="cantidad_inmuebles" ColumnName="cantidad_inmuebles" />
+                <ScalarProperty Name="descripcion_tipo_proyecto" ColumnName="descripcion_tipo_proyecto" />
+                <ScalarProperty Name="OBRA_obra_id" ColumnName="OBRA_obra_id" />
+                <ScalarProperty Name="rango_inicial" ColumnName="rango_inicial" />
+                <ScalarProperty Name="rango_final" ColumnName="rango_final" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OBRA">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.OBRA">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.OBRA">
               <MappingFragment StoreEntitySet="OBRA">
                 <ScalarProperty Name="obra_id" ColumnName="obra_id" />
                 <ScalarProperty Name="nombre_obra" ColumnName="nombre_obra" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="COMUNA_comuna_id" ColumnName="COMUNA_comuna_id" />
+                <ScalarProperty Name="tipo_proyecto" ColumnName="tipo_proyecto" />
+                <ScalarProperty Name="total_deptos" ColumnName="total_deptos" />
+                <ScalarProperty Name="total_viv" ColumnName="total_viv" />
+                <ScalarProperty Name="entidad_patrocinante" ColumnName="entidad_patrocinante" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PERFIL">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.PERFIL">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.PERFIL">
               <MappingFragment StoreEntitySet="PERFIL">
                 <ScalarProperty Name="perfil_id" ColumnName="perfil_id" />
                 <ScalarProperty Name="rol" ColumnName="rol" />
@@ -924,7 +1430,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PERSONA">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.PERSONA">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.PERSONA">
               <MappingFragment StoreEntitySet="PERSONA">
                 <ScalarProperty Name="rut" ColumnName="rut" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -935,7 +1441,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="REGION">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.REGION">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.REGION">
               <MappingFragment StoreEntitySet="REGION">
                 <ScalarProperty Name="region_id" ColumnName="region_id" />
                 <ScalarProperty Name="nombre_region" ColumnName="nombre_region" />
@@ -943,7 +1449,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RESPONSABLE">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.RESPONSABLE">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.RESPONSABLE">
               <MappingFragment StoreEntitySet="RESPONSABLE">
                 <ScalarProperty Name="responsable_id" ColumnName="responsable_id" />
                 <ScalarProperty Name="cargo" ColumnName="cargo" />
@@ -953,16 +1459,58 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="USUARIO">
-            <EntityTypeMapping TypeName="ObraManzanoEneroModel.USUARIO">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIO">
                 <ScalarProperty Name="usuario_id" ColumnName="usuario_id" />
                 <ScalarProperty Name="contraseña" ColumnName="contraseña" />
                 <ScalarProperty Name="PERFIL_perfil_id" ColumnName="PERFIL_perfil_id" />
-                <ScalarProperty Name="OBRA_obra_id" ColumnName="OBRA_obra_id" />
                 <ScalarProperty Name="PERSONA_rut" ColumnName="PERSONA_rut" />
+                <ScalarProperty Name="estado_usuario" ColumnName="estado_usuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="VistaExcel">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.VistaExcel">
+              <MappingFragment StoreEntitySet="VistaExcel">
+                <ScalarProperty Name="label" ColumnName="label" />
+                <ScalarProperty Name="elemento_verificacion" ColumnName="elemento_verificacion" />
+                <ScalarProperty Name="estado_autocontrol" ColumnName="estado_autocontrol" />
+                <ScalarProperty Name="estado_ito" ColumnName="estado_ito" />
+                <ScalarProperty Name="estado_supv" ColumnName="estado_supv" />
+                <ScalarProperty Name="fecha_rev" ColumnName="fecha_rev" />
+                <ScalarProperty Name="codigo_inmueble" ColumnName="codigo_inmueble" />
+                <ScalarProperty Name="cartilla_id" ColumnName="cartilla_id" />
+                <ScalarProperty Name="actividad_id" ColumnName="actividad_id" />
+                <ScalarProperty Name="fecha_autocontrol" ColumnName="fecha_autocontrol" />
+                <ScalarProperty Name="fecha_fto" ColumnName="fecha_fto" />
+                <ScalarProperty Name="fecha_supv" ColumnName="fecha_supv" />
+                <ScalarProperty Name="tipo_item" ColumnName="tipo_item" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DetalleCartilla">
+            <EntityTypeMapping TypeName="ObraManzanoMayoActualizadaModel.vw_DetalleCartilla">
+              <MappingFragment StoreEntitySet="vw_DetalleCartilla">
+                <ScalarProperty Name="estado_autocontrol" ColumnName="estado_autocontrol" />
+                <ScalarProperty Name="estado_ito" ColumnName="estado_ito" />
+                <ScalarProperty Name="estado_supv" ColumnName="estado_supv" />
+                <ScalarProperty Name="fecha_autocontrol" ColumnName="fecha_autocontrol" />
+                <ScalarProperty Name="fecha_fto" ColumnName="fecha_fto" />
+                <ScalarProperty Name="fecha_supv" ColumnName="fecha_supv" />
+                <ScalarProperty Name="label" ColumnName="label" />
+                <ScalarProperty Name="ElementoVerif" ColumnName="ElementoVerif" />
+                <ScalarProperty Name="tipo_item" ColumnName="tipo_item" />
+                <ScalarProperty Name="CARTILLA_cartilla_id" ColumnName="CARTILLA_cartilla_id" />
+                <ScalarProperty Name="codigo_inmueble" ColumnName="codigo_inmueble" />
+                <ScalarProperty Name="inmueble_id" ColumnName="inmueble_id" />
+                <ScalarProperty Name="lote_id" ColumnName="lote_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CrearCartillaYDetalleCartilla" FunctionName="ObraManzanoMayoActualizadaModel.Store.CrearCartillaYDetalleCartilla" />
+          <FunctionImportMapping FunctionImportName="sp_AdicionarInmueblesFaltantes" FunctionName="ObraManzanoMayoActualizadaModel.Store.sp_AdicionarInmueblesFaltantes" />
+          <FunctionImportMapping FunctionImportName="SPU_RESUMEN_CARTILLA" FunctionName="ObraManzanoMayoActualizadaModel.Store.SPU_RESUMEN_CARTILLA" />
+          <FunctionImportMapping FunctionImportName="SPU_RESUMEN_SUPERV" FunctionName="ObraManzanoMayoActualizadaModel.Store.SPU_RESUMEN_SUPERV" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

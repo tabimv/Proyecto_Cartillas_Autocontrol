@@ -1,0 +1,164 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE
+
+@{
+    ViewBag.Title = "Delete";
+
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
+
+    <div class="container-delete">
+        <div class="form-container-delete">
+            <h2> Eliminar Lote de Inmueble </h2>
+            <h3>¿Estás seguro que quieres eliminar este Lote de Inmueble y todos los inmuebles asociados?</h3>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Obra Asociada:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
+                    </dd>
+
+                    <dt>
+                        Tipo de Bloque:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.tipo_bloque)
+                    </dd>
+
+                    <dt>
+                        Abreviatura:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.abreviatura)
+                    </dd>
+
+                    @{
+                        decimal? rangoInicial = Model != null ? Model.rango_inicial : null;
+                    }
+
+                    @if (rangoInicial.HasValue)
+                    {
+                        <dt>
+                            Rango Inicial:
+                        </dt>
+
+
+
+                        <dd>
+                            @((int)(rangoInicial ?? 0))
+                        </dd>
+                    }
+
+
+                    @{
+                        decimal? rangoFinal = Model != null ? Model.rango_final : null;
+                    }
+
+                    @if (rangoFinal.HasValue)
+                    {
+                        <dt>
+                            Rango Final:
+                        </dt>
+
+
+
+                        <dd>
+                            @((int)(rangoFinal ?? 0))
+                        </dd>
+                    }
+
+                    @{
+                        decimal? cantidadPisos = Model != null ? Model.cantidad_pisos : null;
+                    }
+
+                    @if (cantidadPisos.HasValue)
+                    {
+                        <dt>
+                            Cantidad de Pisos:
+                        </dt>
+
+
+
+                        <dd>
+                            @((int)(cantidadPisos ?? 0))
+                        </dd>
+                    }
+
+                    @{
+                        decimal? cantidadInmuebles = Model != null ? Model.cantidad_inmuebles : null;
+                    }
+
+
+                    @if (cantidadInmuebles > 0)
+                    {
+                        <dt>
+                            Cantidad de Inmuebles:
+                        </dt>
+                        <dd>
+                            @((int)(cantidadInmuebles ?? 0))
+                        </dd>
+                    }
+
+
+
+                </dl>
+
+
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver a la Lista", "LoteLista", null, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}
+
+
+
+
+

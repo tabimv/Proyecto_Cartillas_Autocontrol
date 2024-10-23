@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.INMUEBLE>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo_inmueble)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.codigo_inmueble)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LOTE_INMUEBLE.tipo_bloque)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipo_inmueble)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigo_inmueble)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LOTE_INMUEBLE.tipo_bloque)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.inmueble_id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.inmueble_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.inmueble_id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

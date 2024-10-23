@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    int? lastObraId = null;
+    int? lastLoteId = null;
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -30,10 +30,11 @@ else
                             <h2>Gestión de <b>Inmuebles</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("Crear")" class="btn btn-success">
-                                <i class="material-icons">&#xE147;</i>
+                            <a href="@Url.Action("Crear", "InmueblePorLote")" class="btn btn-success">
+                                <i class="material-icons">home</i> <!-- Icono de una casa -->
                                 Crear Nuevo Registro de Inmuebles
                             </a>
+
 
                             <a style="background-color: #165030; color: #ffffff; transition: background-color 0.3s;" href="@Url.Action("ExportToExcel")" class="btn btn" onmouseover="this.style.backgroundColor='#0F7840'" onmouseout="this.style.backgroundColor='#165030'">
                                 <i class="material-icons">&#xE24D;</i>
@@ -48,6 +49,8 @@ else
                         <tr>
                             <th></th>
                             <th> Obra Asociada </th>
+                            <th> Tipo de Lote </th>
+                            <th> Lote </th>
                             <th style="white-space: nowrap;">Lista de Inmuebles</th>
                             <th> Acciones </th>
                         </tr>
@@ -55,15 +58,17 @@ else
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            if (lastObraId != item.OBRA.obra_id)
+                            if (lastLoteId != item.LOTE_INMUEBLE.lote_id)
                             {
                                 <tr>
                                     <td></td>
-                                    <td> @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.LOTE_INMUEBLE.OBRA.nombre_obra) </td>
+                                    <td>  @Html.DisplayFor(modelItem => item.LOTE_INMUEBLE.tipo_bloque) </td>
+                                    <td>  @Html.DisplayFor(modelItem => item.LOTE_INMUEBLE.abreviatura) </td>
                                     <td>
                                         <!-- Tu lógica para visualizar detalles o acciones específicas -->
                                         <!-- Asegúrate de ajustar esta parte según tu lógica -->
-                                        <a href="#" class="edit" data-url="@Url.Action("InmuebleDetails", new { obraId = item.OBRA_obra_id })">
+                                        <a href="#" class="edit" data-url="@Url.Action("InmuebleDetails", new { loteId = item.LOTE_INMUEBLE.lote_id })">
                                             <i class="material-icons eye-icon"
                                                data-toggle="tooltip"
                                                title="Visualizar Lista"
@@ -74,12 +79,12 @@ else
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="#" class="edit" data-url="@Url.Action("EditarPorObra", new { obraId = item.OBRA_obra_id })">
+                                        <a href="#" class="edit" data-url="@Url.Action("EditByLoteId", "InmueblePorLote", new { loteId = item.LOTE_INMUEBLE_lote_id })">
                                             <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
                                         </a>
 
-                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarInmuebles", new { obraId = item.OBRA_obra_id })">
+                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarInmuebles", "InmueblePorLote", new { loteID = item.LOTE_INMUEBLE_lote_id })">
                                             <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
                                         </a>
 
@@ -87,7 +92,7 @@ else
                                     </td>
                                 </tr>
                             }
-                            lastObraId = item.OBRA_obra_id;
+                            lastLoteId = item.LOTE_INMUEBLE.lote_id;
                         }
                     </tbody>
                 </table>

@@ -78,16 +78,30 @@ else
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="#" class="edit" data-url="@Url.Action("EditarPorActividad", new { actividadId = item.ACTIVIDAD_actividad_id })">
-                                            <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
-                                            <span style="display: none;">Edit</span>
-                                        </a>
+                                        @if (item.ACTIVIDAD.estado == "B")
+                                        {
+                                            <a href="#" class="edit" data-url="#">
+                                                <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="Los Items no se puede modificar con la Actividad en estado Bloqueado">&#xE254;</i>
+                                                <span style="display: none;">Edit</span>
+                                            </a>
 
-                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarItems", new { actividadId = item.ACTIVIDAD_actividad_id })">
-                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
-                                        </a>
+                                            <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
+                                                <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Items no se puede Eliminar con la Actividad en estado Bloqueado">&#xE872;</i>
+                                            </a>
+                                        }
+                                        else if (item.ACTIVIDAD.estado == "A")
+                                        {
 
+                                            <a href="#" class="edit" data-url="@Url.Action("EditarPorActividad", new { actividadId = item.ACTIVIDAD_actividad_id })">
+                                                <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
+                                                <span style="display: none;">Edit</span>
+                                            </a>
 
+                                            <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarItems", new { actividadId = item.ACTIVIDAD_actividad_id })">
+                                                <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
+                                            </a>
+
+                                        }
 
                                     </td>
                                 </tr>
@@ -160,7 +174,12 @@ else
             });
         });
     </script>
-
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

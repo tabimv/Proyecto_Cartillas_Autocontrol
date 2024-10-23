@@ -24,12 +24,12 @@ else
             <div class="form-container">
                 <h2>Crear Persona</h2>
                 @Html.AntiForgeryToken()
-            <div class="form-group">
-                @Html.LabelFor(model => model.rut, "Rut: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.rut, new { @class = "form-control", placeholder = "Rut sin puntos con guión", onchange = "validarRut(this.value)", required = "required" })
-                @Html.ValidationMessageFor(model => model.rut, "", new { @class = "text-danger" })
-                <div id="mensajeErrorRut" class="text-danger"></div>
-            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.rut, "Rut: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.TextBoxFor(model => model.rut, new { @class = "form-control", placeholder = "Rut sin puntos con guión", onchange = "validarRut(this.value)", oninput = "formatearRut(this)", required = "required" })
+                    @Html.ValidationMessageFor(model => model.rut, "", new { @class = "text-danger" })
+                    <div id="mensajeErrorRut" class="text-danger"></div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" }, required = "required" })
@@ -67,6 +67,24 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+        function formatearRut(input) {
+            let rut = input.value.replace(/[^0-9kK]/g, ''); // Permite solo números y 'k'/'K'
+            rut = rut.slice(0, 9); // Limita a 10 caracteres
+            let rutFormateado = rut.slice(0, -1); // Parte del RUT sin el dígito verificador
+            let dv = rut.slice(-1).toLowerCase(); // Dígito verificador en minúscula
+
+            if (rutFormateado.length > 0) {
+                rutFormateado = rutFormateado.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1'); // Formatea el RUT con separadores de miles
+            }
+
+            if (dv) {
+                input.value = `${rutFormateado}-${dv}`;
+            } else {
+                input.value = rutFormateado;
+            }
+        }
+
         function validarRut(rut) {
             rut = rut.replace(".", "").toUpperCase();
 
@@ -124,6 +142,12 @@ else
             // Permitir el envío del formulario
             return true;
         }
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
     </script>
 
 }

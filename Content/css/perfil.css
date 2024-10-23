@@ -13,6 +13,16 @@
         margin: 50px auto;
     }
 
+.user-info ul {
+     /* Quita los puntos de la lista */
+    padding: 0;
+    text-align: left;
+  
+}
+.user-info li {
+    margin-left: 0; /* Quita la indentación */
+    padding: 5px 0; /* Añade algo de espacio entre los elementos */
+}
 .profile-header {
     background-color: #E96F21;
     color: #fff;

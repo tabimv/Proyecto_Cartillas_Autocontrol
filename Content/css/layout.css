@@ -188,4 +188,8 @@ body {
     .tabla-container {
         overflow-x: auto;
     }
+
+    #Footer {
+        display: none;
+    }
 }

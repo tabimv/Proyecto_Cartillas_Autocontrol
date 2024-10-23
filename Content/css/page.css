@@ -1,0 +1,33 @@
+﻿.page {
+    page-break-after: always;
+    page-break-inside: avoid;
+    margin-bottom: 50px; /* Añade espacio entre las páginas */
+    padding-bottom: 20px; /* Añade espacio en la parte inferior de la página */   
+    page-break-inside: avoid; /* Evita el corte de una página en medio */
+}
+
+    .page:last-child {
+        page-break-after: auto; /* No aplicar el salto de página en el último elemento */
+    }
+
+@media print {
+    .encabezado {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background-color: white;
+        text-align: center;
+        z-index: 1000;
+        page-break-before: always;
+    }
+
+    .informacion-general {
+        position: relative;
+        top: -80px; /* Ajusta según sea necesario */
+        margin-top: 0; /* Asegúrate de que no haya margen adicional */
+        padding-top: 0; /* Asegúrate de que no haya relleno adicional */
+    }
+
+}

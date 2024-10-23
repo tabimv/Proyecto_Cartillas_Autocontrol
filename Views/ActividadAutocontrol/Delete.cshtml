@@ -1,0 +1,124 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.ACTIVIDAD
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
+{
+    Layout = "~/Views/Shared/_Layout_Autocontrol.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
+
+    <div class="container-delete">
+        <div class="form-container-delete">
+            <h2> Eliminar Actividad </h2>
+            @if (Model.ITEM_VERIF.Any())
+            {
+                <h3>¿Estás seguro/a que quieres eliminar esta Actividad?. <br /> Se eliminarán todos los ítems asociados a ella</h3>
+            }
+            else
+            {
+                <h3>¿Estás seguro que quieres eliminar esta Actividad?</h3>
+            }
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        Obra Asociada:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OBRA.nombre_obra)
+                    </dd>
+
+                    <dt>
+                        Código Actividad:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.codigo_actividad)
+                    </dd>
+
+                    <dt>
+                        nombre Actividad:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.nombre_actividad)
+                    </dd>
+
+                    <dt>
+                        Estado:
+                    </dt>
+
+                    @if (Model.estado == "A")
+                    {
+                        <dd> Activo </dd>
+                    }
+                    else if (Model.estado == "B")
+                    {
+                        <dd> Bloqueado </dd>
+                    }
+
+                    <dt>
+                        Tipo Actividad:
+                    </dt>
+
+                    @if (Model.tipo_actividad == "P")
+                    {
+                        <dd> Proyecto </dd>
+                    }
+                    else if (Model.tipo_actividad == "I")
+                    {
+                        <dd> Inmueble </dd>
+                    }
+
+
+
+
+
+                </dl>
+
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-sm btn-custom-link" }) |
+                        <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+// Script para manejar la expiración de la sesión
+setTimeout(function () {
+    window.location.href = '@Url.Action("Login", "Account")';
+}, 43200000); // 12 horas en milisegundos
+    </script>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Autocontrol</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

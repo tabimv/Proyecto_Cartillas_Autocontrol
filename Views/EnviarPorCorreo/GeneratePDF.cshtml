@@ -7,10 +7,10 @@
     var nombreActividad = Model[0].CARTILLA.ACTIVIDAD.nombre_actividad;
     var words = nombreActividad.Split(' ');
 
-    if (words.Length > 4)
+    if (words.Length > 3)
     {
-        var firstLine = string.Join(" ", words.Take(4));
-        var secondLine = string.Join(" ", words.Skip(4));
+        var firstLine = string.Join(" ", words.Take(3));
+        var secondLine = string.Join(" ", words.Skip(3));
         nombreActividad = $"{firstLine}<br>{secondLine}";
     }
 }
@@ -29,13 +29,25 @@
         <strong>Actividad:</strong> @Html.Raw(nombreActividad)
     </p>
     <p><strong>Código Actividad: </strong> @Model[0].CARTILLA.ACTIVIDAD.codigo_actividad</p>
-    <p><strong>Responsable de Revisión:</strong></p>
+    @if (!string.IsNullOrEmpty(Model[0].CARTILLA.ACTIVIDAD.notas))
+    {
+        <p><strong>Notas: </strong> @Model[0].CARTILLA.ACTIVIDAD.notas</p>
+    }
+    <p><strong>Estado: </strong>@Model[0].CARTILLA.ESTADO_FINAL.descripcion </p>
     <div class="linea-vertical"></div>
     <div class="fecha-firma">
 
         <p><strong>Fecha Inicio: </strong>  @Model[0].CARTILLA.fecha.ToString("dd-MM-yyyy")</p>
-        <p><strong>Fecha Cierre: </strong> </p>
-        <p><strong>Estado: </strong>@Model[0].CARTILLA.ESTADO_FINAL.descripcion </p>
+
+
+        @if (Model[0].CARTILLA.fecha_modificacion != null)
+        {
+            <p><strong>Fecha Modificación:</strong> <br /> @Model[0].CARTILLA.fecha_modificacion.Value.ToShortDateString() </p>
+        }
+        else
+        {
+            <p><strong>Fecha Modificación:</strong> <br /> No ha sido revisada </p>
+        }
     </div>
 </div>
 
@@ -46,6 +58,10 @@
     <p><strong>DIRECCIÓN:</strong> @Model[0].CARTILLA.OBRA.direccion</p>
     <p><strong>COMUNA:</strong> @Model[0].CARTILLA.OBRA.COMUNA.nombre_comuna</p>
     <p><strong>CONSTRUCTORA:</strong> Constructora Manzano y Asociados Ltda </p>
+    @if (!string.IsNullOrEmpty(Model[0].CARTILLA.OBRA.entidad_patrocinante))
+    {
+        <p><strong>ENTIDAD PATROCINANTE:</strong> @Model[0].CARTILLA.OBRA.entidad_patrocinante</p>
+    }
 
     @foreach (var item in ViewBag.Responsables)
     {
@@ -54,10 +70,7 @@
             <p><strong>CONTRATISTA: </strong> @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
         }
 
-        if (item.cargo == "EGIS")
-        {
-            <p><strong>EGIS: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno @item.PERSONA.apellido_materno</p>
-        }
+
 
         if (item.cargo == "Administrador de Obra")
         {
@@ -78,6 +91,10 @@
         {
             <p><strong>F.T.O SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
         }
+        if (item.cargo == "Supervisor Serviu")
+        {
+            <p><strong>SUPERVISOR SERVIU: </strong>  @item.PERSONA.nombre @item.PERSONA.apeliido_paterno   @item.PERSONA.apellido_materno</p>
+        }
 
     }
 </section>
@@ -95,7 +112,7 @@
         @foreach (var inmuebleGroup in groupedByInmueble)
         {
             var codigoInmueble = inmuebleGroup.First().INMUEBLE.codigo_inmueble;
-            <th colspan="3" style="max-width: 2%; white-space: nowrap;">N ° VIV: @Html.DisplayFor(modelItem => codigoInmueble) </th>
+            <th colspan="4" style="max-width: 2%; white-space: nowrap;">N ° VIV: @Html.DisplayFor(modelItem => codigoInmueble) </th>
         }
     </tr>
     <tr>
@@ -103,6 +120,7 @@
         <th style="width: 28%;">Elementos de Verificación</th>
         @foreach (var inmuebleGroup in groupedByInmueble)
         {
+            <th>Fecha Revisión</th>
             <th>SUPV</th>
             <th>AC</th>
             <th>F.T.O</th>
@@ -125,42 +143,87 @@
                 {
 
                     <td>
-                        @if (detalles.First().estado_supv)
+                        @if (detalles.First().fecha_rev != null)
                         {
-                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB Supervisor: Aprobado">&#xE876;</i>
-                            <span style="display: none;">Sí</span>
-                        }
-                        else
-                        {
-                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB Supervisor: Rechazado">&#xE5CD;</i>
-                            <span style="display: none;">No</span>
+                            @detalles.First().fecha_rev.Value.ToString("dd-MM-yyyy")
                         }
                     </td>
 
+
                     <td>
-                        @if (detalles.First().estado_otec)
+                        @if (detalles.First().estado_supv != null)
                         {
-                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB Autocontrol: Aprobado">&#xE876;</i>
-                            <span style="display: none;">Sí</span>
+                            if (detalles.First().estado_supv == true)
+                            {
+
+                                <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Aprobado">&#xE876;</i>
+                                <span style="display: none;">Sí</span>
+                            }
+                            else if (detalles.First().estado_supv == false)
+                            {
+                                <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Rechazado">&#xE5CD;</i>
+                                <span style="display: none;">No</span>
+
+                            }
                         }
                         else
                         {
-                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB Autocontrol: Rechazado">&#xE5CD;</i>
-                            <span style="display: none;">No</span>
+                        
+
                         }
+
                     </td>
 
                     <td>
-                        @if (detalles.First().estado_ito)
+                        @if (detalles.First().estado_autocontrol != null)
                         {
-                            <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB F.T.O: Aprobado">&#xE876;</i>
-                            <span style="display: none;">Sí</span>
+                            if (detalles.First().estado_autocontrol == true)
+                            {
+
+                                <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Aprobado">&#xE876;</i>
+                                <span style="display: none;">Sí</span>
+                            }
+                            else if (detalles.First().estado_autocontrol == false)
+                            {
+                                <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Rechazado">&#xE5CD;</i>
+                                <span style="display: none;">No</span>
+
+                            }
                         }
                         else
                         {
-                            <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB F.T.O: Rechazado">&#xE5CD;</i>
-                            <span style="display: none;">No</span>
+                            
+
+
+
                         }
+
+                    </td>
+
+                    <td>
+                        @if (detalles.First().estado_ito != null)
+                        {
+                            if (detalles.First().estado_ito == true)
+                            {
+
+                                <i style="color:green;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Aprobado">&#xE876;</i>
+                                <span style="display: none;">Sí</span>
+                            }
+                            else if (detalles.First().estado_ito == false)
+                            {
+                                <i style="color:maroon;" class="material-icons" data-toggle="tooltip" title="VB PRUEBA: Rechazado">&#xE5CD;</i>
+                                <span style="display: none;">No</span>
+
+                            }
+                        }
+                        else
+                        {
+                          
+
+
+
+                        }
+
                     </td>
 
                 }
@@ -197,43 +260,52 @@
 
             @if (item.cargo == "Administrador de Obra")
             {
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong>  @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
-                <p>Administrador de Obra</p>
-                <p>Constructora Manzano y Asoc.Ltda</p>
-            </div>
+                <div class="firma">
+                    <div class="linea"></div>
+                    <p><strong>  @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                    <p>Administrador de Obra</p>
+                    <p>Constructora Manzano y Asoc.Ltda</p>
+                </div>
             }
             else if (item.cargo == "Autocontrol")
             {
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
-                <p>Autocontrol de Obra</p>
-                <p>Constructora Manzano y Asoc.Ltda</p>
-            </div>
+                <div class="firma">
+                    <div class="linea"></div>
+                    <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                    <p>Autocontrol de Obra</p>
+                    <p>Constructora Manzano y Asoc.Ltda</p>
+                </div>
 
             }
             else if (item.cargo == "F.T.O 1")
             {
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
-                <p>F.T.O Serviu</p>
-                <p>Serviu Región del Biobío</p>
-            </div>
+                <div class="firma">
+                    <div class="linea"></div>
+                    <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                    <p>F.T.O Serviu</p>
+                    <p>Serviu Región del Biobío</p>
+                </div>
             }
             else if (item.cargo == "F.T.O 2")
             {
-            <div class="firma">
-                <div class="linea"></div>
-                <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
-                <p>F.T.O Serviu</p>
-                <p>Serviu Región del Biobío</p>
-            </div>
+                <div class="firma">
+                    <div class="linea"></div>
+                    <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                    <p>F.T.O Serviu</p>
+                    <p>Serviu Región del Biobío</p>
+                </div>
+            }
+            else if (item.cargo == "Supervisor Serviu")
+            {
+                <div class="firma">
+                    <div class="linea"></div>
+                    <p><strong> @item.PERSONA.nombre  @item.PERSONA.apeliido_paterno  @item.PERSONA.apellido_materno </strong></p>
+                    <p>Supervisor Serviu</p>
+                    <p>Serviu Región del Biobío</p>
+                </div>
             }
 
-            
+
         </tr>
     }
     </table>

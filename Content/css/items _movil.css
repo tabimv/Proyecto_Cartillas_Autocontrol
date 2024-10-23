@@ -1,0 +1,58 @@
+﻿/* Estilos para la tabla */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.registro input[type="text"] {
+    width: calc(100% - 20px); /* Ajustar el ancho del input */
+    margin-bottom: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Botones */
+.btnAgregar, .btnEliminar {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.btnAgregar {
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 10px;
+}
+
+
+    .btnAgregar:hover {
+        background-color: #3d8740;
+        color: white;
+    }
+
+.btnEliminar {
+    background-color: #f44336;
+    color: white;
+}
+
+    .btnEliminar:hover {
+        background-color: #992f27;
+        color: white;
+    }
+
+.acciones {
+    margin-left: 18%;
+}

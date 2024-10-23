@@ -1,7 +1,7 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.USUARIO
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar Usuario";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -16,17 +16,18 @@ else
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
 {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit.css">
+    <link rel="stylesheet" href="~/Content/css/CRUD_Usuarios.css">
 
     using (Html.BeginForm())
     {
-
         @Html.AntiForgeryToken()
         <div class="container-formularios">
             <div class="form-container">
                 <h2>Editar Usuario</h2>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.usuario_id)
+                @Html.HiddenFor(model => model.estado_usuario)
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control" })
@@ -44,30 +45,136 @@ else
                     @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
                 </div>
 
-
                 <div class="form-group">
                     @Html.LabelFor(model => model.PERFIL_perfil_id, "Tipo Perfil: ", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.DropDownList("PERFIL_perfil_id", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PERFIL_perfil_id, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+
+                <div class="table-responsive">
+                    @if (ViewBag.Obras != null)
+                    {
+                        <table id="accesos" class="table table-bordered">
+                            <thead>
+
+                                <tr>
+                                    <th style="font-size: 15px;">
+                                        Nombre de la Obra
+                                        <select id="obraFilter" class="form-control ddObra" style="width: 200px; margin-top: 5px;">
+                                            <option value="">Seleccionar Obra</option> <!-- Opción predeterminada -->
+                                            @foreach (var obra in ViewBag.Obras)
+                                            {
+                                                <option value="@obra.obra_id">@obra.nombre_obra</option>
+                                            }
+                                        </select>
+                                    </th>
+                                    <th style="font-size: 15px; width: 15%; text-align: center; vertical-align: middle;">
+                                        Dar Acceso
+                                        <div style="display: flex; flex-direction: column; margin-left:43%; justify-content: center; height: 100%; margin-top: 10px;">
+                                            <input type="checkbox" id="selectAllObras" class="form-check-input" title="Conceder todos los accesos" />
+                                        </div>
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var obra in (List<Proyecto_Cartilla_Autocontrol.Models.OBRA>)ViewBag.Obras)
+                                {
+                                    <tr class="acceso-row" data-obra="@obra.obra_id">
+                                        <td>
+                                            <label class="form-check-label" for="obra_@obra.obra_id">
+                                                @obra.nombre_obra
+                                            </label>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <input class="form-check-input" type="checkbox" name="obraIds" value="@obra.obra_id" @(ViewBag.ObrasSeleccionadas.Contains(obra.obra_id) ? "checked" : "") id="obra_@obra.obra_id">
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No hay obras disponibles.</p>
+                    }
                 </div>
+
                 <div class="form-group">
-                    <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
+                    <input type="submit" style="margin-top: 10px; " value="Guardar Cambios" class="btn btn-primary-custom" />
                 </div>
                 <div>
-                    <a href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                    <a style="width:100%;" href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
                 </div>
             </div>
         </div>
     }
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Agrega estos enlaces en el <head> de tu vista -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#accesos').DataTable({
+                "paging": true, // Habilita la paginación
+                "pageLength": 10, // Número de registros por página
+                "searching": true, // Habilita el buscador
+                "lengthMenu": [10, 25, 50, 100], // Opciones de cantidad de registros por página
+                "ordering": false, // Desactiva el ordenamiento
+                "language": {
+                    "search": "Buscar:",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            function filtrarTabla() {
+                var selectedObraId = $('#obraFilter').val();
+                if (selectedObraId === null || selectedObraId === "") {
+                    $('.acceso-row').show();
+                } else {
+                    $('.acceso-row').hide();
+                    $('.acceso-row[data-obra="' + selectedObraId + '"]').show();
+                }
+            }
+
+            $('#obraFilter').change(function () {
+                filtrarTabla();
+                $("#selectAllObras").prop("checked", false); // Desmarcar el checkbox selectAllObras
+            });
+
+            filtrarTabla();
+
+            $("#selectAllObras").click(function () {
+                var isChecked = $(this).is(":checked");
+                var selectedObraId = $('#obraFilter').val();
+
+                if (selectedObraId === null || selectedObraId === "") {
+                    $("input[name='obraIds']").prop("checked", isChecked);
+                } else {
+                    $(".acceso-row[data-obra='" + selectedObraId + "'] input[name='obraIds']").prop("checked", isChecked);
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $(".btn-toggle-password").click(function () {
@@ -83,8 +190,12 @@ else
                 }
             });
         });
-    </script>
 
+        // Script para manejar la expiración de la sesión
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Login", "Account")';
+        }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 else
 {

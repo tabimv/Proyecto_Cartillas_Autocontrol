@@ -29,7 +29,7 @@ else
                             <h2>Gestión de <b>Cartillas de Autocontrol</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("CrearCartilla")" class="btn btn-success">
+                            <a href="@Url.Action("CrearCartillaAutocontrol")" class="btn btn-success">
                                 <i class="material-icons">&#xE147;</i>
                                 Crear Nueva Cartilla
                             </a>
@@ -37,6 +37,12 @@ else
                             <a style="background-color: #165030; color: #ffffff; transition: background-color 0.3s;" href="@Url.Action("ExportToExcel")" class="btn btn" onmouseover="this.style.backgroundColor='#0F7840'" onmouseout="this.style.backgroundColor='#165030'">
                                 <i class="material-icons">&#xE24D;</i>
                                 Exportar a Excel
+                            </a>
+
+                            <a id="editarCartillaBtn2"
+                               href="@Url.Action("EditarCartillaMovilAdmin", "RevisionMovil")" class="btn btn-warning">
+                                <i class="material-icons">edit</i>
+                                Revisión Cartilla
                             </a>
 
                         </div>
@@ -69,7 +75,10 @@ else
                                 <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.codigo_actividad)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ACTIVIDAD.nombre_actividad)</td>
                                 <td>  @Html.DisplayFor(modelItem => item.ESTADO_FINAL.descripcion)</td>
-                                <td>
+                                <td style=" white-space: nowrap;">
+
+
+
                                     @if (item.ACTIVIDAD.estado == "B")
                                     {
                                         <i style="margin-left:18px;" class="material-icons" data-toggle="tooltip" title="Estado Bloqueado">&#xE897;</i>
@@ -80,26 +89,46 @@ else
                                     }
                                 </td>
 
-
-
-                                <td>
+                                <td style=" white-space: nowrap;">
                                     @if (item.ACTIVIDAD.estado == "B")
                                     {
-                                        <a href="#" class="edit" data-url="#">
-                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede modificar en Estado Bloqueado">&#xE254;</i>
+
+
+
+                                        <a href="#" class="edit" data-url="@Url.Action("ConsultaRevision", "CartillaActualizada", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Consulta de Revisión">&#xE8FD;</i>
+                                            <span style="display: none;">Consulta</span>
+                                        </a>
+
+                                        <a href="#" class="edit editar-cartilla" data-url="@Url.Action("EditarCartilla", "CartillaActualizada", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Revisión Cartilla">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
                                         </a>
 
-                                        <a href="#" class="delete" id="delete" data-toggle="modal" data-url="#">
-                                            <i style="color:dimgray;" class="material-icons" data-toggle="tooltip" title="La Cartilla no se puede Eliminar en Estado Bloqueado">&#xE872;</i>
+
+                                        <a href="#" class="delete" id="eliminarCartilla" data-id="@item.cartilla_id" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarCartilla", "Cartilla", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
                                         </a>
                                     }
                                     else if (item.ACTIVIDAD.estado == "A")
                                     {
-                                        <a href="#" class="edit" data-url="@Url.Action("EditarCartilla", "Cartilla", new { id = item.cartilla_id })">
-                                            <i class="material-icons" data-toggle="tooltip" title="Editar Cartilla">&#xE254;</i>
+
+                                        <a href="#" class="edit" data-url="@Url.Action("AsignarCartillaSupervisor", "Cartilla", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Asignar Cartilla a Supervisor" style="color: #585858;">touch_app</i>
+                                            <span style="display: none;">Consulta</span>
+                                        </a>
+
+                                        <a href="#" class="edit" data-url="@Url.Action("ConsultaRevision", "CartillaActualizada", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Consulta de Revisión">&#xE8FD;</i>
+                                            <span style="display: none;">Consulta</span>
+                                        </a>
+
+                                        <a href="#" class="edit editar-cartilla" data-url="@Url.Action("EditarCartilla", "CartillaActualizada", new { id = item.cartilla_id })">
+                                            <i class="material-icons" data-toggle="tooltip" title="Revisión Cartilla">&#xE254;</i>
                                             <span style="display: none;">Edit</span>
                                         </a>
+
+
 
                                         <a href="#" class="delete" id="eliminarCartilla" data-id="@item.cartilla_id" data-toggle="modal" data-url="@Url.Action("ConfirmarEliminarCartilla", "Cartilla", new { id = item.cartilla_id })">
                                             <i class="material-icons" data-toggle="tooltip" title="Eliminar Cartilla">&#xE872;</i>
@@ -165,6 +194,63 @@ else
             });
         });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Verificar el ancho de la pantalla
+        var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+
+        // Seleccionar todos los elementos con la clase 'editar-cartilla'
+        var editarCartillaLinks = document.querySelectorAll('.editar-cartilla');
+
+        // Ocultar si el ancho es menor o igual a 768px (móviles y tabletas)
+        if (screenWidth <= 768) {
+            editarCartillaLinks.forEach(function(link) {
+                link.style.display = 'none';
+            });
+        } else {
+            editarCartillaLinks.forEach(function(link) {
+                link.style.display = 'inline-block';
+            });
+        }
+
+        // Si la ventana cambia de tamaño, ocultar o mostrar el enlace según corresponda
+        window.addEventListener('resize', function() {
+            screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            if (screenWidth <= 768) {
+                editarCartillaLinks.forEach(function(link) {
+                    link.style.display = 'none';
+                });
+            } else {
+                editarCartillaLinks.forEach(function(link) {
+                    link.style.display = 'inline-block';
+                });
+            }
+        });
+    });
+    </script>
+    <script>
+      // Función que oculta o muestra el botón basado en el tamaño de la pantalla
+      function mostrarBotonEnMovil2() {
+          var anchoPantalla = window.innerWidth;
+          var boton2 = document.getElementById("editarCartillaBtn2");
+
+          // Definir el ancho máximo para dispositivos móviles y tabletas (768px es un valor común)
+          if (anchoPantalla <= 768) {
+              // Si el ancho de la pantalla es menor o igual a 768px (móvil o tableta), mostramos el botón
+              boton2.style.display = 'block';
+          } else {
+              // Si es mayor, ocultamos el botón (escritorio)
+              boton2.style.display = 'none';
+          }
+      }
+
+      // Ejecutar la función al cargar la página
+      mostrarBotonEnMovil2();
+
+      // Ejecutar la función cuando el tamaño de la pantalla cambia (redimensionar)
+      window.onresize = mostrarBotonEnMovil2;
+    </script>
+
     <script>
         $(document).ready(function () {
             $('#cartillaTable').DataTable({

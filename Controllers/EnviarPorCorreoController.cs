@@ -15,10 +15,11 @@ using Rotativa.Options;
 using System.IO.Compression;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using Aspose.Pdf;
-using Aspose.Pdf.Facades;
 using Ionic.Zip;
 using DocumentFormat.OpenXml.EMMA;
+using System.Text.RegularExpressions;
+
+
 
 namespace Proyecto_Cartilla_Autocontrol.Controllers
 {
@@ -26,110 +27,150 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
     {
         private ObraManzanoFinal db = new ObraManzanoFinal();
 
-        public ActionResult GeneratePDF(int id)
+        public async Task<FileStreamResult> GenerarPdfCorreoAsync(int cartilla_id)
         {
-            var actividad = db.ACTIVIDAD.SingleOrDefault(a => a.actividad_id == id);
+            // Obtener los detalles de la cartilla
+            var detalles = await db.vw_DetalleCartilla
+                                    .Where(d => d.CARTILLA_cartilla_id == cartilla_id)
+                                    .OrderBy(dc => dc.label)
+                                    .ToListAsync();
 
-            if (actividad == null)
+            // Obtener la información de la cartilla y la obra asociada
+            var cartilla = await db.CARTILLA
+                                   .Include(c => c.ACTIVIDAD)
+                                   .Include(c => c.OBRA)
+                                   .FirstOrDefaultAsync(c => c.cartilla_id == cartilla_id);
+
+            var obra = cartilla?.OBRA;
+            var actividad = cartilla?.ACTIVIDAD;
+
+            // Establecer información de la obra y cartilla en el ViewBag
+            ViewBag.ObraNombre = obra?.nombre_obra ?? "No disponible";
+            ViewBag.ObraDireccion = obra?.direccion ?? "No disponible";
+            ViewBag.ObraComuna = obra?.COMUNA?.nombre_comuna ?? "No disponible";
+            ViewBag.ActividadNombre = actividad?.nombre_actividad ?? "No disponible";
+            ViewBag.ActividadCodigo = actividad?.codigo_actividad ?? "No disponible";
+            ViewBag.Entidad = obra?.entidad_patrocinante ?? "No disponible";
+            ViewBag.ActividadNotas = actividad?.notas ?? "No disponible";
+            ViewBag.ObservacionesPublic = cartilla?.observaciones ?? "No disponible";
+            ViewBag.CartillaFecha = cartilla?.fecha.ToString("dd/MM/yyyy") ?? "";
+            ViewBag.CartillaFechaModif = cartilla?.fecha_modificacion.HasValue ?? false
+                ? cartilla.fecha_modificacion.Value.ToString("dd/MM/yyyy")
+                : "";
+            ViewBag.Estado = cartilla?.ESTADO_FINAL?.descripcion ?? "No disponible";
+
+            // Obtener los responsables de la obra
+            var responsablesObra = await db.RESPONSABLE
+                                          .Include(r => r.PERSONA)
+                                          .Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == cartilla.OBRA_obra_id))
+                                          .ToListAsync();
+
+            ViewBag.Responsables = responsablesObra;
+
+            // Ordenar las firmas de los responsables por su cargo
+            var orderedFirmas = responsablesObra.OrderBy(firma =>
             {
-                return HttpNotFound();
-            }
+                switch (firma.cargo)
+                {
+                    case "Administrador de Obra":
+                        return 1;
+                    case "Autocontrol":
+                        return 2;
+                    case "F.T.O 1":
+                        return 3;
+                    case "F.T.O 2":
+                        return 4;
+                    case "Supervisor Serviu":
+                        return 5;
+                    default:
+                        return 6;
+                }
+            }).ToList();
 
-            var elementosVerificacion = db.DETALLE_CARTILLA
-                .Include(dc => dc.ITEM_VERIF)
-                .Where(dc => dc.CARTILLA.ACTIVIDAD_actividad_id == actividad.actividad_id)
+            ViewBag.Firmas = orderedFirmas;
+
+            // Agrupar los detalles por inmueble y ordenar
+            var groupedByInmueble = detalles
+                .GroupBy(d => d.inmueble_id)
+                .OrderBy(g =>
+                {
+                    var codigoInmueble = g.First().codigo_inmueble;
+                    var prefix = Regex.Match(codigoInmueble, @"^[A-Za-z-]+").Value;
+                    var numericPart = int.Parse(Regex.Match(codigoInmueble, @"\d+").Value);
+                    return (prefix, numericPart);
+                })
                 .ToList();
 
-            var ReponsablesObra = db.RESPONSABLE.Include(r => r.PERSONA)
-                  .Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id))
-                     .ToList();
+            // Dividir los detalles en páginas, con un máximo de 8 inmuebles por página
+            int pageSize = 8;
+            var pagedDetails = groupedByInmueble
+                .Select((group, index) => new { group, index })
+                .GroupBy(x => x.index / pageSize)
+                .Select(g => g.Select(x => x.group).ToList())
+                .ToList();
 
-            ViewBag.Responsables = ReponsablesObra;
-            ViewBag.Actividad = actividad;
-
-            var Firmas = db.RESPONSABLE.Include(r => r.OBRA.CARTILLA).Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == actividad.OBRA_obra_id)).ToList();
-            ViewBag.FirmasAutomatizadas = Firmas;
-
-
-            var pdfStream = new MemoryStream();
-            var pdf = new ViewAsPdf("GeneratePDF", elementosVerificacion)
+            // Generar el PDF
+            var pdf = new Rotativa.ViewAsPdf("GenerarPdfCorreoAsync", pagedDetails)
             {
-                FileName = "CartillaDeControl.pdf",
-                PageSize = Size.B3, // Uso de Size.Custom para especificar el tamaño personalizado
-                PageOrientation = Orientation.Landscape,
-                CustomSwitches = "--disable-smart-shrinking",
+                PageWidth = 400,
+                PageHeight = 800,
+                PageOrientation = Rotativa.Options.Orientation.Landscape,
             };
 
-            var pdfBytes = pdf.BuildFile(ControllerContext);
-            pdfStream.Write(pdfBytes, 0, pdfBytes.Length);
-            pdfStream.Position = 0;
+            // Obtener el MemoryStream del PDF
+            var pdfStream = new MemoryStream(pdf.BuildFile(ControllerContext));
 
-            return File(pdfStream, "application/pdf");
+            // Devolver el FileStreamResult
+            return new FileStreamResult(pdfStream, "application/pdf")
+            {
+                FileDownloadName = "Cartilla_Autocontrol.pdf"
+            };
         }
 
 
-
-
-        public ActionResult EnviarPDFPorCorreo(int id)
+        public async Task<ActionResult> EnviarPDFPorCorreo(int cartillaId)
         {
-
             var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
             string correoDestinatario = usuarioAutenticado.PERSONA.correo;
 
-            var pdfResult = GeneratePDF(id) as FileStreamResult;
+            // Generar el PDF y obtener el stream
+            var pdfResult = await GenerarPdfCorreoAsync(cartillaId);
+            var pdfStream = new MemoryStream();
+            await pdfResult.FileStream.CopyToAsync(pdfStream);
+            pdfStream.Position = 0;
 
-            if (pdfResult != null)
+            // Obtener los nombres de la actividad y la obra utilizando el cartillaId
+            string nombreActividad, nombreObra;
+            ObtenerNombresPorIDCartilla(cartillaId, out nombreActividad, out nombreObra);
+
+            // Envía el correo con el PDF adjunto
+            using (var smtpClient = new SmtpClient("smtp.gmail.com"))
             {
-                using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+                smtpClient.Port = 587;
+                smtpClient.Credentials = new NetworkCredential("cartillas.obra.manzano@gmail.com", "yalt vlic kpmy nlvv");
+                smtpClient.EnableSsl = true;
+
+                using (var mailMessage = new MailMessage())
                 {
-                    smtpClient.Port = 587;
-                    smtpClient.Credentials = new NetworkCredential("cartillas.obra.manzano@gmail.com", "yalt vlic kpmy nlvv");
-                    smtpClient.EnableSsl = true;
-
-                    using (var mailMessage = new MailMessage())
-                    {
-                        mailMessage.From = new MailAddress("cartillas.obra.manzano@gmail.com");
-                        mailMessage.Subject = "Cartilla de Control Vivienda";
-                        // Obtener el nombre de la actividad y de la obra según el ID
-                        string nombreActividad, nombreObra;
-                        ObtenerNombresPorID(id, out nombreActividad, out nombreObra);
-
-                        mailMessage.Body = $"Cartilla de Control Vivienda para la Obra Asociada: {nombreObra} y Actividad: {nombreActividad}";
-                        mailMessage.To.Add(correoDestinatario);
-
-                        // Crear un nuevo MemoryStream y copiar el contenido del FileStream original
-                        using (var pdfMemoryStream = new MemoryStream())
-                        {
-                            pdfResult.FileStream.CopyTo(pdfMemoryStream);
-                            pdfMemoryStream.Position = 0;
-
-                            // Agregar el archivo adjunto al correo
-                            mailMessage.Attachments.Add(new Attachment(pdfMemoryStream, "CartillaDeControl.pdf"));
-
-                            smtpClient.Send(mailMessage);
-                        }
-                    }
+                    mailMessage.From = new MailAddress("cartillas.obra.manzano@gmail.com");
+                    mailMessage.Subject = "Cartilla de Control Vivienda";
+                    mailMessage.Body = $"Cartilla de Control Vivienda para la Obra Asociada: {nombreObra} y Actividad: {nombreActividad}";
+                    mailMessage.To.Add(correoDestinatario);
+                    mailMessage.Attachments.Add(new Attachment(pdfStream, "CartillaDeControl.pdf"));
+                    smtpClient.Send(mailMessage);
                 }
             }
-            else
-            {
-                // Manejar el caso en el que el resultado no es FileStreamResult
-                // Puedes agregar aquí el código para manejar este caso según tus necesidades.
-            }
 
+            // Redirigir según el rol del usuario
             if (usuarioAutenticado.PERFIL.rol.Equals("Administrador"))
             {
                 return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
             }
-            else if (usuarioAutenticado.PERFIL.rol.Equals("OTEC"))
+            else if (usuarioAutenticado.PERFIL.rol.Equals("Supervisor"))
             {
-                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+                return RedirectToAction("ListaCartillasSupervisor", "CartillasAutocontrolFiltrado");
             }
-            else if (usuarioAutenticado.PERFIL.rol.Equals("ITO"))
-            {
-                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
-            }
-            else if (usuarioAutenticado.PERFIL.rol.Equals("Consulta"))
+            else if (usuarioAutenticado.PERFIL.rol.Equals("Autocontrol") || usuarioAutenticado.PERFIL.rol.Equals("Consulta"))
             {
                 return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
             }
@@ -137,33 +178,186 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
-        
-
         }
 
-        // Método para obtener el nombre de la actividad y de la obra por ID
-        private void ObtenerNombresPorID(int actividadId, out string nombreActividad, out string nombreObra)
-        {
-            // Aquí deberías obtener el nombre de la actividad y de la obra según el ID desde tu base de datos
-            // Puedes utilizar Entity Framework u otro método para acceder a la base de datos.
 
-            // Ejemplo utilizando Entity Framework
+        // Método para obtener el nombre de la actividad y de la obra por Cartilla_ID
+        private void ObtenerNombresPorIDCartilla(int cartillaId, out string nombreActividad, out string nombreObra)
+        {
+            // Utiliza cartillaId para obtener los nombres de la actividad y obra correspondientes.
             using (var dbContext = new ObraManzanoFinal())
             {
-                var actividad = dbContext.ACTIVIDAD.Include(a => a.OBRA).FirstOrDefault(a => a.actividad_id == actividadId);
-                if (actividad != null)
+                // Obtener la cartilla según cartillaId
+                var cartilla = dbContext.CARTILLA.Include(c => c.ACTIVIDAD)
+                                                 .Include(c => c.OBRA)
+                                                 .FirstOrDefault(c => c.cartilla_id == cartillaId);
+                if (cartilla != null)
                 {
-                    nombreActividad = actividad.nombre_actividad;
-                    nombreObra = actividad.OBRA.nombre_obra;
+                    // Asignar los nombres de actividad y obra
+                    nombreActividad = cartilla.ACTIVIDAD?.nombre_actividad ?? "Actividad Desconocida";
+                    nombreObra = cartilla.OBRA?.nombre_obra ?? "Obra Desconocida";
                     return;
                 }
             }
 
-            // Si no se encuentra la actividad, devolver valores por defecto o manejar de otra manera según tus necesidades.
+            // Si no se encuentra la cartilla, devolver valores por defecto o manejar de otra manera según tus necesidades.
             nombreActividad = "Actividad Desconocida";
             nombreObra = "Obra Desconocida";
         }
+
+
+        public async Task<FileStreamResult> GenerarPdfCorreoAsync2(int cartilla_id)
+        {
+            // Obtener los detalles de la cartilla
+            var detalles = await db.vw_DetalleCartilla
+                                    .Where(d => d.CARTILLA_cartilla_id == cartilla_id)
+                                    .OrderBy(dc => dc.label)
+                                    .ToListAsync();
+
+            // Obtener la información de la cartilla y la obra asociada
+            var cartilla = await db.CARTILLA
+                                   .Include(c => c.ACTIVIDAD)
+                                   .Include(c => c.OBRA)
+                                   .FirstOrDefaultAsync(c => c.cartilla_id == cartilla_id);
+
+            var obra = cartilla?.OBRA;
+            var actividad = cartilla?.ACTIVIDAD;
+
+            // Establecer información de la obra y cartilla en el ViewBag
+            ViewBag.ObraNombre = obra?.nombre_obra ?? "No disponible";
+            ViewBag.ObraDireccion = obra?.direccion ?? "No disponible";
+            ViewBag.ObraComuna = obra?.COMUNA?.nombre_comuna ?? "No disponible";
+            ViewBag.ActividadNombre = actividad?.nombre_actividad ?? "No disponible";
+            ViewBag.ActividadCodigo = actividad?.codigo_actividad ?? "No disponible";
+            ViewBag.Entidad = obra?.entidad_patrocinante ?? "No disponible";
+            ViewBag.ActividadNotas = actividad?.notas ?? "No disponible";
+            ViewBag.ObservacionesPublic = cartilla?.observaciones ?? "No disponible";
+            ViewBag.CartillaFecha = cartilla?.fecha.ToString("dd/MM/yyyy") ?? "";
+            ViewBag.CartillaFechaModif = cartilla?.fecha_modificacion.HasValue ?? false
+                ? cartilla.fecha_modificacion.Value.ToString("dd/MM/yyyy")
+                : "";
+            ViewBag.Estado = cartilla?.ESTADO_FINAL?.descripcion ?? "No disponible";
+
+            // Obtener los responsables de la obra
+            var responsablesObra = await db.RESPONSABLE
+                                          .Include(r => r.PERSONA)
+                                          .Where(r => r.OBRA.CARTILLA.Any(c => c.OBRA_obra_id == cartilla.OBRA_obra_id))
+                                          .ToListAsync();
+
+            ViewBag.Responsables = responsablesObra;
+
+            // Ordenar las firmas de los responsables por su cargo
+            var orderedFirmas = responsablesObra.OrderBy(firma =>
+            {
+                switch (firma.cargo)
+                {
+                    case "Administrador de Obra":
+                        return 1;
+                    case "Autocontrol":
+                        return 2;
+                    case "F.T.O 1":
+                        return 3;
+                    case "F.T.O 2":
+                        return 4;
+                    case "Supervisor Serviu":
+                        return 5;
+                    default:
+                        return 6;
+                }
+            }).ToList();
+
+            ViewBag.Firmas = orderedFirmas;
+
+            // Agrupar los detalles por inmueble y ordenar
+            var groupedByInmueble = detalles
+                .GroupBy(d => d.inmueble_id)
+                .OrderBy(g =>
+                {
+                    var codigoInmueble = g.First().codigo_inmueble;
+                    var prefix = Regex.Match(codigoInmueble, @"^[A-Za-z-]+").Value;
+                    var numericPart = int.Parse(Regex.Match(codigoInmueble, @"\d+").Value);
+                    return (prefix, numericPart);
+                })
+                .ToList();
+
+            // Dividir los detalles en páginas, con un máximo de 8 inmuebles por página
+            int pageSize = 8;
+            var pagedDetails = groupedByInmueble
+                .Select((group, index) => new { group, index })
+                .GroupBy(x => x.index / pageSize)
+                .Select(g => g.Select(x => x.group).ToList())
+                .ToList();
+
+            // Generar el PDF
+            var pdf = new Rotativa.ViewAsPdf("GenerarPdfCorreoAsync2", pagedDetails)
+            {
+                PageWidth = 400,
+                PageHeight = 800,
+                PageOrientation = Rotativa.Options.Orientation.Landscape,
+            };
+
+            // Obtener el MemoryStream del PDF
+            var pdfStream = new MemoryStream(pdf.BuildFile(ControllerContext));
+
+            // Devolver el FileStreamResult
+            return new FileStreamResult(pdfStream, "application/pdf")
+            {
+                FileDownloadName = "Cartilla_Autocontrol.pdf"
+            };
+        }
+
+        public async Task<ActionResult> EnviarPDFPorCorreo2(int cartillaId)
+        {
+            var usuarioAutenticado = (USUARIO)Session["UsuarioAutenticado"];
+            string correoDestinatario = usuarioAutenticado.PERSONA.correo;
+
+            // Generar el PDF y obtener el stream
+            var pdfResult = await GenerarPdfCorreoAsync2(cartillaId);
+            var pdfStream = new MemoryStream();
+            await pdfResult.FileStream.CopyToAsync(pdfStream);
+            pdfStream.Position = 0;
+
+            // Obtener los nombres de la actividad y la obra utilizando el cartillaId
+            string nombreActividad, nombreObra;
+            ObtenerNombresPorIDCartilla(cartillaId, out nombreActividad, out nombreObra);
+
+            // Envía el correo con el PDF adjunto
+            using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+            {
+                smtpClient.Port = 587;
+                smtpClient.Credentials = new NetworkCredential("cartillas.obra.manzano@gmail.com", "yalt vlic kpmy nlvv");
+                smtpClient.EnableSsl = true;
+
+                using (var mailMessage = new MailMessage())
+                {
+                    mailMessage.From = new MailAddress("cartillas.obra.manzano@gmail.com");
+                    mailMessage.Subject = "Cartilla de Control Vivienda";
+                    mailMessage.Body = $"Cartilla de Control Vivienda para la Obra Asociada: {nombreObra} y Actividad: {nombreActividad}";
+                    mailMessage.To.Add(correoDestinatario);
+                    mailMessage.Attachments.Add(new Attachment(pdfStream, "CartillaDeControl.pdf"));
+                    smtpClient.Send(mailMessage);
+                }
+            }
+
+            // Redirigir según el rol del usuario
+            if (usuarioAutenticado.PERFIL.rol.Equals("Administrador"))
+            {
+                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrol");
+            }
+            else if (usuarioAutenticado.PERFIL.rol.Equals("Supervisor"))
+            {
+                return RedirectToAction("ListaCartillasSupervisor", "CartillasAutocontrolFiltrado");
+            }
+            else if (usuarioAutenticado.PERFIL.rol.Equals("Autocontrol") || usuarioAutenticado.PERFIL.rol.Equals("Consulta"))
+            {
+                return RedirectToAction("ListaCartillasPorActividad", "CartillasAutocontrolFiltrado");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
 
 
     }

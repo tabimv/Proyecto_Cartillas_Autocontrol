@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Editar Elementos de Verificación";
     var errorMessage = TempData["ErrorMessage"] as string;
+ 
 }
 
 
@@ -28,31 +29,44 @@ else
             <div class="form-container">
                 <h2>Editar Elementos de Verificación de la Actividad: <b> @Model.First().ACTIVIDAD.nombre_actividad </b> </h2>
 
+              
 
                 <!-- Tabla para mostrar los campos -->
                 <table id="detalleTable">
                     <thead>
                         <tr>
-                            <th  style="width:15%;">Label</th>
+                            <th style="width:15%;">Label</th>
                             <th>Elemento de Verificación</th>
+                            <th>¿Es de tipo Firma?</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @for (int i = 0; i < Model.Count; i++)
                         {
-                        <tr class="detalle-cartilla">
-                            <td>
-                                @Html.EditorFor(model => Model[i].item_verif_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
-                                @Html.EditorFor(model => Model[i].ACTIVIDAD_actividad_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                            <tr class="detalle-cartilla">
+                                <td>
+                                    @Html.EditorFor(model => Model[i].item_verif_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                                    @Html.EditorFor(model => Model[i].ACTIVIDAD_actividad_id, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
 
-                                @Html.EditorFor(model => Model[i].label, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => Model[i].label, "", new { @class = "text-danger" })
-                            </td>
-                            <td>
-                                @Html.EditorFor(model => Model[i].elemento_verificacion, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => Model[i].elemento_verificacion, "", new { @class = "text-danger" })
-                            </td>
-                        </tr>
+                                    @Html.EditorFor(model => Model[i].label, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => Model[i].label, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => Model[i].elemento_verificacion, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => Model[i].elemento_verificacion, "", new { @class = "text-danger" })
+                                </td>
+                                <td style="position: relative;">
+                                    <div style="position: absolute; left: 100px; top: 35%; transform: translateY(-50%);">
+                                        @Html.CheckBoxFor(model => Model[i].tipo_item, new { @class = "form-check-input", style = "margin: 0;" })
+                                    </div>
+                                </td>
+
+
+
+
+
+                            </tr>
                         }
 
                     </tbody>
@@ -65,7 +79,7 @@ else
                 </div>
 
                 <div>
-                    <a style="padding: 10px 46.4%;" href="@Url.Action("ItemLista")" class="btn-custom">Volver</a>
+                    <a style="padding: 10px 47%; width: 100%;" href="@Url.Action("ItemLista")" class="btn-custom">Volver</a>
                 </div>
             </div>
         </div>

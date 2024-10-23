@@ -1,24 +1,25 @@
 ﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.INMUEBLE>
 
 @{
-    ViewBag.Title = "Inmuebles";
-    var obraSeleccionada = ViewBag.ObraSeleccionado as Proyecto_Cartilla_Autocontrol.Models.OBRA;
+    ViewBag.Title = "Index";
+    var loteSeleccionada = ViewBag.LoteSeleccionado as Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE;
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Consulta")
 {
     Layout = "~/Views/Shared/_Layout_Consulta.cshtml";
 }
-else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "OTEC")
+else if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Autocontrol")
 {
-    Layout = "~/Views/Shared/_Layout_OTEC.cshtml";
+    Layout = "~/Views/Shared/_Layout_Autocontrol.cshtml";
 }
 else
 {
     Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
 }
 
-@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "OTEC"))
+
+@if (Session["Perfil"] != null && (Session["Perfil"].ToString() == "Consulta" || Session["Perfil"].ToString() == "Autocontrol"))
 {
 
     <link rel="stylesheet" href="~/Content/css/CRUD.css">
@@ -31,10 +32,10 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Lista Inmuebles de la Obra: <b> @obraSeleccionada.nombre_obra </b></h2>
+                            <h2>Lista Inmuebles del Lote: <b> @loteSeleccionada.abreviatura </b> de la Obra:  <b> @loteSeleccionada.OBRA.nombre_obra </b> </h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("InmuebleLista", "VistaConsulta")" class="btn btn-success">
+                            <a href="@Url.Action("LoteDetails", "VistaConsulta", new { ObraId = loteSeleccionada.OBRA_obra_id })" class="btn btn-success">
                                 <i class="material-icons">arrow_back</i>
                                 Volver
                             </a>
@@ -49,6 +50,7 @@ else
                             <th></th>
                             <th> Código Inmueble </th>
                             <th> Tipo Inmueble </th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +60,7 @@ else
                                 <td></td>
                                 <td> @Html.DisplayFor(modelItem => item.codigo_inmueble)</td>
                                 <td> @Html.DisplayFor(modelItem => item.tipo_inmueble) </td>
-                              
+
                             </tr>
                         }
                     </tbody>
@@ -127,14 +129,19 @@ else
             });
         });
     </script>
-
+    <script>
+// Script para manejar la expiración de la sesión
+setTimeout(function () {
+    window.location.href = '@Url.Action("Login", "Account")';
+}, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
     <div id="header">
-        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <h1> Acceso denegado, vista Protegida.</h1>
         <br />
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>

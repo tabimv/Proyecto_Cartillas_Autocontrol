@@ -1,0 +1,20 @@
+﻿.menu-basurero {
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    padding: 5px;
+}
+
+
+.btn-sm {
+    font-size: 10px !important; /* Ajusta el tamaño de la fuente del botón */
+    padding: 5px 4px !important; /* Hace el botón más pequeño */
+    line-height: 1; /* Ajusta la altura del botón */
+    margin-right: 10%;
+}
+
+    .btn-sm i {
+        font-size: 12px !important; /* Reduce aún más el tamaño del icono */
+    }

@@ -2,9 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    height: 80vh;
+    margin-top: 5%;
+    margin-bottom: 5%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow-x: auto;
@@ -13,13 +13,11 @@
     height: 100%;
 }
 
-.container-formularios {
-}
 
 .form-container {
     background-color: #ffffff;
     padding: 20px;
-    max-width: 600px;
+    max-width: 800px;
     width: 150%;
 }
 
@@ -54,6 +52,8 @@
     .form-group .text-danger {
         color: red;
     }
+
+
 
     .form-group .btn-primary {
         width: 100%;
@@ -106,6 +106,18 @@
         text-align: center; /* Alineación del texto al centro */
     }
 
+#nextButton {
+    background-color: #6c757d; /* Color de fondo */
+    border-color: #6c757d; /* Color del borde */
+    color: #fff; /* Color del texto */
+    margin-bottom: 10px;
+}
+
+    #nextButton:hover {
+        background-color: #585858; /* Cambio de color de fondo al pasar el mouse */
+        border-color: #6c757d; /* Cambio de color del borde al pasar el mouse */
+    }
+
 
 /* Añade una clase para el contenedor de la tabla */
 .tabla-container {
@@ -120,6 +132,16 @@
     max-width: 100%;
 }
 
+.smaller-button {
+    font-size: smaller;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.radio-inline input[type="radio"] {
+    margin-right: -155px !important; /* Ajusta este valor según tus necesidades */
+    margin-left: -130px !important;
+}
 
 @media (max-width: 768px) {
     .container-formularios {

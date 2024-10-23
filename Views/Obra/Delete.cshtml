@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Delete";
+
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -24,6 +25,7 @@ else
             <div>
                 <hr />
                 <dl class="dl-horizontal">
+
                     <dt>
                         Nombre Obra:
                     </dt>
@@ -33,7 +35,45 @@ else
                     </dd>
 
                     <dt>
-                       Dirección
+                        Tipo de Proyecto:
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.tipo_proyecto)
+                    </dd>
+                    @if (Model.total_deptos > 0)
+                    {
+                        <dt>
+                            Total de Departamentos:
+                        </dt>
+
+                        <dd>
+                            @{
+                                // Formatear el valor de total_deptos como un número entero
+                                int totalDeptosEntero = (int)Math.Floor(Model.total_deptos ?? 0);
+                            }
+                            @totalDeptosEntero
+                        </dd>
+                    }
+                    @if (Model.total_viv > 0)
+                    {
+                        <dt>
+                            Total de Viviendas:
+                        </dt>
+
+                        <dd>
+                            @{
+                                // Formatear el valor de total_deptos como un número entero
+                                int totalviv = (int)Math.Floor(Model.total_viv ?? 0);
+                            }
+                            @totalviv
+                        </dd>
+                    }
+
+
+
+                    <dt>
+                        Dirección
                     </dt>
 
                     <dd>
@@ -41,7 +81,7 @@ else
                     </dd>
 
                     <dt>
-                        Nombre Comuna: 
+                        Nombre Comuna:
                     </dt>
 
                     <dd>
@@ -68,7 +108,12 @@ else
             </div>
         </div>
     </div>
-
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

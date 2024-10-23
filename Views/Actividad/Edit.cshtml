@@ -28,6 +28,23 @@ else
                 <form>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.actividad_id)
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.DropDownList("OBRA_obra_id", ViewBag.OBRA_obra_id as SelectList, new { @class = "form-control", @id = "obraDropdown" })
+                        @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                    </div>
+
+
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.codigo_actividad, "Codigo Actividad: ", htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.EditorFor(model => model.codigo_actividad, new { htmlAttributes = new { @class = "form-control" } })
@@ -47,11 +64,24 @@ else
                         }, "Selecciona un estado", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                     </div>
+
+
                     <div class="form-group">
-                        @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.tipo_actividad, "Tipo Actividad: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <select id="tipo_actividad" name="tipo_actividad" class="form-control" required="required" title="Por favor, seleccione un tipo de actividad">
+                            <!-- Las opciones se agregarán dinámicamente aquí -->
+                        </select>
+                        @Html.ValidationMessageFor(model => model.tipo_actividad, "", new { @class = "text-danger" })
                     </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.notas, "Notas: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.TextAreaFor(model => model.notas, new { @class = "form-control", rows = "3" }) <!-- Ajusta el número de filas según lo necesites -->
+                        @Html.ValidationMessageFor(model => model.notas, "", new { @class = "text-danger" })
+                    </div>
+
+
+
                     <div class="form-group">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
@@ -68,6 +98,85 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                var estado = $('#estado').val(); // Obtener el valor del estado seleccionado
+                if (estado === "B") {
+                    var cartillaRelacionada = '@(ViewBag.CartillaRelacionada)';
+                    var estadoFinalCartilla = '@(ViewBag.EstadoFinalCartilla)';
+                    if (cartillaRelacionada === "True" && (estadoFinalCartilla === "En proceso" || estadoFinalCartilla === "Rechazada")) {
+                        alert("El estado de la actividad no puede ser Bloqueado porque la cartilla relacionada no está Aprobada.");
+                        event.preventDefault(); // Detener el envío del formulario
+                    }
+                    if (cartillaRelacionada === "False" && (estadoFinalCartilla === "En proceso" || estadoFinalCartilla === "Rechazada" || estadoFinalCartilla === "Aprobada")) {
+                        alert("El estado de la actividad no puede ser Bloqueado porque la actividad no tiene Cartilla relacionada.");
+                        event.preventDefault(); // Detener el envío del formulario
+                    }
+                }
+                 if (estado === "A") {
+                 var cartillaRelacionada = '@(ViewBag.CartillaRelacionada)';
+                 var estadoFinalCartilla = '@(ViewBag.EstadoFinalCartilla)';
+                     if (cartillaRelacionada === "True" && (estadoFinalCartilla === "Aprobada")) {
+                     alert("El estado de la actividad no puede ser Activo porque la cartilla relacionada está Aprobada.");
+                     event.preventDefault(); // Detener el envío del formulario
+                 }
+
+             }
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        // Función para cargar las opciones del tipo de actividad según la obra seleccionada
+        function cargarTipoActividad(obraId, tipoActividad) {
+            $.ajax({
+                url: '@Url.Action("CheckProjectBlock", "Actividad")',
+                type: 'POST',
+                data: { obraId: obraId },
+                success: function (result) {
+                    var tipoActividadDropdown = $('#tipo_actividad');
+                    tipoActividadDropdown.empty(); // Limpiar todas las opciones actuales
+
+                    // Agregar las opciones de Inmueble y, si corresponde, Proyecto
+                    tipoActividadDropdown.append('<option value="I">Inmueble</option>');
+                    if (result.hasProjectBlock) {
+                        tipoActividadDropdown.append('<option value="P">Proyecto</option>');
+                    }
+
+                    // Seleccionar la opción correspondiente a la actividad seleccionada previamente
+                    tipoActividadDropdown.val(tipoActividad);
+                }
+            });
+        }
+
+        // Obtener el ID de la obra asociada a la actividad
+        var selectedObraId = '@Model.OBRA_obra_id';
+        var selectedTipoActividad = '@Model.tipo_actividad';
+
+        // Establecer la opción seleccionada en el DropDownList de obra
+        $('#obraDropdown').val(selectedObraId);
+
+        // Cargar las opciones del tipo de actividad al cargar la página
+        cargarTipoActividad(selectedObraId, selectedTipoActividad);
+
+        // Actualizar las opciones del tipo de actividad al cambiar la selección de obra
+        $("#obraDropdown").change(function () {
+            var obraId = $(this).val();
+            cargarTipoActividad(obraId, null); // El segundo parámetro null indica que no hay una opción seleccionada previamente
+        });
+    });
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+
+
 
 }
 

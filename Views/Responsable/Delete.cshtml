@@ -1,7 +1,7 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -77,6 +77,12 @@ else
             </div>
         </div>
     </div>
+    <script>
+// Script para manejar la expiración de la sesión
+setTimeout(function () {
+    window.location.href = '@Url.Action("Login", "Account")';
+}, 43200000); // 12 horas en milisegundos
+    </script>
 
 }
 

@@ -1,0 +1,181 @@
+﻿@model IEnumerable<Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE>
+
+@{
+    ViewBag.Title = "Index";
+    int? lastObraId = null;
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+
+    <link rel="stylesheet" href="~/Content/css/CRUD.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Gestión de <b>Lote de Inmuebles</b></h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="@Url.Action("Create")" class="btn btn-success">
+                                <i class="material-icons">&#xE147;</i>
+                                Crear Nuevo Registro de Lote Inmueble
+                            </a>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <table id="cartillaTable" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th> Obra Asociada </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            if (lastObraId != item.OBRA.obra_id)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td> @Html.DisplayFor(modelItem => item.OBRA.nombre_obra) </td>
+                                    <td>
+                                        <!-- Tu lógica para visualizar detalles o acciones específicas -->
+                                        <!-- Asegúrate de ajustar esta parte según tu lógica -->
+                                        <!-- Ajusta el estilo de los enlaces para asegurar el orden correcto de los iconos -->
+                                        <a href="#" class="edit" data-url="@Url.Action("LoteDetails", new { ObraId = item.OBRA_obra_id })">
+                                            <i class="material-icons eye-icon"
+                                               data-toggle="tooltip"
+                                               title="Visualizar Lista"
+                                               style="color: black; transition: color 0.3s ease;"
+                                               onmouseover="this.style.color='#3770B8'"
+                                               onmouseout="this.style.color='black'">visibility</i>
+                                            <span style="display: none;">Visualizar Lista</span>
+                                        </a>
+                                        @if (item.OBRA.CARTILLA.Any())
+                                        {
+                                            <a href="#" class="delete" data-toggle="modal" data-url="#">
+                                                <i class="material-icons"
+                                                   data-toggle="tooltip"
+                                                   title="No se puede Eliminar Lotes e Inmuebles de la Obra tiene Cartilla de Autocontrol"
+                                                   style="color: #808080; transition: color 0.3s ease; margin-left: 10px;"
+                                                   onmouseover="this.style.color='#808080'"
+                                                   onmouseout="this.style.color='#808080'">&#xE872;</i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="delete" data-toggle="modal" data-url="@Url.Action("EliminarLotesInmueblesPorObra", new { id = item.OBRA_obra_id })">
+                                                <i class="material-icons"
+                                                   data-toggle="tooltip"
+                                                   title="Eliminar Lotes e Inmuebles de la Obra"
+                                                   style="color: #D9534F; transition: color 0.3s ease; margin-left: 10px;"
+                                                   onmouseover="this.style.color='#D9534F'"
+                                                   onmouseout="this.style.color='#D9534F'">&#xE872;</i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            lastObraId = item.OBRA_obra_id;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".edit").click(function (e) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+                var url = $(this).data("url"); // Obtener la URL de data-url
+
+                // Redirigir a la vista "Edit"
+                window.location.href = url;
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".delete").click(function (e) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+                var url = $(this).data("url"); // Obtener la URL de data-url
+
+                // Redirigir a la vista "Edit"
+                window.location.href = url;
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#cartillaTable').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

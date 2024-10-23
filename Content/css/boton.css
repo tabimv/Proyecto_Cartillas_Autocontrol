@@ -1,0 +1,48 @@
+﻿.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px; /* Ajusta el ancho según sea necesario */
+    height: 24px; /* Ajusta la altura según sea necesario */
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px; /* Redondea el fondo del toggle */
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 15px; /* Altura reducida del "punto" */
+        width: 15px; /* Ancho reducido del "punto" */
+        left: 2px; /* Ajuste para centrar el "punto" */
+        bottom: 5px; /* Ajuste para centrar el "punto" */
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%; /* Redondea el "punto" del toggle */
+    }
+
+input:checked + .slider {
+    background-color: #157347; /* Color del fondo cuando está activado */
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #157347; /* Sombra cuando está enfocado */
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px); /* Mueve el "punto" del toggle cuando está activado */
+}

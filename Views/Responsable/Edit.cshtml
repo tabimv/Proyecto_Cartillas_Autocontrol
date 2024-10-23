@@ -1,7 +1,7 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Editar";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -26,26 +26,43 @@ else
                 <h2>Editar Responsable de Obra</h2>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.responsable_id)
+                @Html.HiddenFor(model => model.PERSONA_rut)
+
                 <div class="form-group">
-                    @Model.PERSONA.nombre   @Model.PERSONA.apeliido_paterno   @Model.PERSONA.apeliido_paterno
+                    <strong> Nombre Responsable: </strong>
+                    @if (Model.PERSONA != null)
+                    {
+                        @Html.Raw($"{Model.PERSONA.nombre} {Model.PERSONA.apeliido_paterno} {Model.PERSONA.apellido_materno}")
+                    }
+                    else
+                    {
+                        <span>Nombre del responsable no disponible.</span>
+                    }
                 </div>
+
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control", @id = "obraDropDown" })
+                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
+                </div>
+
+
+
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.DropDownList("cargo", new List<SelectListItem>
                     {
-                        new SelectListItem { Text = "Contratista", Value = "Contratista" },
-                        new SelectListItem { Text = "EGIS", Value = "EGIS" },
                         new SelectListItem { Text = "Administrador de Obra", Value = "Administrador de Obra" },
                         new SelectListItem { Text = "Autocontrol", Value = "Autocontrol" },
                         new SelectListItem { Text = "F.T.O 1", Value = "F.T.O 1" },
                         new SelectListItem { Text = "F.T.O 2", Value = "F.T.O 2" },
-                        }, "Seleccione un cargo", new { @class = "form-control" })
+                         new SelectListItem { Text = "Supervisor Serviu", Value = "Supervisor Serviu" },
+                    }, new { @class = "form-control", @id = "cargoDropDown" })
                     @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
                 </div>
 
 
@@ -64,6 +81,12 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Script para manejar la expiración de la sesión
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Login", "Account")';
+        }, 43200000); // 12 horas en milisegundos
+    </script>
 }
 
 else

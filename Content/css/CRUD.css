@@ -26,8 +26,13 @@ body {
 }
 	.table-title h2 {
 		margin: 1px 0 -10px 0;
-		font-size: 24px;
+		font-size: 20px;
 	}
+
+.small-text {
+	font-size: 17px !important; /* Puedes ajustar el tamaño según tus necesidades */
+}
+
 
 .table-title .btn-group {
 	float: right;
@@ -252,6 +257,9 @@ table.table .avatar {
 	font-size: 10px; /* Ajusta el tamaño del icono según tus preferencias */
 }
 
+.edit-cartilla-movil {
+	display: none !important;
+}
 
 
 
@@ -260,5 +268,15 @@ table.table .avatar {
 	.table-title h2 {
 		margin: 10px 0 -25px 0;
 		font-size: 20px;
+	}
+
+
+	.table-title {
+		padding: 30px 30px !important;
+	}
+
+	.mobile-right {
+		float: right; /* Mover el ícono hacia la derecha en pantallas pequeñas */
+		margin-left: 50%; /* Asegura que el espaciado sea correcto */
 	}
 }

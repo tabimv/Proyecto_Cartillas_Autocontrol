@@ -1,0 +1,61 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="~/Content/css/delete.css">
+    using (Html.BeginForm("EliminarInmueblesPorLote", "InmueblePorLote", FormMethod.Post))
+    {
+        <div class="container-delete">
+            <div class="form-container-delete">
+                <h2> Eliminar Inmuebles </h2>
+                <h3>¿Estás seguro que quieres eliminar todos los Inmuebles asociados al Lote: <b> @Model.abreviatura </b>  de la Obra: : <b> @Model.OBRA.nombre_obra </b>?</h3>
+                <input type="hidden" name="loteID" value="@Model.lote_id" />
+                <div>
+
+
+
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                    }
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            @Html.ActionLink("Volver", "InmuebleLista", "Inmueble", null, new { @class = "btn btn-sm btn-custom-link" }) |
+                            <input type="submit" value="Eliminar" class="btn btn-sm btn-primary-custom" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+
+}
+
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}
+

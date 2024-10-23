@@ -1,0 +1,158 @@
+﻿@model Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE
+
+@{
+    ViewBag.Title = "Create";
+
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+@if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/CRUD_create_edit.css">
+
+    using (Html.BeginForm())
+    {
+        <div class="container-formularios">
+            <div class="form-container">
+                <h2 style="font-size: 30px; ">Crear Nuevo Lote Inmueble <br /> @ViewBag.NombreObra </h2>
+                <form>
+                    @Html.AntiForgeryToken()
+
+
+                    @Html.Hidden("ObraId", (int)ViewBag.ObraId)
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.tipo_bloque, "Tipo de Bloque: ", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        @Html.DropDownListFor(model => model.tipo_bloque, new List<SelectListItem>(), "Seleccione un tipo de Bloque", new { @class = "form-control", id = "tipoProyecto" })
+
+                        @Html.ValidationMessageFor(model => model.tipo_bloque, "", new { @class = "text-danger", required = "required", title = "Por favor, seleccione un tipo de bloque" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.numero_letra_bloque_1, "N° o Letra de bloque", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.numero_letra_bloque_1, new { htmlAttributes = new { @class = "form-control", required = "required", title = "Por favor, ingrese un número o letra", @id = "numero_letra_bloque_input" } })
+                        @Html.ValidationMessageFor(model => model.numero_letra_bloque_1, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.abreviatura, "Abreviatura", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.abreviatura, new { htmlAttributes = new { @class = "form-control", id = "abreviatura" } })
+                        @Html.ValidationMessageFor(model => model.abreviatura, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div id="cantidadPisosFormGroup" class="form-group">
+                        @Html.LabelFor(model => model.cantidad_pisos, "Cantidad de Pisos", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.cantidad_pisos, new { htmlAttributes = new { @class = "form-control", required = "required", title = "Por favor, ingrese cantidad de pisos", @Value = "5" } })
+                        @Html.ValidationMessageFor(model => model.cantidad_pisos, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div id="cantidadImueblesFormGroup" class="form-group">
+                        @Html.LabelFor(model => model.cantidad_inmuebles, "Cantidad de Inmuebles", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.cantidad_inmuebles, new { htmlAttributes = new { @class = "form-control", required = "required", title = "Por favor, ingrese cantidad de inmuebles", @id = "cantidad_inmuebles" } })
+                        @Html.ValidationMessageFor(model => model.cantidad_inmuebles, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+                    <div class="form-group">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="submit" value="Crear" class="btn btn-primary-custom" />
+                    </div>
+                    <div>
+                        <a href="@Url.Action("LoteLista")" class="btn-custom" style="width: 100%;">Volver a la lista</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        // Obtener obraId de la URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var obraId = urlParams.get('obraId');
+
+        // Llamar a la función para cargar el tipo de proyecto
+        if (obraId) {
+            obtenerTipoProyecto(obraId);
+        }
+
+        $('#tipoProyecto').change(function () {
+            obtenerTipoProyecto(obraId);
+        });
+    });
+
+    function obtenerTipoProyecto(obraId) {
+        $.ajax({
+            url: '@Url.Action("ObtenerTipoProyecto", "LoteInmueble")',
+            type: 'GET',
+            data: { obraId: obraId },
+            success: function (response) {
+                var tipoProyecto = response.tipoProyecto;
+                actualizarTipoBloque(tipoProyecto);
+            },
+            error: function () {
+                console.log('Error al obtener el tipo de proyecto de la obra.');
+            }
+        });
+    }
+
+    function actualizarTipoBloque(tipoProyecto) {
+        var tipoBloqueDropdown = $('#tipoProyecto');
+        tipoBloqueDropdown.empty();
+
+        if (tipoProyecto === "Edificio") {
+            tipoBloqueDropdown.append($('<option>', {
+                value: 'Torre',
+                text: 'Torre'
+            }));
+
+            $('#cantidadPisosFormGroup').show();
+            $('#cantidadImueblesFormGroup').hide();
+        } else if (tipoProyecto === "Vivienda") {
+            tipoBloqueDropdown.append($('<option>', {
+                value: 'Manzana',
+                text: 'Manzana'
+            }));
+            // Ocultar el campo de cantidad de pisos
+            $('#cantidadImueblesFormGroup').show();
+            $('#cantidadPisosFormGroup').hide();
+
+
+        }
+        // Resto de tu lógica para actualizar el tipo de bloque...
+    }
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
+    </script>
+}
+else
+{
+    <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
+    <div id="header">
+        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <br />
+        <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
+    </div>
+}

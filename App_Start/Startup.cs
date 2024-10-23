@@ -4,6 +4,7 @@ using Microsoft.Owin.Security.Cookies;
 using Owin;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Owin.Cors;
 
 [assembly: OwinStartup(typeof(Proyecto_Cartilla_Autocontrol.App_Start.Startup))]
 
@@ -13,11 +14,14 @@ namespace Proyecto_Cartilla_Autocontrol.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
-            // Para obtener más información sobre cómo configurar la aplicación, visite https://go.microsoft.com/fwlink/?LinkID=316888
+            // Habilitar CORS
+            app.UseCors(CorsOptions.AllowAll);
+
+            // Configuración de autenticación con cookies
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                ExpireTimeSpan = TimeSpan.FromMinutes(5),
+                ExpireTimeSpan = TimeSpan.FromHours(12),
                 LoginPath = new PathString("/Account/Login")
             });
         }

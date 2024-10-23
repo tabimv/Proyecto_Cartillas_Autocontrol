@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    var obraSeleccionada = ViewBag.ObraSeleccionado as Proyecto_Cartilla_Autocontrol.Models.OBRA;
+    var loteSeleccionada = ViewBag.LoteSeleccionado as Proyecto_Cartilla_Autocontrol.Models.LOTE_INMUEBLE;
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -27,10 +27,10 @@ else
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Lista Inmuebles de la Obra: <b> @obraSeleccionada.nombre_obra </b></h2>
+                            <h2>Lista Inmuebles del Lote: <b> @loteSeleccionada.abreviatura </b> de la Obra:  <b> @loteSeleccionada.OBRA.nombre_obra </b> </h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="@Url.Action("InmuebleLista", "Inmueble")" class="btn btn-success">
+                            <a href="@Url.Action("LoteDetails", "LoteInmueble", new { ObraId = loteSeleccionada.OBRA_obra_id })" class="btn btn-success">
                                 <i class="material-icons">arrow_back</i>
                                 Volver
                             </a>
@@ -45,7 +45,8 @@ else
                             <th></th>
                             <th> Código Inmueble </th>
                             <th> Tipo Inmueble </th>
-                            <th>Acciones</th>
+                  
+                        
                         </tr>
                     </thead>
                     <tbody>
@@ -55,20 +56,7 @@ else
                                 <td></td>
                                 <td> @Html.DisplayFor(modelItem => item.codigo_inmueble)</td>
                                 <td> @Html.DisplayFor(modelItem => item.tipo_inmueble) </td>
-                                <td>
-                                    <!-- Enlace "Edit" dentro de un botón -->
-
-                                    <a href="#" class="edit" data-url="@Url.Action("Edit", new { id = item.inmueble_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i>
-                                        <span style="display: none;">Edit</span>
-                                    </a>
-
-
-                                    <a href="#" class="delete" id="delete" data-toggle="modal" data-url="@Url.Action("Delete", new { id = item.inmueble_id })">
-                                        <i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
-                                    </a>
-
-                                </td>
+                          
                             </tr>
                         }
                     </tbody>
@@ -136,6 +124,12 @@ else
                 }
             });
         });
+    </script>
+    <script>
+ // Script para manejar la expiración de la sesión
+ setTimeout(function () {
+     window.location.href = '@Url.Action("Login", "Account")';
+ }, 43200000); // 12 horas en milisegundos
     </script>
 
 }

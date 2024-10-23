@@ -1,0 +1,260 @@
+﻿
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+.encabezado-imagen {
+    max-height: 400px;
+    margin: 0; /* Elimina el margen alrededor de la imagen */
+    padding: 0; /* Elimina el padding alrededor de la imagen */
+    display: block; /* Asegúrate de que la imagen se comporte como un bloque */
+}
+
+
+section.informacion-general {
+    position: relative; /* Asegúrate de que la propiedad top funcione */
+    top: -250px !important; /* También ajusta el valor de top si es necesario */
+}
+
+
+.encabezado-titulo {
+    position: relative;
+    font-size: 50px;
+    font-weight: bold;
+    color: black;
+    left: 81.5% !important;
+    top: -180px !important; /* Ajusta este valor para subir el título */
+}
+
+
+.encabezado p {
+    font-size: 20px;
+}
+
+section p {
+    line-height: 1.0;
+    font-size: 45px;
+}
+
+
+
+    section p strong {
+        font-weight: bold;
+        font-size: 45px;
+    }
+
+section {
+    margin-top: -180px !important; /* Ajusta el margen superior de la sección según sea necesario */
+}
+
+.elemento {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.texto-elemento {
+    font-size: 28px;
+}
+
+/* Espacio para observaciones */
+.observaciones {
+    margin: 20px 0;
+}
+
+    .observaciones textarea {
+        width: 100%;
+        height: 100px;
+    }
+
+.rectangulo {
+    top: -120px; /* Ajusta este valor para subir el rectángulo */
+    width: 2200px;
+    height: 400px;
+    border: 2px solid black;
+    padding: 10px;
+    position: relative;
+    font-family: Arial, sans-serif;
+    left: 58%; /* Ajusta la distancia desde la derecha según tus necesidades */
+    line-height: 1.5;
+    font-size: 45px;
+}
+
+
+
+/* Estilos para la línea vertical */
+.linea-vertical {
+    border-left: 2px solid black;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 60%;
+}
+
+/* Estilos para "Fecha:" y "Firma:" */
+.fecha-firma {
+    position: absolute;
+    top: 5%;
+    width: 50%; /* Ajusta el ancho para la parte derecha del rectángulo */
+    left: 62%;
+}
+
+
+.lista-table {
+    border-collapse: collapse;
+    width: 85%;
+    margin: 10%;
+    font-size: 20pt;
+}
+
+table.lista-table {
+    margin: 0 auto; /* Esto centrará la tabla horizontalmente */
+    width: 95%; /* Ajusta el ancho de la tabla según tus necesidades */
+    margin-top: -200px;
+    margin-bottom: 8%;
+    margin-right: 4%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    border: 2px solid black;
+    padding: 8px;
+    text-align: left;
+    font-size: 35px;
+}
+
+.large-font {
+    font-size: 38px !important;
+}
+
+
+
+.material-icons {
+    font-size: 20px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para el contenedor de observaciones */
+/* Estilos para el contenedor de observaciones */
+.observaciones {
+    text-align: center;
+    margin-right: 0%;
+    margin-top: 5%;
+}
+
+    .observaciones label {
+        font-size: 40px;
+        height: auto;
+        width: 100%;
+        white-space: normal; /* Permite que el texto se ajuste al ancho del contenedor */
+        word-wrap: break-word; /* Ajusta las palabras largas */
+        word-break: break-all; /* Ajusta las palabras largas en cualquier punto */
+        overflow: hidden; /* Esconde cualquier desbordamiento */
+        text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+    }
+
+/* Estilos para el cuadro de observaciones */
+/* Estilos para el cuadro de observaciones */
+.cuadro-observaciones {
+    max-width: 1000px;
+    margin-top: 0%;
+    margin-left: 40%;
+    margin-bottom: 200px;
+    border: 2px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: -6.5%;
+    overflow: auto; /* Permite el desplazamiento si el contenido es muy grande */
+    max-height: 300px; /* Ajusta la altura máxima según sea necesario */
+}
+
+/* Estilos para el label de observaciones */
+label {
+    font-size: 40px;
+    height: 20px; /* Altura fija */
+    width: 100%; /* Ancho fijo */
+    white-space: nowrap;
+}
+
+/* Estilos para el área de texto de observaciones */
+textarea {
+    width: 100%;
+    height: auto; /* Altura automática */
+    font-size: 20px;
+}
+
+
+.firmas-table {
+    width: 100%;
+    border: none !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+.firmas-table {
+    border-collapse: collapse;
+    width: 100%; /* O ajusta según tus necesidades */
+}
+
+    .firmas-table td {
+        padding: 5px; /* Ajusta el espaciado interno según sea necesario */
+    }
+
+.firma {
+    display: inline-block;
+    text-align: center;
+    margin: 0 10px; /* Ajusta el margen entre firmas según sea necesario */
+}
+
+    .firma p {
+        font-size: 40px; /* Ajusta el tamaño de fuente según tus necesidades */
+        margin-bottom: -3px;
+    }
+
+.linea {
+    border-top: 1px solid black;
+    bottom: 5px;
+}
+
+.firma {
+    text-align: center;
+    width: 25%;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    /* Estilos adicionales para cada firma */
+}
+
+    /* Estilos para la línea de firma */
+    .firma .linea {
+        border-top: 2px solid #000; /* Grosor de 1 píxel */
+        width: 75%; /* Ancho de la línea */
+        margin: 10px auto; /* Centra la línea horizontalmente */
+    }
+
+/* New CSS for actividad-nombre */
+.actividad-nombre {
+    display: inline-block; /* Ensures inline behavior and respects max-width */
+    max-width: 62%; /* Adjust the width as needed to prevent overlapping the vertical line */
+    word-wrap: break-word; /* Allows the text to break and wrap within the specified width */
+    vertical-align: top; /* Aligns text to the top */
+    font-size: 45px; /* Adjust font size to match the document's style */
+    line-height: 1.5; /* Line height for better readability */
+}

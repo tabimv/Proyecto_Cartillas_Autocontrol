@@ -1,7 +1,7 @@
 ﻿@model Proyecto_Cartilla_Autocontrol.Models.RESPONSABLE
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear";
 }
 
 @if (Session["Perfil"] != null && Session["Perfil"].ToString() == "Administrador")
@@ -20,42 +20,53 @@ else
 
     using (Html.BeginForm())
     {
+        @Html.AntiForgeryToken()
         <div class="container-formularios">
             <div class="form-container">
                 <h2>Crear Responsable de Obra</h2>
-                @Html.AntiForgeryToken()
-            <div class="form-group">
-                @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                @Html.DropDownList("cargo", new List<SelectListItem>
-                  {
-                      new SelectListItem { Text = "Contratista", Value = "Contratista" },
-                      new SelectListItem { Text = "EGIS", Value = "EGIS" },
-                      new SelectListItem { Text = "Administrador de Obra", Value = "Administrador de Obra" },
-                      new SelectListItem { Text = "Autocontrol", Value = "Autocontrol" },
-                      new SelectListItem { Text = "F.T.O 1", Value = "F.T.O 1" },
-                      new SelectListItem { Text = "F.T.O 2", Value = "F.T.O 2" },
-                  }, "Seleccione un cargo", new { @class = "form-control" })
-
-                @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger", required = "required", title = "Por favor, seleccione un cargo" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.OBRA_obra_id, "Obra: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("OBRA_obra_id", null, htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una Obra" })
-                @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger"})
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PERSONA_rut, "Persona Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownList("PERSONA_rut", null, htmlAttributes: new { @class = "form-control", required = "required", title = "Por favor, seleccione una Persona" })
-                @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
-            </div>
 
                 <div class="form-group">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <input type="submit" value="Crear" class="btn btn-primary-custom" />
+                    @Html.LabelFor(model => model.OBRA_obra_id, "Obra Asociada: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("OBRA_obra_id", (SelectList)ViewBag.ObraList, "Seleccione una obra", new { @class = "form-control", @id = "obraDropdown" })
+                    @Html.ValidationMessageFor(model => model.OBRA_obra_id, "", new { @class = "text-danger" })
                 </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PERSONA_rut, "Persona Responsable: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("PERSONA_rut", new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Seleccione un Responsable", Value = "" }
+                    }, new { @class = "form-control", @id = "personaDropdown", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.PERSONA_rut, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.cargo, "Cargo: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("cargo", new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Seleccione un cargo", Value = "" }
+                    }, new { @class = "form-control", @id = "cargoDropdown", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.cargo, "", new { @class = "text-danger" })
+                </div>
+
+                @if (ViewBag.PERSONA_rut != null && !((SelectList)ViewBag.PERSONA_rut).Any())
+                {
+                    <div class="alert alert-warning" role="alert">
+                        Por favor, crea datos personales para asociar a un responsable de obra.
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" disabled />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="submit" value="Guardar Cambios" class="btn btn-primary-custom" />
+                    </div>
+                }
+
                 <div>
-                    <a style="padding: 10px 38%;"href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
+                    <a style="padding: 10px 38%; width:100%;" href="@Url.Action("Index")" class="btn-custom">Volver a la lista</a>
                 </div>
             </div>
         </div>
@@ -65,13 +76,87 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-}
+    <script>
+        $(document).ready(function() {
+            $('#obraDropdown').change(function() {
+                var obraId = $(this).val();
+                var personaDropdown = $('#personaDropdown');
+                var cargoDropdown = $('#cargoDropdown');
 
+                if (obraId) {
+                    // Obtener personas disponibles
+                    $.ajax({
+                        url: '@Url.Action("GetPersonasDisponibles", "Responsable")',
+                        type: 'GET',
+                        data: { obraId: obraId },
+                        success: function(data) {
+                            personaDropdown.empty();
+                            personaDropdown.prop('disabled', false);
+                            if (data.length > 0) {
+                                $.each(data, function(index, item) {
+                                    personaDropdown.append($('<option>', {
+                                        value: item.rut,
+                                        text: item.nombreCompleto
+                                    }));
+                                });
+                            } else {
+                                personaDropdown.append($('<option>', {
+                                    value: '',
+                                    text: 'No hay personas disponibles'
+                                }));
+                            }
+                        }
+                    });
+
+                    // Obtener cargos disponibles
+                    $.ajax({
+                        url: '@Url.Action("GetCargosDisponibles", "Responsable")',
+                        type: 'GET',
+                        data: { obraId: obraId },
+                        success: function(data) {
+                            cargoDropdown.empty();
+                            cargoDropdown.prop('disabled', false);
+                            if (data.length > 0) {
+                                $.each(data, function(index, item) {
+                                    cargoDropdown.append($('<option>', {
+                                        value: item.Value,
+                                        text: item.Text
+                                    }));
+                                });
+                            } else {
+                                cargoDropdown.append($('<option>', {
+                                    value: '',
+                                    text: 'No hay cargos disponibles'
+                                }));
+                            }
+                        }
+                    });
+                } else {
+                    personaDropdown.empty().append($('<option>', {
+                        value: '',
+                        text: 'Seleccione una obra primero'
+                    })).prop('disabled', true);
+
+                    cargoDropdown.empty().append($('<option>', {
+                        value: '',
+                        text: 'Seleccione una obra primero'
+                    })).prop('disabled', true);
+                }
+            });
+        });
+    </script>
+    <script>
+        // Script para manejar la expiración de la sesión
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Login", "Account")';
+        }, 43200000); // 12 horas en milisegundos
+    </script>
+}
 else
 {
     <link rel="stylesheet" href="~/Content/css/AccesoDenegado.css">
     <div id="header">
-        <h1> Acceso denegado. Esta vista solo está disponible para Administrador</h1>
+        <h1>Acceso denegado. Esta vista solo está disponible para Administrador</h1>
         <br />
         <a href="@Url.Action("Login", "Account")" class="btn-acceso">Iniciar Sesión</a>
     </div>
