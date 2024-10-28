@@ -38,7 +38,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 // Obtener los registros de detalle de cartillas
                 var detalleCartillas = db.DETALLE_CARTILLA.ToList();
 
-                
+
 
                 // Crear el modelo para la vista
                 var viewModel = new CartillaMovilViewModel
@@ -304,7 +304,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 var detalleCartillas = db.DETALLE_CARTILLA.ToList();
 
 
-               
+
 
                 // Crear el modelo para la vista
                 var viewModel = new CartillaMovilViewModel
@@ -313,7 +313,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                     DetalleCartillas = detalleCartillas
                 };
 
-               
+
 
                 // Establecemos el SelectList para CARTILLA en ViewBag usando el ViewModel
                 ViewBag.CARTILLA_id = new SelectList(UsuarioCartillas.Select(c => new
@@ -339,6 +339,9 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+
+
+
 
 
         [HttpGet]

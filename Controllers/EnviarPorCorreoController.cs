@@ -114,6 +114,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 PageWidth = 400,
                 PageHeight = 800,
+                CustomSwitches = "--zoom 0.95", // Ajusta el zoom para escalar el contenido a una sola página
                 PageOrientation = Rotativa.Options.Orientation.Landscape,
             };
 
@@ -293,6 +294,7 @@ namespace Proyecto_Cartilla_Autocontrol.Controllers
             {
                 PageWidth = 400,
                 PageHeight = 800,
+                CustomSwitches = "--zoom 0.95", // Ajusta el zoom para escalar el contenido a una sola página
                 PageOrientation = Rotativa.Options.Orientation.Landscape,
             };
 
